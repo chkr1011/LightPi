@@ -31,8 +31,8 @@ namespace LightPi.OrchestratorFirmware
 
             // Write the actual state to the device. The GPIOs for the relays are not inverted due to an existing hardware inverter.
             // The not used 3 GPIOs are not used at this project. We ignore them.
-            byte[] setAllGPIOsToLow = { 0 };
-            _i2cDevice.Write(setAllGPIOsToLow);
+            byte[] setAllGPIOsToHigh= { 255 };
+            _i2cDevice.Write(setAllGPIOsToHigh);
 
             Debug.WriteLine($"Initialized PCF8574 with address {_deviceAddress}");
         }
@@ -41,8 +41,8 @@ namespace LightPi.OrchestratorFirmware
         {
             if (buffer == null) throw new ArgumentNullException(nameof(buffer));
 
-            // For GPIO 0-4 is no inversion required because the HSRel5 from CCTools has its own hardware inverter.
-            _stateBuffer[0] = buffer[offset];
+            // For GPIO 0-4 inversion is required because the HSRel5 from CCTools has its own hardware inverter.
+            _stateBuffer[0] = (byte)~buffer[offset];
 
             _i2cDevice.Write(_stateBuffer);
         }

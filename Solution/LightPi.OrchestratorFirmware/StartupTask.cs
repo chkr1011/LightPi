@@ -34,15 +34,23 @@ namespace LightPi.OrchestratorFirmware
 
         private void Run()
         {
-            Debug.WriteLine("Starting");
-
-            InitializeI2CBus();
-            InitializeUdpEndpoint();
-
-            while (true)
+            try
             {
-                _workerThreadEvent.WaitOne();
-                ApplyFrame();
+                Debug.WriteLine("Starting");
+
+                InitializeI2CBus();
+                InitializeUdpEndpoint();
+
+                while (true)
+                {
+                    _workerThreadEvent.WaitOne();
+                    ApplyFrame();
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("Unable to start. " + exception);
+                _deferral.Complete();
             }
         }
 
@@ -64,36 +72,31 @@ namespace LightPi.OrchestratorFirmware
             // Here all output bits are being reordered to match the physical output 0 to bit 0 state etc.
             byte[] reorderedPayload = new byte[LightPiProtocol.FrameLength];
 
-            MoveBit(frame, 0, reorderedPayload, 15);
-            MoveBit(frame, 1, reorderedPayload, 14);
-            MoveBit(frame, 2, reorderedPayload, 13);
-            MoveBit(frame, 3, reorderedPayload, 12);
-            MoveBit(frame, 4, reorderedPayload, 11);
-            MoveBit(frame, 5, reorderedPayload, 10);
-            MoveBit(frame, 6, reorderedPayload, 9);
-            MoveBit(frame, 7, reorderedPayload, 8);
-            MoveBit(frame, 8, reorderedPayload, 0);
-            MoveBit(frame, 9, reorderedPayload, 1);
-            MoveBit(frame, 10, reorderedPayload, 2);
-            MoveBit(frame, 11, reorderedPayload, 3);
-            MoveBit(frame, 12, reorderedPayload, 4);
-            MoveBit(frame, 13, reorderedPayload, 5);
-            MoveBit(frame, 14, reorderedPayload, 6);
-            MoveBit(frame, 15, reorderedPayload, 7);
+            ByteExtensions.MoveBit(frame, 0, reorderedPayload, 15);
+            ByteExtensions.MoveBit(frame, 1, reorderedPayload, 14);
+            ByteExtensions.MoveBit(frame, 2, reorderedPayload, 13);
+            ByteExtensions.MoveBit(frame, 3, reorderedPayload, 12);
+            ByteExtensions.MoveBit(frame, 4, reorderedPayload, 11);
+            ByteExtensions.MoveBit(frame, 5, reorderedPayload, 10);
+            ByteExtensions.MoveBit(frame, 6, reorderedPayload, 9);
+            ByteExtensions.MoveBit(frame, 7, reorderedPayload, 8);
+            ByteExtensions.MoveBit(frame, 8, reorderedPayload, 0);
+            ByteExtensions.MoveBit(frame, 9, reorderedPayload, 1);
+            ByteExtensions.MoveBit(frame, 10, reorderedPayload, 2);
+            ByteExtensions.MoveBit(frame, 11, reorderedPayload, 3);
+            ByteExtensions.MoveBit(frame, 12, reorderedPayload, 4);
+            ByteExtensions.MoveBit(frame, 13, reorderedPayload, 5);
+            ByteExtensions.MoveBit(frame, 14, reorderedPayload, 6);
+            ByteExtensions.MoveBit(frame, 15, reorderedPayload, 7);
 
             lock (_firstFrameBuffer)
             {
-                Array.Copy(frame, 0, _firstFrameBuffer, 0, _firstFrameBuffer.Length);
+                Array.Copy(reorderedPayload, 0, _firstFrameBuffer, 0, _firstFrameBuffer.Length);
             }
 
             _workerThreadEvent.Set();
         }
         
-        private static void MoveBit(byte[] source, int sourceIndex, byte[] target, int targetIndex)
-        {
-            target.SetBit(targetIndex, source.GetBit(sourceIndex));
-        }
-
         private void ApplyFrame()
         {
             // Move the frame from the first buffer to a second buffer to ensure that the endpoint can update the first buffer
@@ -106,9 +109,10 @@ namespace LightPi.OrchestratorFirmware
             }
 
             _max7311_1.WriteState(_secondFrameBuffer, 0);
-            _max7311_2.WriteState(_secondFrameBuffer, 2);
+            //_max7311_2.WriteState(_secondFrameBuffer, 2);
+
             _pcf8574_1.WriteState(_secondFrameBuffer, 4);
-            _pcf8574_2.WriteState(_secondFrameBuffer, 5);
+            //_pcf8574_2.WriteState(_secondFrameBuffer, 5);
         }
 
         private void InitializeI2CBus()
@@ -117,17 +121,17 @@ namespace LightPi.OrchestratorFirmware
 
             var i2cBusId = GetI2cBusId();
             
-            _max7311_1 = new MAX7311Wrapper(i2cBusId, 39);
+            _max7311_1 = new MAX7311Wrapper(i2cBusId, 0x10);
             _max7311_1.Initialize();
 
-            _max7311_2 = new MAX7311Wrapper(i2cBusId, 40);
-            _max7311_2.Initialize();
+            _max7311_2 = new MAX7311Wrapper(i2cBusId, 0x11);
+            //_max7311_2.Initialize();
 
-            _pcf8574_1 = new PCF8574Wrapper(i2cBusId, 37);
+            _pcf8574_1 = new PCF8574Wrapper(i2cBusId, 0x38);
             _pcf8574_1.Initialize();
 
-            _pcf8574_2 = new PCF8574Wrapper(i2cBusId, 38);
-            _pcf8574_2.Initialize();
+            _pcf8574_2 = new PCF8574Wrapper(i2cBusId, 0x39);
+            //_pcf8574_2.Initialize();
 
             Debug.WriteLine("I2C devices initialized");
         }

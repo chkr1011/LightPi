@@ -50,6 +50,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LightPi.Orchestrator\LightPi.Orchestrator.csproj">
+      <Project>{3BAECD45-3461-467E-8308-C8368FCE5366}</Project>
+      <Name>LightPi.Orchestrator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightPi.Protocol\LightPi.Protocol.csproj">
+      <Project>{B77DB4EB-5B81-4596-A5F1-07424306752A}</Project>
+      <Name>LightPi.Protocol</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

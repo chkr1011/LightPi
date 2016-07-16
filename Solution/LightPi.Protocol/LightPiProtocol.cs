@@ -6,6 +6,7 @@ namespace LightPi.Protocol
 {
     public static class LightPiProtocol
     {
+        public static readonly int Port = 12345;
         public static readonly int FrameLength = 6;
         public static readonly byte[] PackagePrefix = Encoding.ASCII.GetBytes("LIGHT_PI");
         public static readonly int PackageLength = PackagePrefix.Length + FrameLength;

@@ -7,8 +7,6 @@ namespace LightPi.OrchestratorFirmware
 {
     internal sealed class UdpEndpoint
     {
-        private const int Port = 12345;
-        
         private readonly DatagramSocket _datagramSocket = new DatagramSocket();
         private readonly Action<byte[]> _callback;
         
@@ -26,9 +24,9 @@ namespace LightPi.OrchestratorFirmware
             _datagramSocket.Control.QualityOfService = SocketQualityOfService.LowLatency;
 
             _datagramSocket.MessageReceived += ProcessIncomingData;
-            _datagramSocket.BindServiceNameAsync(Port.ToString()).AsTask().Wait();
+            _datagramSocket.BindServiceNameAsync(LightPiProtocol.Port.ToString()).AsTask().Wait();
 
-            Debug.WriteLine($"UDP endpoint opened on port {Port}");
+            Debug.WriteLine($"UDP endpoint opened on port {LightPiProtocol.Port}");
         }
 
         private void ProcessIncomingData(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs message)
