@@ -13,6 +13,7 @@ namespace LightPi.OrchestratorFirmware
     public sealed class StartupTask : IBackgroundTask
     {
         private readonly AutoResetEvent _workerThreadEvent = new AutoResetEvent(false);
+
         private readonly byte[] _firstFrameBuffer = new byte[6];
         private readonly byte[] _secondFrameBuffer = new byte[6];
 
@@ -72,6 +73,7 @@ namespace LightPi.OrchestratorFirmware
             // Here all output bits are being reordered to match the physical output 0 to bit 0 state etc.
             byte[] reorderedPayload = new byte[LightPiProtocol.FrameLength];
 
+            // MAX7311 - 1
             ByteExtensions.MoveBit(frame, 0, reorderedPayload, 15);
             ByteExtensions.MoveBit(frame, 1, reorderedPayload, 14);
             ByteExtensions.MoveBit(frame, 2, reorderedPayload, 13);
@@ -88,6 +90,13 @@ namespace LightPi.OrchestratorFirmware
             ByteExtensions.MoveBit(frame, 13, reorderedPayload, 5);
             ByteExtensions.MoveBit(frame, 14, reorderedPayload, 6);
             ByteExtensions.MoveBit(frame, 15, reorderedPayload, 7);
+
+            // PCF8574 - 1
+            ByteExtensions.MoveBit(frame, 16, reorderedPayload, 32);
+            ByteExtensions.MoveBit(frame, 17, reorderedPayload, 33);
+            ByteExtensions.MoveBit(frame, 18, reorderedPayload, 34);
+            ByteExtensions.MoveBit(frame, 19, reorderedPayload, 35);
+            ByteExtensions.MoveBit(frame, 20, reorderedPayload, 36);
 
             lock (_firstFrameBuffer)
             {

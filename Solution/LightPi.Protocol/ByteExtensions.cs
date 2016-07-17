@@ -59,8 +59,10 @@ namespace LightPi.Protocol
             bytes[byteOffset] = SetBit(bytes[byteOffset], bitOffset, state);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void MoveBit(byte[] source, int sourceIndex, byte[] target, int targetIndex)
         {
+            // TODO: Consider using BitArray.
             target.SetBit(targetIndex, source.GetBit(sourceIndex));
         }
     }

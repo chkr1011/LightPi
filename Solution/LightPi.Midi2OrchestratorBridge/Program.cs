@@ -14,7 +14,7 @@ namespace LightPi.Midi2OrchestratorBridge
     {
         static void Main(string[] args)
         {
-            var orchestrator = new OrchestratorClient(IPAddress.Parse("192.168.1.107"));
+            var orchestrator = new OrchestratorClient(IPAddress.Parse("192.168.1.113"));
 
             byte[] frame = new byte[6];
 
@@ -23,17 +23,24 @@ namespace LightPi.Midi2OrchestratorBridge
 
             while (true)
             {
-                frame.SetBit(i, state);
-                i++;
-
-                if (i > 15)
-                {
-                    i = 0;
-                    state = !state;
-                }
+                state = !state;
+                frame.SetBit(20, state);
 
                 orchestrator.SendFrame(frame);
-                Thread.Sleep(50);
+                Thread.Sleep(100);
+
+
+                ////frame.SetBit(i, state);
+                ////i++;
+
+                ////if (i > 20)
+                ////{
+                ////    i = 0;
+                ////    state = !state;
+                ////}
+
+                ////orchestrator.SendFrame(frame);
+                ////Thread.Sleep(50);
 
                 ////Console.WriteLine("Sent " + frame[0]);
             }

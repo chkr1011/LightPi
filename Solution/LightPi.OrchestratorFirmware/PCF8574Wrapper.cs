@@ -23,7 +23,7 @@ namespace LightPi.OrchestratorFirmware
         {
             var settings = new I2cConnectionSettings(_deviceAddress)
             {
-                BusSpeed = I2cBusSpeed.StandardMode,
+                BusSpeed = I2cBusSpeed.FastMode,
                 SharingMode = I2cSharingMode.Exclusive
             };
 

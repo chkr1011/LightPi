@@ -46,11 +46,11 @@ namespace LightPi.OrchestratorFirmware
             {
                 if (reader.UnconsumedBufferLength != LightPiProtocol.PackageLength)
                 {
-                    // Ignore all invalid packages.
+                    // Ignore all messages with a wrong package size.
                     Debug.WriteLine($"Received invalid message with a length of {reader.UnconsumedBufferLength} bytes");
                     return null;
                 }
-
+                
                 var buffer = new byte[LightPiProtocol.PackageLength];
                 reader.ReadBytes(buffer);
 
