@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Xml.Linq;
 using LightPi.Orchestrator;
 using LightPi.Protocol;
@@ -12,7 +11,7 @@ namespace LightPi.Midi2OrchestratorBridge
 {
     internal static class Program
     {
-        private readonly static Dictionary<string, int> _mappings = new Dictionary<string, int>();
+        private static readonly Dictionary<string, int> _mappings = new Dictionary<string, int>();
 
         private static MidiIn _midiIn;
         private static OrchestratorClient _orchestratorClient;
@@ -21,38 +20,20 @@ namespace LightPi.Midi2OrchestratorBridge
         {
             WriteBanner();
 
-            XDocument settings = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml"));
-
-            InitializeOrchestratorClient(settings);
-            LoadMappings(settings);
-            InitializeMidiInput(settings);
-
-            WriteOutput(ConsoleColor.Gray, "Press any key to exit.");
-            Console.ReadLine();
-
-            bool state = true;
-            while (true)
+            try
             {
-                state = !state;
-                _orchestratorClient.Frame.SetBit(20, state);
+                XDocument settings = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml"));
 
-                _orchestratorClient.SendFrame();
-                Thread.Sleep(100);
+                InitializeOrchestratorClient(settings);
+                LoadMappings(settings);
+                InitializeMidiInput(settings);
 
-
-                ////frame.SetBit(i, state);
-                ////i++;
-
-                ////if (i > 20)
-                ////{
-                ////    i = 0;
-                ////    state = !state;
-                ////}
-
-                ////orchestrator.SendFrame(frame);
-                ////Thread.Sleep(50);
-
-                ////Console.WriteLine("Sent " + frame[0]);
+                WriteOutput(ConsoleColor.Gray, "Press any key to exit.");
+                Console.ReadLine();
+            }
+            catch (Exception exception)
+            {
+                WriteOutput(ConsoleColor.Red, exception.ToString());                
             }
         }
 
