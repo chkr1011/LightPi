@@ -20,6 +20,17 @@ namespace LightPi.Orchestrator
             _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
         }
 
+        public byte[] Frame { get; } = new byte[6];
+
+        public void SendFrame()
+        {
+            byte[] package = LightPiProtocol.GeneratePackage(Frame);
+            lock (_udpClient)
+            {
+                _udpClient.Send(package, package.Length, _ipEndPoint);
+            }
+        }
+
         public void SendFrame(byte[] frame)
         {
             byte[] package = LightPiProtocol.GeneratePackage(frame);
