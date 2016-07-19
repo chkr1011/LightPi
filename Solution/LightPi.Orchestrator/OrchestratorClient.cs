@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
 
@@ -8,35 +7,42 @@ namespace LightPi.Orchestrator
     public class OrchestratorClient
     {
         private readonly UdpClient _udpClient = new UdpClient();
-        private readonly IPEndPoint _ipEndPoint;
+        private readonly string _hostName;
 
-        public OrchestratorClient(IPAddress ipAddress)
+        public OrchestratorClient(string hostName)
         {
-            if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
+            if (hostName == null) throw new ArgumentNullException(nameof(hostName));
 
-            _ipEndPoint = new IPEndPoint(ipAddress, LightPiProtocol.Port);
-            
+            _hostName = hostName;
+
             _udpClient.DontFragment = true;
             _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
         }
 
-        public byte[] Frame { get; } = new byte[6];
+        public byte[] State { get; } = new byte[6];
 
-        public void SendFrame()
+        public void SetOutput(int id, bool state)
         {
-            byte[] package = LightPiProtocol.GeneratePackage(Frame);
+            State.SetBit(id, state);
+        }
+
+        public void SendState()
+        {
+            byte[] package = LightPiProtocol.GeneratePackage(State);
             lock (_udpClient)
             {
-                _udpClient.Send(package, package.Length, _ipEndPoint);
+                _udpClient.Send(package, package.Length, _hostName, LightPiProtocol.Port);
             }
         }
 
-        public void SendFrame(byte[] frame)
+        public void SendState(byte[] state)
         {
-            byte[] package = LightPiProtocol.GeneratePackage(frame);
+            if (state == null) throw new ArgumentNullException(nameof(state));
+
+            byte[] package = LightPiProtocol.GeneratePackage(state);
             lock (_udpClient)
             {
-                _udpClient.Send(package, package.Length, _ipEndPoint);
+                _udpClient.Send(package, package.Length, _hostName, LightPiProtocol.Port);
             }
         }
     }

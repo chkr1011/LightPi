@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Xml.Linq;
 using LightPi.Orchestrator;
-using LightPi.Protocol;
 using NAudio.Midi;
 
 namespace LightPi.Midi2OrchestratorBridge
@@ -15,53 +13,72 @@ namespace LightPi.Midi2OrchestratorBridge
 
         private static MidiIn _midiIn;
         private static OrchestratorClient _orchestratorClient;
+        private static XDocument _settings;
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             WriteBanner();
 
             try
             {
-                XDocument settings = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml"));
+                LoadSettings();
+                InitializeOrchestratorClient();
+                LoadMappings();
+                InitializeMidiInput();
 
-                InitializeOrchestratorClient(settings);
-                LoadMappings(settings);
-                InitializeMidiInput(settings);
-
-                WriteOutput(ConsoleColor.Gray, "Press any key to exit.");
+                WriteOutput(ConsoleColor.Gray, string.Empty);
+                WriteOutput(ConsoleColor.Green, "Waiting for MIDI events (Press <Enter> key to exit)...");
                 Console.ReadLine();
             }
             catch (Exception exception)
             {
-                WriteOutput(ConsoleColor.Red, exception.ToString());                
+                WriteOutput(ConsoleColor.Red, ConsoleColor.White, $"{Environment.NewLine}An error has occurred:");
+                WriteOutput(ConsoleColor.Red, exception.ToString());
+                WriteOutput(ConsoleColor.Green, "Press <Enter> key to exit");
+                Console.ReadLine();
             }
+        }
+
+        private static void LoadSettings()
+        {
+            _settings = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml"));
         }
 
         private static void WriteBanner()
         {
-            Console.WriteLine("------------------------------");
-            Console.WriteLine("|                            |");
-            Console.WriteLine("| MIDI 2 Orchestrator Bridge |");
-            Console.WriteLine("|                            |");
-            Console.WriteLine("------------------------------");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "                                                              ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  +--------------------------------------------------------+  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  |                                                        |  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  |          MIDI 2 Orchestrator Bridge - LightPi          |  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  |          ------------------------------------          |  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  |       (c) Christian Kratky 2016 (www.ha4iot.de)        |  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  |      Using 'naudio' library (naudio.codeplex.com)      |  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  |                                                        |  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "  +--------------------------------------------------------+  ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, "                                                              ");
+            WriteOutput(ConsoleColor.Red, ConsoleColor.White, string.Empty);
         }
 
-        private static void InitializeMidiInput(XDocument settings)
+        private static void InitializeMidiInput()
         {
-            string midiDevideFromSettings = settings.Root.Element("MidiIn").Value;
+            string midiDevideFromSettings = _settings.Root.Element("MidiIn").Value;
             
-            WriteOutput(ConsoleColor.Magenta, "MIDI devices:");
+            WriteOutput(ConsoleColor.Magenta, "[ MIDI devices ]");
 
             int deviceId = 0;
             int m = MidiIn.NumberOfDevices;
             for (int i = 0; i < m; i++)
             {
                 var devicInfo = MidiIn.DeviceInfo(i);
-                WriteOutput(ConsoleColor.Magenta, i + " = " + devicInfo.ProductName);
-
+                
                 if (devicInfo.ProductName == midiDevideFromSettings)
                 {
                     deviceId = i;
+                    WriteOutput(ConsoleColor.Green, $"\t{i}: [{devicInfo.ProductName}] [Used]");
+                }
+                else
+                {
+                    WriteOutput(ConsoleColor.Gray, $"\t{i}: [{devicInfo.ProductName}]");
                 }
             }
             
@@ -71,29 +88,48 @@ namespace LightPi.Midi2OrchestratorBridge
             _midiIn.Start();
         }
 
-        private static void InitializeOrchestratorClient(XDocument settings)
+        private static void InitializeOrchestratorClient()
         {
-            var ipAddress = IPAddress.Parse(settings.Root.Element("OrchestratorIPAddress").Value);
-            
-            WriteOutput(ConsoleColor.Green, $"Using orchestrator at IP address [{ipAddress}]");
-            _orchestratorClient = new OrchestratorClient(ipAddress);
-            _orchestratorClient.SendFrame();
+            var address = _settings.Root.Element("OrchestratorAddress").Value;
+
+            WriteOutput(ConsoleColor.Magenta, "[ Orchestrator ]");
+            WriteOutput(ConsoleColor.Gray, $"\tAddress: {address}");
+
+            _orchestratorClient = new OrchestratorClient(address);
+            _orchestratorClient.SendState();
         }
 
-        private static void LoadMappings(XDocument settings)
+        private static void LoadMappings()
         {
-            var mappings = settings.Root.Element("Mappings").Elements("Mapping");
+            var mappings = _settings.Root.Element("Mappings").Elements("Mapping");
+
+            WriteOutput(ConsoleColor.Magenta, "[ Output mappings ]");
             foreach (var mapping in mappings)
             {
                 var note = mapping.Attribute("Note").Value;
                 var bitText = mapping.Attribute("Bit").Value;
+                var bit = int.Parse(bitText);
+                var channelText = mapping.Attribute("Channel").Value;
+                var channel = int.Parse(channelText);
                 var comment = mapping.Attribute("Comment").Value;
 
-                var bit = int.Parse(bitText);
-                _mappings[note] = bit;
+                var key = GenerateMappingKey(note, channel);
+                _mappings[key] = bit;
 
-                WriteOutput(ConsoleColor.Green, $"Mapped [{note}] to bit [{bitText}] ({comment})");
+                if (string.IsNullOrEmpty(comment))
+                {
+                    WriteOutput(ConsoleColor.Gray, $"\tMapped note [{note}] to output [{bitText}]");
+                }
+                else
+                {
+                    WriteOutput(ConsoleColor.Gray, $"\tMapped note [{note}] to output [{bitText}] ({comment})");
+                }
             }
+        }
+
+        private static string GenerateMappingKey(string note, int channel)
+        {
+            return note + "@" + channel;
         }
 
         private static void ProcessMidiMessage(object sender, MidiInMessageEventArgs e)
@@ -101,26 +137,29 @@ namespace LightPi.Midi2OrchestratorBridge
             var noteEvent = e.MidiEvent as NoteEvent;
             if (noteEvent == null)
             {
-                WriteOutput(ConsoleColor.Red, "Unsupported event: " + e.MidiEvent);
+                WriteOutput(ConsoleColor.Red, ">> Received unsupported MIDI event: " + e.MidiEvent);
                 return;
             }
 
-            WriteOutput(ConsoleColor.Gray, e.MidiEvent.CommandCode + " " + noteEvent.NoteName);
-            
-            bool newState = noteEvent.CommandCode == MidiCommandCode.NoteOn;
+            WriteOutput(ConsoleColor.White, $">> Received MIDI event: {noteEvent.NoteName} / {noteEvent.CommandCode} / Channel-{noteEvent.Channel}");
 
+            var mappingKey = GenerateMappingKey(noteEvent.NoteName, noteEvent.Channel);
             int bit;
-            if (_mappings.TryGetValue(noteEvent.NoteName, out bit))
+            if (_mappings.TryGetValue(mappingKey, out bit))
             {
-                _orchestratorClient.Frame.SetBit(bit, newState);
-
-                var color = newState ? ConsoleColor.Green : ConsoleColor.Yellow;
-                WriteOutput(color, "Set bit [" + bit + "] to [" + newState + "]");
-
-                _orchestratorClient.SendFrame();
-
-                WriteOutput(ConsoleColor.Gray, "Sent [" + BitConverter.ToString(_orchestratorClient.Frame) + "] to orchestrator");
+                UpdateOrchestratorState(bit, noteEvent.CommandCode == MidiCommandCode.NoteOn);
             }           
+        }
+
+        private static void UpdateOrchestratorState(int bit, bool state)
+        {
+            _orchestratorClient.SetOutput(bit, state);
+            _orchestratorClient.SendState();
+
+            var color = state ? ConsoleColor.Green : ConsoleColor.DarkGreen;
+            var stateText = state ? "On" : "Off";
+            WriteOutput(color, $"\t<< Set output [{bit}] to [{stateText}]");
+            WriteOutput(ConsoleColor.Gray, "\t<< Sent [" + BitConverter.ToString(_orchestratorClient.State) + "] to orchestrator");
         }
 
         private static void ProcessMidiError(object sender, MidiInMessageEventArgs e)
@@ -131,6 +170,14 @@ namespace LightPi.Midi2OrchestratorBridge
         private static void WriteOutput(ConsoleColor color, string text)
         {
             Console.ForegroundColor = color;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine(text);
+        }
+
+        private static void WriteOutput(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string text)
+        {
+            Console.ForegroundColor = foregroundColor;
+            Console.BackgroundColor = backgroundColor;
             Console.WriteLine(text);
         }
     }

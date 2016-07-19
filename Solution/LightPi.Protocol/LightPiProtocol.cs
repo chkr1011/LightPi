@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace LightPi.Protocol
@@ -7,41 +6,51 @@ namespace LightPi.Protocol
     public static class LightPiProtocol
     {
         public static readonly int Port = 12345;
-        public static readonly int FrameLength = 6;
+        public static readonly int StateLength = 6;
+
         public static readonly byte[] PackagePrefix = Encoding.ASCII.GetBytes("LIGHT_PI");
-        public static readonly int PackageLength = PackagePrefix.Length + FrameLength;
+        public static readonly int PackageLength = PackagePrefix.Length + StateLength;
         
-        public static bool TryGetFrameFromPackage(byte[] package, out byte[] frame)
+        public static bool TryGetState(byte[] package, out byte[] state)
         {
-            frame = null;
+            state = null;
 
             if (package.Length != PackageLength)
             {
                 return false;
             }
 
-            byte[] prefix = new byte[PackagePrefix.Length];
-            Array.Copy(package, 0, prefix, 0, PackagePrefix.Length);
-
-            bool prefixIsMatching = prefix.SequenceEqual(PackagePrefix);
-            if (!prefixIsMatching)
+            if (!PrefixIsMatching(package))
             {
                 return false;
             }
             
-            frame = new byte[FrameLength];
-            Array.Copy(package, PackagePrefix.Length, frame, 0, frame.Length);
+            state = new byte[StateLength];
+            Array.Copy(package, PackagePrefix.Length, state, 0, state.Length);
 
             return true;
         }
 
-        public static byte[] GeneratePackage(byte[] frame)
+        public static byte[] GeneratePackage(byte[] state)
         {
-            byte[] buffer = new byte[PackageLength];
+            var buffer = new byte[PackageLength];
             Array.Copy(PackagePrefix, 0, buffer, 0, PackagePrefix.Length);
-            Array.Copy(frame, 0, buffer, PackagePrefix.Length, frame.Length);
+            Array.Copy(state, 0, buffer, PackagePrefix.Length, state.Length);
 
             return buffer;
+        }
+
+        private static bool PrefixIsMatching(byte[] package)
+        {
+            for (int i = 0; i < PackagePrefix.Length; i++)
+            {
+                if (!package[i].Equals(PackagePrefix[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -64,14 +64,14 @@ namespace LightPi.OrchestratorFirmware
         private void EnqueueFrame(byte[] package)
         {
             byte[] frame;
-            if (!LightPiProtocol.TryGetFrameFromPackage(package, out frame))
+            if (!LightPiProtocol.TryGetState(package, out frame))
             {
                 return;
             }
 
             // On sender side bit 0 means the first SSR from the first case. Bit 1 means the next one and so on.
             // Here all output bits are being reordered to match the physical output 0 to bit 0 state etc.
-            byte[] reorderedPayload = new byte[LightPiProtocol.FrameLength];
+            byte[] reorderedPayload = new byte[LightPiProtocol.StateLength];
 
             // MAX7311 - 1
             ByteExtensions.MoveBit(frame, 0, reorderedPayload, 15);
