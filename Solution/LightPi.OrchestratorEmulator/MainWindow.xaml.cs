@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Threading;
 using LightPi.Orchestrator;
 using LightPi.Protocol;
@@ -14,34 +15,44 @@ namespace LightPi.OrchestratorEmulator
         public MainWindow()
         {
             InitializeComponent();
-            
-            var udpEndpoint = new OrchestratorServer(UpdateStates);
-            udpEndpoint.Start();
 
-            Surface.Updated += CalculateStatistics;
-
-            Surface.RegisterBackgroundSprite(@".\Sprites\Background.jpg");
-
-            for (int i = 0; i < 48; i++)
+            try
             {
-                string spriteFile = $@".\Sprites\{i}.png";
-                if (!File.Exists(spriteFile))
+                var udpEndpoint = new OrchestratorServer(UpdateStates);
+                udpEndpoint.Start();
+
+                var settings = new SettingsReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LightPi.OrchestratorEmulatorSettings.xml"));
+                settings.Load();
+
+                Surface.RegisterBackgroundSprite(settings.GetBackgroundSpriteFilename());
+                foreach (var output in settings.GetOutputs())
                 {
-                    continue;
+                    int id = int.Parse(output.Attribute("ID").Value);
+                    string spriteFilename = output.Attribute("Sprite").Value;
+                    double watts = double.Parse(output.Attribute("Watts").Value);
+
+                    if (!File.Exists(spriteFilename))
+                    {
+                        continue;
+                    }
+
+                    Surface.RegisterOutput(id, watts, spriteFilename);
                 }
 
-                Surface.RegisterOutput(i, 192, spriteFile);
+                Surface.Updated += CalculateStatistics;
+                Surface.Update();
+
+                SetupFramesPerSecondMonitor();
             }
-
-            Surface.Update();
-
-            SetupFramesPerSecondMonitor();
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void SetupFramesPerSecondMonitor()
         {
-            var timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             timer.Tick += (_, __) =>
             {
                 int actualFrameCount = _frameCount;

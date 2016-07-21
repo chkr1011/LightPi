@@ -42,7 +42,7 @@ namespace LightPi.Midi2OrchestratorBridge
 
         private static void LoadSettings()
         {
-            _settings = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml"));
+            _settings = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LightPi.Midi2OrchestratorBridgeSettings.xml"));
         }
 
         private static void WriteBanner()
