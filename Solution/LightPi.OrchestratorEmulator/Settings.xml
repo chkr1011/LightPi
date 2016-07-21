@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<OrchestratorEmulatorSettings>
+  <Background Sprite=".\Sprites\Background.jpg"></Background>
+  <Outputs>
+    <Output ID="0" Watts="192" Sprite=".\Sprites\0.png" />
+  </Outputs>
+</OrchestratorEmulatorSettings>

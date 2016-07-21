@@ -1,28 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace LightPi.OrchestratorEmulator
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+
+
+            Surface.RegisterBackgroundSprite(@".\Sprites\Background.jpg");
+
+            for (int i = 0; i < 48; i++)
+            {
+                Surface.RegisterOutputSprite(i, @".\Sprites\0.png");
+            }
+
+            var t = new DispatcherTimer(DispatcherPriority.Render);
+            t.Interval = TimeSpan.FromMilliseconds(100);
+            t.Tick += T_Tick;
+            t.Start();
+        }
+
+        private bool s;
+
+        private void T_Tick(object sender, EventArgs e)
+        {
+            Surface.SetOutputState(0, s);
+
+            s = !s;
+
+            Surface.Update();
         }
     }
 }

@@ -56,6 +56,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Sprite.cs" />
+    <Compile Include="SpriteSurface.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -95,6 +97,47 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Sprites\1.png" />
+    <Resource Include="Sprites\10.png" />
+    <Resource Include="Sprites\11.png" />
+    <Resource Include="Sprites\12.png" />
+    <Resource Include="Sprites\13.png" />
+    <Resource Include="Sprites\14.png" />
+    <Resource Include="Sprites\15.png" />
+    <Resource Include="Sprites\16.png" />
+    <Resource Include="Sprites\17.png" />
+    <Resource Include="Sprites\18.png" />
+    <Resource Include="Sprites\19.png" />
+    <Resource Include="Sprites\2.png" />
+    <Resource Include="Sprites\20.png" />
+    <Resource Include="Sprites\21.png" />
+    <Resource Include="Sprites\22.png" />
+    <Resource Include="Sprites\23.png" />
+    <Resource Include="Sprites\24.png" />
+    <Resource Include="Sprites\25.png" />
+    <Resource Include="Sprites\26.png" />
+    <Resource Include="Sprites\3.png" />
+    <Resource Include="Sprites\4.png" />
+    <Resource Include="Sprites\5.png" />
+    <Resource Include="Sprites\6.png" />
+    <Resource Include="Sprites\7.png" />
+    <Resource Include="Sprites\8.png" />
+    <Resource Include="Sprites\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\Background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sprites\0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

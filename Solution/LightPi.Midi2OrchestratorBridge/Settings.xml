@@ -1,4 +1,4 @@
-﻿<LightPi.Midi2OrchestratorBridgeSettigs>
+﻿<Midi2OrchestratorBridgeSettigs>
   <MidiIn>loopMIDI Port</MidiIn>
   <OrchestratorAddress>192.168.1.113</OrchestratorAddress>
   <!--<OrchestratorAddress>LightPi</OrchestratorAddress>-->
@@ -10,5 +10,16 @@
     <Mapping Note="G5" Bit="3" Channel="1" Comment="" />
     <Mapping Note="A5" Bit="4" Channel="1" Comment="Lampe blau" />
     <Mapping Note="B5" Bit="5" Channel="1" Comment="Lampe gelb" />
+    <Mapping Note="C6" Bit="7" Channel="1" Comment="" />
+    <Mapping Note="D6" Bit="8" Channel="1" Comment="" />
+    <Mapping Note="E6" Bit="9" Channel="1" Comment="" />
+    <Mapping Note="F6" Bit="10" Channel="1" Comment="" />
+    <Mapping Note="G6" Bit="11" Channel="1" Comment="" />
+
+    <Mapping Note="C7" Bit="7" Channel="1" Comment="" />
+    <Mapping Note="D7" Bit="8" Channel="1" Comment="" />
+    <Mapping Note="E7" Bit="9" Channel="1" Comment="" />
+    <Mapping Note="F7" Bit="10" Channel="1" Comment="" />
+    <Mapping Note="G7" Bit="11" Channel="1" Comment="" />
   </Mappings>
-</LightPi.Midi2OrchestratorBridgeSettigs>
+</Midi2OrchestratorBridgeSettigs>

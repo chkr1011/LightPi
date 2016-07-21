@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
 using LightPi.Orchestrator;
@@ -17,6 +18,7 @@ namespace LightPi.Midi2OrchestratorBridge
 
         public static void Main()
         {
+            Console.Title = "MIDI 2 Orchestrator Bridge - LightPi";
             WriteBanner();
 
             try
