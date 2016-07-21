@@ -1,37 +1,84 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows.Threading;
+using LightPi.Orchestrator;
+using LightPi.Protocol;
 
 namespace LightPi.OrchestratorEmulator
 {
     public partial class MainWindow
     {
+        private int _frameCount;
+
         public MainWindow()
         {
             InitializeComponent();
+            
+            var udpEndpoint = new OrchestratorServer(UpdateStates);
+            udpEndpoint.Start();
 
+            Surface.Updated += CalculateStatistics;
 
             Surface.RegisterBackgroundSprite(@".\Sprites\Background.jpg");
 
             for (int i = 0; i < 48; i++)
             {
-                Surface.RegisterOutputSprite(i, @".\Sprites\0.png");
+                string spriteFile = $@".\Sprites\{i}.png";
+                if (!File.Exists(spriteFile))
+                {
+                    continue;
+                }
+
+                Surface.RegisterOutput(i, 192, spriteFile);
             }
 
-            var t = new DispatcherTimer(DispatcherPriority.Render);
-            t.Interval = TimeSpan.FromMilliseconds(100);
-            t.Tick += T_Tick;
-            t.Start();
+            Surface.Update();
+
+            SetupFramesPerSecondMonitor();
         }
 
-        private bool s;
-
-        private void T_Tick(object sender, EventArgs e)
+        private void SetupFramesPerSecondMonitor()
         {
-            Surface.SetOutputState(0, s);
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (_, __) =>
+            {
+                int actualFrameCount = _frameCount;
+                _frameCount = 0;
 
-            s = !s;
+                FramesPerSecondTextBlock.Text = actualFrameCount.ToString("00") + " FPS";
+            };
 
-            Surface.Update();
+            timer.Start();
+        }
+
+        private void CalculateStatistics(object sender, EventArgs e)
+        {
+            double watts = Surface.Outputs.Where(o => o.IsActive).Sum(o => o.Watts);
+
+            // TODO: Dispatcher Timer für Summe
+            ActualWattsTextBlock.Text = watts.ToString("0000") + " W";
+        }
+
+        private void UpdateStates(byte[] states)
+        {
+            _frameCount++;
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                if (IsEnabledCheckBox.IsChecked != true)
+                {
+                    return;
+                }
+
+                foreach (var output in Surface.Outputs)
+                {
+                    output.IsActive = states.GetBit(output.ID);
+                }
+
+                Surface.Update();
+            }));
         }
     }
 }

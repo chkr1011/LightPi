@@ -5,19 +5,19 @@ using LightPi.Protocol;
 
 namespace LightPi.OrchestratorFirmware
 {
-    internal sealed class UdpEndpoint
+    internal sealed class OrchestratorServer
     {
         private readonly DatagramSocket _datagramSocket = new DatagramSocket();
         private readonly Action<byte[]> _callback;
         
-        public UdpEndpoint(Action<byte[]> callback)
+        public OrchestratorServer(Action<byte[]> callback)
         {
             if (callback == null) throw new ArgumentNullException(nameof(callback));
 
             _callback = callback;
         }
 
-        public void Open()
+        public void Start()
         {
             // Ensure that the sockets works as fast as any possible to ensure that the animations are running fine.
             _datagramSocket.Control.DontFragment = true;

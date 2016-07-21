@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,7 +16,9 @@ namespace LightPi.OrchestratorEmulator
             IsHitTestVisible = false;
         }
 
-        public ObservableCollection<Sprite> Sprites { get; } = new ObservableCollection<Sprite>();
+        public ObservableCollection<Output> Outputs { get; } = new ObservableCollection<Output>();
+
+        public event EventHandler Updated;
 
         public void RegisterBackgroundSprite(string filename)
         {
@@ -26,32 +27,24 @@ namespace LightPi.OrchestratorEmulator
             _backgroundSprite = LoadImageFromFile(filename);
         }
 
-        public void RegisterOutputSprite(int outputId, string filename)
+        public void RegisterOutput(int id, double watts, string spriteFilename)
         {
-            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            if (spriteFilename == null) throw new ArgumentNullException(nameof(spriteFilename));
 
-            var image = LoadImageFromFile(filename); ;
-            Sprites.Add(new Sprite(outputId, image));
-        }
-
-        public void SetOutputState(int outputId, bool state)
-        {
-            Sprite sprite = Sprites.FirstOrDefault(s => s.OutputId == outputId);
-            if (sprite == null)
-            {
-                return;
-            }
-
-            sprite.IsVisible = state;
+            var image = LoadImageFromFile(spriteFilename); ;
+            Outputs.Add(new Output(id, watts, image, this));
         }
 
         public void Update()
         {
             InvalidateVisual();
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         protected override void OnRender(DrawingContext dc)
         {
+            dc.DrawRectangle(Background, null, new Rect(0, 0, ActualWidth, ActualHeight));
+
             if (_backgroundSprite == null)
             {
                 return;
@@ -68,14 +61,13 @@ namespace LightPi.OrchestratorEmulator
 
             Rect spriteRect = new Rect(xPosition, yPosition, imageWidth, imageHeight);
 
-            dc.DrawRectangle(Background, null, new Rect(0, 0, ActualWidth, ActualHeight));
             dc.DrawImage(_backgroundSprite, spriteRect);
 
-            foreach (var sprite in Sprites)
+            foreach (var output in Outputs)
             {
-                if (sprite.IsVisible)
+                if (output.IsActive)
                 {
-                    dc.DrawImage(sprite.Image, spriteRect);
+                    dc.DrawImage(output.Sprite, spriteRect);
                 }
             }
         }

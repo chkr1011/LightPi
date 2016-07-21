@@ -19,7 +19,7 @@ namespace LightPi.OrchestratorFirmware
 
         private BackgroundTaskDeferral _deferral;
 
-        private UdpEndpoint _udpEndpoint;
+        private OrchestratorServer _server;
         private MAX7311Wrapper _max7311_1;
         private MAX7311Wrapper _max7311_2;
         private PCF8574Wrapper _pcf8574_1;
@@ -57,8 +57,8 @@ namespace LightPi.OrchestratorFirmware
 
         private void InitializeUdpEndpoint()
         {
-            _udpEndpoint = new UdpEndpoint(EnqueueFrame);
-            _udpEndpoint.Open();
+            _server = new OrchestratorServer(EnqueueFrame);
+            _server.Start();
         }
         
         private void EnqueueFrame(byte[] package)

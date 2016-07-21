@@ -3,5 +3,10 @@
   <Background Sprite=".\Sprites\Background.jpg"></Background>
   <Outputs>
     <Output ID="0" Watts="192" Sprite=".\Sprites\0.png" />
+    <Output ID="1" Watts="192" Sprite=".\Sprites\1.png" />
+    <Output ID="2" Watts="192" Sprite=".\Sprites\2.png" />
+    <Output ID="3" Watts="192" Sprite=".\Sprites\3.png" />
+    <Output ID="4" Watts="192" Sprite=".\Sprites\4.png" />
+    <Output ID="5" Watts="192" Sprite=".\Sprites\5.png" />
   </Outputs>
 </OrchestratorEmulatorSettings>
