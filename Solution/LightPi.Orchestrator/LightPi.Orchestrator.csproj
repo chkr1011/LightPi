@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OrchestratorClient.cs" />
+    <Compile Include="OrchestratorOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrchestratorServer.cs" />
   </ItemGroup>

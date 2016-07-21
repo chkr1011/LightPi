@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Xml.Linq;
 using LightPi.Orchestrator;
 using NAudio.Midi;
@@ -91,12 +92,14 @@ namespace LightPi.Midi2OrchestratorBridge
 
         private static void InitializeOrchestratorClient()
         {
-            var address = _settings.Root.Element("OrchestratorAddress").Value;
+            var ipAddress = IPAddress.Parse(_settings.Root.Element("OrchestratorAddress").Value);
+
+            // TODO: Support hostname by resolving using Dns.GetHost...
 
             WriteOutput(ConsoleColor.Magenta, "[ Orchestrator ]");
-            WriteOutput(ConsoleColor.Gray, $"\tAddress: {address}");
+            WriteOutput(ConsoleColor.Gray, $"\tAddress: {ipAddress}");
 
-            _orchestratorClient = new OrchestratorClient(address);
+            _orchestratorClient = new OrchestratorClient(ipAddress);
             _orchestratorClient.SendState();
         }
 
@@ -160,7 +163,7 @@ namespace LightPi.Midi2OrchestratorBridge
             var color = state ? ConsoleColor.Green : ConsoleColor.DarkGreen;
             var stateText = state ? "On" : "Off";
             WriteOutput(color, $"\t<< Set output [{bit}] to [{stateText}]");
-            WriteOutput(ConsoleColor.Gray, "\t<< Sent [" + BitConverter.ToString(_orchestratorClient.State) + "] to orchestrator");
+            WriteOutput(ConsoleColor.Gray, "\t<< Sent [" + BitConverter.ToString(_orchestratorClient.LastSentState) + "] to orchestrator");
         }
 
         private static void ProcessMidiError(object sender, MidiInMessageEventArgs e)

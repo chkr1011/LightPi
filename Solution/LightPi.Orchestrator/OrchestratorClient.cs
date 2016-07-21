@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
 
@@ -6,43 +7,66 @@ namespace LightPi.Orchestrator
 {
     public class OrchestratorClient
     {
+        private readonly object _syncRoot = new object();
+        private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[6*8];
+
         private readonly UdpClient _udpClient = new UdpClient();
-        private readonly string _hostName;
+        private readonly IPEndPoint _ipEndPoint;
 
-        public OrchestratorClient(string hostName)
+        public OrchestratorClient(IPAddress ipAddress)
         {
-            if (hostName == null) throw new ArgumentNullException(nameof(hostName));
+            if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
 
-            _hostName = hostName;
+            _ipEndPoint = new IPEndPoint(ipAddress, LightPiProtocol.Port);
 
             _udpClient.DontFragment = true;
             _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
+
+            InitializeOutputs();
         }
 
-        public byte[] State { get; } = new byte[6];
+        public byte[] LastSentState { get; private set; }
 
         public void SetOutput(int id, bool state)
         {
-            State.SetBit(id, state);
+            lock (_syncRoot)
+            {
+                if (state)
+                {
+                    _outputs[id].Increment();
+                }
+                else
+                {
+                    _outputs[id].Decrement();
+                }
+            }
         }
 
         public void SendState()
         {
-            byte[] package = LightPiProtocol.GeneratePackage(State);
-            lock (_udpClient)
+            lock (_syncRoot)
             {
-                _udpClient.Send(package, package.Length, _hostName, LightPiProtocol.Port);
+                var state = new byte[6];
+                for (int i = 0; i < _outputs.Length; i++)
+                {
+                    if (_outputs[i].IsActive())
+                    {
+                        state.SetBit(i, true);
+                    }
+                }
+
+                var package = LightPiProtocol.GeneratePackage(state);
+                _udpClient.Send(package, package.Length, _ipEndPoint);
+
+                LastSentState = state;
             }
         }
 
-        public void SendState(byte[] state)
+        private void InitializeOutputs()
         {
-            if (state == null) throw new ArgumentNullException(nameof(state));
-
-            byte[] package = LightPiProtocol.GeneratePackage(state);
-            lock (_udpClient)
+            for (int i = 0; i < 48; i++)
             {
-                _udpClient.Send(package, package.Length, _hostName, LightPiProtocol.Port);
+                _outputs[i] = new OrchestratorOutput();
             }
         }
     }
