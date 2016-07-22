@@ -56,8 +56,9 @@ namespace LightPi.OrchestratorEmulator
 
             double imageWidth = _backgroundSprite.Width * scale;
             double imageHeight = _backgroundSprite.Height * scale;
-            double yPosition = ActualHeight / 2 - imageHeight / 2;
+
             double xPosition = ActualWidth / 2 - imageWidth / 2;
+            double yPosition = ActualHeight / 2 - imageHeight / 2;
 
             Rect spriteRect = new Rect(xPosition, yPosition, imageWidth, imageHeight);
 

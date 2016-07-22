@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
@@ -8,7 +9,7 @@ namespace LightPi.Orchestrator
     public class OrchestratorClient
     {
         private readonly object _syncRoot = new object();
-        private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[6*8];
+        private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[LightPiProtocol.StateLength*8];
 
         private readonly UdpClient _udpClient = new UdpClient();
         private readonly IPEndPoint _ipEndPoint;
@@ -24,9 +25,7 @@ namespace LightPi.Orchestrator
 
             InitializeOutputs();
         }
-
-        public byte[] LastSentState { get; private set; }
-
+        
         public void SetOutput(int id, bool state)
         {
             lock (_syncRoot)
@@ -42,32 +41,40 @@ namespace LightPi.Orchestrator
             }
         }
 
-        public void SendState()
+        public SendStateResult SendState()
         {
             lock (_syncRoot)
             {
-                var state = new byte[6];
-                for (int i = 0; i < _outputs.Length; i++)
-                {
-                    if (_outputs[i].IsActive())
-                    {
-                        state.SetBit(i, true);
-                    }
-                }
+                var stopwatch = Stopwatch.StartNew();
 
+                var state = GenerateState();
                 var package = LightPiProtocol.GeneratePackage(state);
                 _udpClient.Send(package, package.Length, _ipEndPoint);
 
-                LastSentState = state;
+                return new SendStateResult(state, stopwatch.Elapsed);
             }
         }
 
         private void InitializeOutputs()
         {
-            for (int i = 0; i < 48; i++)
+            for (int i = 0; i < _outputs.Length; i++)
             {
                 _outputs[i] = new OrchestratorOutput();
             }
+        }
+
+        private byte[] GenerateState()
+        {
+            ulong buffer = 0;
+            for (int i = 0; i < _outputs.Length; i++)
+            {
+                if (_outputs[i].IsActive())
+                {
+                    buffer |= (ulong)0x1 << i;
+                }
+            }
+
+            return BitConverter.GetBytes(buffer);
         }
     }
 }

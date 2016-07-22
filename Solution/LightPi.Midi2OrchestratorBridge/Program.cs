@@ -111,23 +111,20 @@ namespace LightPi.Midi2OrchestratorBridge
             foreach (var mapping in mappings)
             {
                 var note = mapping.Attribute("Note").Value;
-                var bitText = mapping.Attribute("Bit").Value;
-                var bit = int.Parse(bitText);
-                var channelText = mapping.Attribute("Channel").Value;
-                var channel = int.Parse(channelText);
+                var outputId = int.Parse(mapping.Attribute("Output").Value);
+                var channelId = int.Parse(mapping.Attribute("Channel").Value);
                 var comment = mapping.Attribute("Comment").Value;
 
-                var key = GenerateMappingKey(note, channel);
-                _mappings[key] = bit;
+                var key = GenerateMappingKey(note, channelId);
+                _mappings[key] = outputId;
 
-                if (string.IsNullOrEmpty(comment))
+                string message = $"\tMapped note [{note}] from channel [{channelId}] to output [{outputId}]";
+                if (!string.IsNullOrEmpty(comment))
                 {
-                    WriteOutput(ConsoleColor.Gray, $"\tMapped note [{note}] to output [{bitText}]");
+                    message += $" ({comment})";
                 }
-                else
-                {
-                    WriteOutput(ConsoleColor.Gray, $"\tMapped note [{note}] to output [{bitText}] ({comment})");
-                }
+
+                WriteOutput(ConsoleColor.Gray, message);
             }
         }
 
@@ -145,7 +142,7 @@ namespace LightPi.Midi2OrchestratorBridge
                 return;
             }
 
-            WriteOutput(ConsoleColor.White, $">> Received MIDI event: {noteEvent.NoteName} / {noteEvent.CommandCode} / Channel-{noteEvent.Channel}");
+            WriteOutput(ConsoleColor.White, $">> Received MIDI event: Channel-{noteEvent.Channel} / {noteEvent.NoteName} / {noteEvent.CommandCode}");
 
             var mappingKey = GenerateMappingKey(noteEvent.NoteName, noteEvent.Channel);
             int bit;
@@ -158,12 +155,12 @@ namespace LightPi.Midi2OrchestratorBridge
         private static void UpdateOrchestratorState(int bit, bool state)
         {
             _orchestratorClient.SetOutput(bit, state);
-            _orchestratorClient.SendState();
+            var sendStateResult = _orchestratorClient.SendState();
 
             var color = state ? ConsoleColor.Green : ConsoleColor.DarkGreen;
             var stateText = state ? "On" : "Off";
             WriteOutput(color, $"\t<< Set output [{bit}] to [{stateText}]");
-            WriteOutput(ConsoleColor.Gray, "\t<< Sent [" + BitConverter.ToString(_orchestratorClient.LastSentState) + "] to orchestrator");
+            WriteOutput(ConsoleColor.Gray, $"\t<< Sent [{BitConverter.ToString(sendStateResult.State)}] to orchestrator within {sendStateResult.Duration.TotalMilliseconds} MS");
         }
 
         private static void ProcessMidiError(object sender, MidiInMessageEventArgs e)
