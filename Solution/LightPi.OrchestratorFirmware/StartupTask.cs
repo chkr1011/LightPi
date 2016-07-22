@@ -14,8 +14,8 @@ namespace LightPi.OrchestratorFirmware
     {
         private readonly AutoResetEvent _workerThreadEvent = new AutoResetEvent(false);
 
-        private readonly byte[] _firstFrameBuffer = new byte[6];
-        private readonly byte[] _secondFrameBuffer = new byte[6];
+        private readonly byte[] _firstFrameBuffer = new byte[LightPiProtocol.StateLength];
+        private readonly byte[] _secondFrameBuffer = new byte[LightPiProtocol.StateLength];
 
         private BackgroundTaskDeferral _deferral;
 
@@ -24,12 +24,12 @@ namespace LightPi.OrchestratorFirmware
         private MAX7311Wrapper _max7311_2;
         private PCF8574Wrapper _pcf8574_1;
         private PCF8574Wrapper _pcf8574_2;
-        
+
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             _deferral = taskInstance.GetDeferral();
 
-            var task = Task.Factory.StartNew(Run, CancellationToken.None, TaskCreationOptions.LongRunning,TaskScheduler.Default);
+            var task = Task.Factory.StartNew(Run, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             task.ConfigureAwait(false);
         }
 
@@ -60,52 +60,83 @@ namespace LightPi.OrchestratorFirmware
             _server = new OrchestratorServer(EnqueueFrame);
             _server.Start();
         }
-        
+
         private void EnqueueFrame(byte[] package)
         {
-            byte[] frame;
-            if (!LightPiProtocol.TryGetState(package, out frame))
+            byte[] state;
+            if (!LightPiProtocol.TryGetState(package, out state))
             {
                 return;
             }
 
-            // On sender side bit 0 means the first SSR from the first case. Bit 1 means the next one and so on.
+            // On sender side bit 0 means the first relay (SSR) from the first case. Bit 1 means the next one and so on.
             // Here all output bits are being reordered to match the physical output 0 to bit 0 state etc.
-            byte[] reorderedPayload = new byte[LightPiProtocol.StateLength];
+            ulong sourceState = BitConverter.ToUInt64(state, 0);
+            ulong targetState = 0;
 
             // MAX7311 - 1
-            ByteExtensions.MoveBit(frame, 0, reorderedPayload, 15);
-            ByteExtensions.MoveBit(frame, 1, reorderedPayload, 14);
-            ByteExtensions.MoveBit(frame, 2, reorderedPayload, 13);
-            ByteExtensions.MoveBit(frame, 3, reorderedPayload, 12);
-            ByteExtensions.MoveBit(frame, 4, reorderedPayload, 11);
-            ByteExtensions.MoveBit(frame, 5, reorderedPayload, 10);
-            ByteExtensions.MoveBit(frame, 6, reorderedPayload, 9);
-            ByteExtensions.MoveBit(frame, 7, reorderedPayload, 8);
-            ByteExtensions.MoveBit(frame, 8, reorderedPayload, 0);
-            ByteExtensions.MoveBit(frame, 9, reorderedPayload, 1);
-            ByteExtensions.MoveBit(frame, 10, reorderedPayload, 2);
-            ByteExtensions.MoveBit(frame, 11, reorderedPayload, 3);
-            ByteExtensions.MoveBit(frame, 12, reorderedPayload, 4);
-            ByteExtensions.MoveBit(frame, 13, reorderedPayload, 5);
-            ByteExtensions.MoveBit(frame, 14, reorderedPayload, 6);
-            ByteExtensions.MoveBit(frame, 15, reorderedPayload, 7);
+            int offset = 0;
+            targetState = MoveBit(sourceState, 0, targetState, offset + 15);
+            targetState = MoveBit(sourceState, 1, targetState, offset + 14);
+            targetState = MoveBit(sourceState, 2, targetState, offset + 13);
+            targetState = MoveBit(sourceState, 3, targetState, offset + 12);
+            targetState = MoveBit(sourceState, 4, targetState, offset + 11);
+            targetState = MoveBit(sourceState, 5, targetState, offset + 10);
+            targetState = MoveBit(sourceState, 6, targetState, offset + 9);
+            targetState = MoveBit(sourceState, 7, targetState, offset + 8);
+            targetState = MoveBit(sourceState, 8, targetState, offset + 0);
+            targetState = MoveBit(sourceState, 9, targetState, offset + 1);
+            targetState = MoveBit(sourceState, 10, targetState, offset + 2);
+            targetState = MoveBit(sourceState, 11, targetState, offset + 3);
+            targetState = MoveBit(sourceState, 12, targetState, offset + 4);
+            targetState = MoveBit(sourceState, 13, targetState, offset + 5);
+            targetState = MoveBit(sourceState, 14, targetState, offset + 6);
+            targetState = MoveBit(sourceState, 15, targetState, offset + 7);
 
             // PCF8574 - 1
-            ByteExtensions.MoveBit(frame, 16, reorderedPayload, 32);
-            ByteExtensions.MoveBit(frame, 17, reorderedPayload, 33);
-            ByteExtensions.MoveBit(frame, 18, reorderedPayload, 34);
-            ByteExtensions.MoveBit(frame, 19, reorderedPayload, 35);
-            ByteExtensions.MoveBit(frame, 20, reorderedPayload, 36);
+            offset = 2 * 8;
+            targetState = MoveBit(sourceState, 16, targetState, offset + 0);
+            targetState = MoveBit(sourceState, 17, targetState, offset + 1);
+            targetState = MoveBit(sourceState, 18, targetState, offset + 2);
+            targetState = MoveBit(sourceState, 19, targetState, offset + 3);
+            targetState = MoveBit(sourceState, 20, targetState, offset + 4);
 
+            // MAX7311 - 2
+            offset = 3 * 8;
+            targetState = MoveBit(sourceState, 21, targetState, offset + 15);
+            targetState = MoveBit(sourceState, 22, targetState, offset + 14);
+            targetState = MoveBit(sourceState, 23, targetState, offset + 13);
+            targetState = MoveBit(sourceState, 24, targetState, offset + 12);
+            targetState = MoveBit(sourceState, 25, targetState, offset + 11);
+            targetState = MoveBit(sourceState, 26, targetState, offset + 10);
+            targetState = MoveBit(sourceState, 27, targetState, offset + 9);
+            targetState = MoveBit(sourceState, 28, targetState, offset + 8);
+            targetState = MoveBit(sourceState, 29, targetState, offset + 0);
+            targetState = MoveBit(sourceState, 30, targetState, offset + 1);
+            targetState = MoveBit(sourceState, 31, targetState, offset + 2);
+            targetState = MoveBit(sourceState, 32, targetState, offset + 3);
+            targetState = MoveBit(sourceState, 33, targetState, offset + 4);
+            targetState = MoveBit(sourceState, 34, targetState, offset + 5);
+            targetState = MoveBit(sourceState, 35, targetState, offset + 6);
+            targetState = MoveBit(sourceState, 36, targetState, offset + 7);
+
+            // PCF8574 - 2
+            offset = 5 * 8;
+            targetState = MoveBit(sourceState, 16, targetState, offset + 0);
+            targetState = MoveBit(sourceState, 17, targetState, offset + 1);
+            targetState = MoveBit(sourceState, 18, targetState, offset + 2);
+            targetState = MoveBit(sourceState, 19, targetState, offset + 3);
+            targetState = MoveBit(sourceState, 20, targetState, offset + 4);
+
+            byte[] reorderedState = BitConverter.GetBytes(targetState);
             lock (_firstFrameBuffer)
             {
-                Array.Copy(reorderedPayload, 0, _firstFrameBuffer, 0, _firstFrameBuffer.Length);
+                Array.Copy(reorderedState, 0, _firstFrameBuffer, 0, _firstFrameBuffer.Length);
             }
 
             _workerThreadEvent.Set();
         }
-        
+
         private void ApplyFrame()
         {
             // Move the frame from the first buffer to a second buffer to ensure that the endpoint can update the first buffer
@@ -118,9 +149,8 @@ namespace LightPi.OrchestratorFirmware
             }
 
             _max7311_1.WriteState(_secondFrameBuffer, 0);
-            //_max7311_2.WriteState(_secondFrameBuffer, 2);
-
-            _pcf8574_1.WriteState(_secondFrameBuffer, 4);
+            _pcf8574_1.WriteState(_secondFrameBuffer, 2);
+            //_max7311_2.WriteState(_secondFrameBuffer, 3);
             //_pcf8574_2.WriteState(_secondFrameBuffer, 5);
         }
 
@@ -129,7 +159,7 @@ namespace LightPi.OrchestratorFirmware
             Debug.WriteLine("Initializing I2C bus");
 
             var i2cBusId = GetI2cBusId();
-            
+
             _max7311_1 = new MAX7311Wrapper(i2cBusId, 0x10);
             _max7311_1.Initialize();
 
@@ -159,6 +189,17 @@ namespace LightPi.OrchestratorFirmware
             Debug.WriteLine($"Found I2C bus $'{i2cBusId}'");
 
             return i2cBusId;
+        }
+
+        private ulong MoveBit(ulong source, int sourceIndex, ulong target, int targetIndex)
+        {
+            bool isActive = (source & (ulong)0x1 << sourceIndex) > 0;
+            if (isActive)
+            {
+                target |= (ulong)0x1 << targetIndex;
+            }
+
+            return target;
         }
     }
 }
