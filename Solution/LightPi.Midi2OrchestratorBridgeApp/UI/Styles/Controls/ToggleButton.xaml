@@ -74,8 +74,5 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Margin" Value="0,0,0,10" />
-    </Style>
 
 </ResourceDictionary>
