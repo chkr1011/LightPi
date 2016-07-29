@@ -1,0 +1,32 @@
+﻿<Application x:Class="LightPi.Midi2OrchestratorBridgeApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
+             xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels"
+             xmlns:views="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Views"
+             StartupUri="UI/Views/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Styles/Brushes.xaml" />
+                <ResourceDictionary Source="UI/Styles/Images.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/General.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/GroupBox.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/Button.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/DataGridStyle.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/RichTextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModels:MidiPortViewModel}">
+                <RadioButton Margin="0,0,15,0"
+                             Content="{Binding MidiPort.Name}"
+                             GroupName="MidiSelector"
+                             IsChecked="{Binding IsSelected}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type mappings:MappingEditorViewModel}">
+                <views:MappingEditorView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridgeApp.UI.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:SettingsViewModel,
+                                              IsDesignTimeCreatable=False}"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <StackPanel>
+        <DockPanel>
+            <Label Content="Output target:"
+                   DockPanel.Dock="Top"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Orchestrator (Hardware)" IsChecked="{Binding UseOrchestrator}" />
+                <RadioButton Margin="15,0,0,0"
+                             Content="Emulator (127.0.0.1)"
+                             IsChecked="{Binding UseEmulator}" />
+            </StackPanel>
+        </DockPanel>
+
+        <Separator />
+
+        <DockPanel>
+            <Label Content="Orchestrator IP address:"
+                   DockPanel.Dock="Top"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <TextBox MinWidth="200"
+                     HorizontalAlignment="Left"
+                     Text="{Binding OrchestratorAddress}" />
+        </DockPanel>
+
+        <Separator />
+
+        <DockPanel>
+            <Label Content="MIDI input:"
+                   DockPanel.Dock="Top"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <ItemsControl ItemsSource="{Binding AvailableMidiPorts}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DockPanel>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <CheckBox Margin="0,0,10,0"
+                      Content="Show Log"
+                      IsChecked="{Binding ShowLog}" />
+            <Button controls:ButtonExtensions.Image="{StaticResource SaveImage}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static viewModels:SettingsCommand.Save}"
+                    Content="Save &amp; initialize" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
