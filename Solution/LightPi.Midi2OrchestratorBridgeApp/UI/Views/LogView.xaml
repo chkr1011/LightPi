@@ -11,6 +11,9 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
     <Grid>
-        <RichTextBox x:Name="RichTextBox" IsReadOnly="True" />
+        <RichTextBox x:Name="RichTextBox"
+                     MinHeight="200"
+                     FontSize="11"
+                     IsReadOnly="True" />
     </Grid>
 </UserControl>

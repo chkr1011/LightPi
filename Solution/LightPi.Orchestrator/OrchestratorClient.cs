@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
@@ -13,6 +14,8 @@ namespace LightPi.Orchestrator
 
         private readonly UdpClient _udpClient = new UdpClient();
         private readonly IPEndPoint _ipEndPoint;
+
+        private byte[] _previousSentState; 
 
         public OrchestratorClient(IPAddress ipAddress)
         {
@@ -41,17 +44,27 @@ namespace LightPi.Orchestrator
             }
         }
 
-        public SendStateResult SendState()
+        public CommitChangesResult CommitChanges()
         {
             lock (_syncRoot)
             {
+                var state = GenerateState();
+                if (_previousSentState != null)
+                {
+                    if (_previousSentState.SequenceEqual(state))
+                    {
+                        return new CommitChangesResult(false, null, TimeSpan.Zero);
+                    }
+                }
+
                 var stopwatch = Stopwatch.StartNew();
 
-                var state = GenerateState();
                 var package = LightPiProtocol.GeneratePackage(state);
                 _udpClient.Send(package, package.Length, _ipEndPoint);
 
-                return new SendStateResult(state, stopwatch.Elapsed);
+                _previousSentState = state;
+
+                return new CommitChangesResult(true, state, stopwatch.Elapsed);
             }
         }
 

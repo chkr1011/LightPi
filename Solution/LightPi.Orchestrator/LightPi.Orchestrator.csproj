@@ -47,7 +47,7 @@
     <Compile Include="OrchestratorOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrchestratorServer.cs" />
-    <Compile Include="SendStateResult.cs" />
+    <Compile Include="CommitChangesResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightPi.Protocol\LightPi.Protocol.csproj">

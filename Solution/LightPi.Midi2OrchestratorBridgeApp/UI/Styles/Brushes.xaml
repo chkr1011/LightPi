@@ -5,4 +5,5 @@
     <Brush x:Key="TextHighlightBrush">#569CD6</Brush>
     <Brush x:Key="TextNormalBrush">WhiteSmoke</Brush>
     <Brush x:Key="HoverBrush">#D7AC6A</Brush>
+    <Brush x:Key="SelectionBrush">#3399FF</Brush>
 </ResourceDictionary>

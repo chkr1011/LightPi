@@ -11,8 +11,11 @@
                 <ResourceDictionary Source="UI/Styles/Brushes.xaml" />
                 <ResourceDictionary Source="UI/Styles/Images.xaml" />
                 <ResourceDictionary Source="UI/Styles/Controls/General.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/Label.xaml" />
                 <ResourceDictionary Source="UI/Styles/Controls/GroupBox.xaml" />
                 <ResourceDictionary Source="UI/Styles/Controls/Button.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/TextBox.xaml" />
+                <ResourceDictionary Source="UI/Styles/Controls/Separator.xaml" />
                 <ResourceDictionary Source="UI/Styles/Controls/DataGridStyle.xaml" />
                 <ResourceDictionary Source="UI/Styles/Controls/RichTextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>

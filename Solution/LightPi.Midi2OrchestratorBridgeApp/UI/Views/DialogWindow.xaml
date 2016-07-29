@@ -7,6 +7,7 @@
         MinWidth="300"
         MinHeight="300"
         Background="{StaticResource BackgroundDarkBrush}"
+        Icon="/App.ico"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeToContent="WidthAndHeight"

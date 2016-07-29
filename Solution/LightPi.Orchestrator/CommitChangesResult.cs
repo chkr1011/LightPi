@@ -2,15 +2,16 @@
 
 namespace LightPi.Orchestrator
 {
-    public class SendStateResult
+    public class CommitChangesResult
     {
-        public SendStateResult(byte[] state, TimeSpan duration)
+        public CommitChangesResult(bool stateChanged, byte[] state, TimeSpan duration)
         {
-            if (state == null) throw new ArgumentNullException(nameof(state));
-
+            StateChanged = stateChanged;
             State = state;
             Duration = duration;
         }
+
+        public bool StateChanged { get; }
 
         public byte[] State { get; }
 

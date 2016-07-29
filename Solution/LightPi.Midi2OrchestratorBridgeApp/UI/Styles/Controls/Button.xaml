@@ -14,7 +14,7 @@
                                    VerticalAlignment="Center"
                                    Content="{TemplateBinding Content}"
                                    DockPanel.Dock="Right"
-                                   FontSize="14" />
+                                   FontSize="12" />
                             <Border x:Name="ImageBorder"
                                     Width="16"
                                     Height="16"

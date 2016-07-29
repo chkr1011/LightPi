@@ -32,9 +32,9 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
             LoadMappings();
 
-            RegisterCommand(MappingsCommand.Add, AddMapping);
-            RegisterCommand(MappingsCommand.Edit, EditMapping);
-            RegisterCommand(MappingsCommand.Delete, DeleteMapping);
+            RouteCommand(MappingsCommand.Add, AddMapping);
+            RouteCommand(MappingsCommand.Edit, EditMapping);
+            RouteCommand(MappingsCommand.Delete, DeleteMapping);
 
             _midiService.MidiMessageReceived += MapMidiEvent;
         }
@@ -55,7 +55,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
                     }
                 }
 
-                _orchestratorService.SendState();
+                _orchestratorService.CommitChanges();
             }));
         }
 

@@ -12,7 +12,7 @@ namespace LightPi.Orchestrator.Tests
         {
             var expectedState = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
             var client = new OrchestratorClient(IPAddress.None);
-            var sendStateResult = client.SendState();
+            var sendStateResult = client.CommitChanges();
 
             bool statesMatching = sendStateResult.State.SequenceEqual(expectedState);
 
@@ -25,7 +25,7 @@ namespace LightPi.Orchestrator.Tests
             var expectedState = new byte[] { 1, 0, 0, 0, 0, 0, 0, 0 };
             var client = new OrchestratorClient(IPAddress.None);
             client.SetOutput(0, true);
-            var sendStateResult = client.SendState();
+            var sendStateResult = client.CommitChanges();
 
             bool statesMatching = sendStateResult.State.SequenceEqual(expectedState);
 
@@ -40,7 +40,7 @@ namespace LightPi.Orchestrator.Tests
             client.SetOutput(0, true);
             client.SetOutput(1, true);
             client.SetOutput(47, true);
-            var sendStateResult = client.SendState();
+            var sendStateResult = client.CommitChanges();
 
             bool statesMatching = sendStateResult.State.SequenceEqual(expectedState);
 
@@ -59,7 +59,7 @@ namespace LightPi.Orchestrator.Tests
             client.SetOutput(1, false);
 
             client.SetOutput(47, true);
-            var sendStateResult = client.SendState();
+            var sendStateResult = client.CommitChanges();
 
             bool statesMatching = sendStateResult.State.SequenceEqual(expectedState);
 
