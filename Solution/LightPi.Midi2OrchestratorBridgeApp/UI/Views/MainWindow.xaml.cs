@@ -15,8 +15,15 @@ namespace LightPi.Midi2OrchestratorBridgeApp.UI.Views
                 var logService = new LogService();
 
                 var settingsService = new SettingsService();
-                settingsService.Load();
-
+                try
+                {
+                    settingsService.Load();
+                }
+                catch (Exception exception)
+                {   
+                    MessageBox.Show($"Failed to load settings. Falling back to default values.{Environment.NewLine}{exception}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
                 var midiService = new MidiService(logService);
                 var orchestratorService = new OrchestratorService(settingsService, logService);
                 var dialogService = new DialogService(this);

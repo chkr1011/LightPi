@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Background="{StaticResource HoverBrush}">
-            <StackPanel Margin="10">
+            <StackPanel Margin="10,15">
                 <TextBlock HorizontalAlignment="Center"
                            FontFamily="Consolas"
                            FontSize="20"
@@ -34,7 +34,7 @@
                            Foreground="{StaticResource BackgroundLightBrush}"
                            Text="MIDI 2 Orchestrator Bridge" />
                 <TextBlock HorizontalAlignment="Center"
-                           Foreground="WhiteSmoke"
+                           Foreground="{StaticResource BackgroundDarkBrush}"
                            Text="(c) Christian Kratky 2016 (www.ha4iot.de) / using naudio library (naudio.codeplex.com)" />
             </StackPanel>
         </Border>

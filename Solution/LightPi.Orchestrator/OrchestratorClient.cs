@@ -29,19 +29,44 @@ namespace LightPi.Orchestrator
             InitializeOutputs();
         }
         
-        public void SetOutput(int id, bool state)
+        public void SetOutput(int id, bool state, SetOutputMode mode = SetOutputMode.IncrementDecrement)
         {
             lock (_syncRoot)
             {
-                if (state)
+                if (mode == SetOutputMode.IncrementDecrement)
                 {
-                    _outputs[id].Increment();
+                    if (state)
+                    {
+                        _outputs[id].Increment();
+                    }
+                    else
+                    {
+                        _outputs[id].Decrement();
+                    }
+                }
+                else if (mode == SetOutputMode.Set)
+                {
+                    if (state)
+                    {
+                        _outputs[id].Activate();
+                    }
+                    else
+                    {
+                        _outputs[id].Deactivate();
+                    }
                 }
                 else
                 {
-                    _outputs[id].Decrement();
+                    throw new NotSupportedException();
                 }
             }
+        }
+
+        public enum SetOutputMode
+        {
+            IncrementDecrement,
+
+            Set
         }
 
         public CommitChangesResult CommitChanges()

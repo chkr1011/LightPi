@@ -85,7 +85,8 @@
             <CheckBox Margin="0,0,10,0"
                       Content="Show Log"
                       DockPanel.Dock="Left"
-                      IsChecked="{Binding ShowLog}" />
+                      IsChecked="{Binding Path=ShowLog,
+                                          UpdateSourceTrigger=PropertyChanged}" />
             <Button controls:ButtonExtensions.Image="{StaticResource SaveImage}"
                     Command="{Binding}"
                     CommandParameter="{x:Static viewModels:SettingsCommand.Initialize}"
