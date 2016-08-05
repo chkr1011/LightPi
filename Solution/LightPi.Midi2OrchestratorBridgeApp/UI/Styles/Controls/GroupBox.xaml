@@ -6,12 +6,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
                     <DockPanel Background="{StaticResource BackgroundLightBrush}">
-                        <Label Margin="10"
-                               Content="{TemplateBinding Header}"
-                               DockPanel.Dock="Top"
-                               FontSize="18"
-                               Style="{StaticResource HeadlineSmallLabel}" />
-                        <Border Background="{StaticResource BackgroundDarkBrush}">
+                        <DockPanel DockPanel.Dock="Top">
+                            <Label Margin="10"
+                                   Content="{TemplateBinding Header}"
+                                   DockPanel.Dock="Left"
+                                   FontSize="18"
+                                   Style="{StaticResource HeadlineSmallLabel}" />
+                            <CheckBox DockPanel.Dock="Right" IsChecked="{Binding Path=(controls:GroupBoxExtensions.ShowContent), RelativeSource={RelativeSource Self}}" />
+                            <StackPanel />
+                        </DockPanel>
+                        <Border x:Name="ContentBorder" Background="{StaticResource BackgroundDarkBrush}">
                             <ContentPresenter x:Name="Content"
                                               Margin="10"
                                               VerticalAlignment="Stretch"
@@ -19,8 +23,8 @@
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="controls:GroupBoxExtensions.ShowContent" Value="False">
-                            <Setter TargetName="Content" Property="Visibility" Value="Collapsed" />
+                        <Trigger Property="controls:GroupBoxExtensions.ShowContent" Value="True">
+                            <Setter TargetName="ContentBorder" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

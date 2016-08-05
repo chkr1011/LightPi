@@ -4,14 +4,14 @@ using LightPi.Orchestrator;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
-    public class OrchestratorService
+    public class OrchestratorService : IOrchestratorService
     {
-        private readonly SettingsService _settingsService;
-        private readonly LogService _logService;
+        private readonly ISettingsService _settingsService;
+        private readonly ILogService _logService;
 
         private OrchestratorClient _client;
 
-        public OrchestratorService(SettingsService settingsService, LogService logService)
+        public OrchestratorService(ISettingsService settingsService, ILogService logService)
         {
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));
@@ -19,7 +19,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             _settingsService = settingsService;
             _logService = logService;
         }
-
+        
         public void AttachOrchestrator(IPAddress ipAddress)
         {
             if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));

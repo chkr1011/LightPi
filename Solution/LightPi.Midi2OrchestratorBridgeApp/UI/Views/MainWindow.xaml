@@ -47,11 +47,7 @@
             <views:MappingsView DataContext="{Binding Mappings}" />
         </GroupBox>
 
-        <GroupBox Grid.Row="3"
-                  controls:GroupBoxExtensions.ShowContent="{Binding ElementName=Root,
-                                                                    Path=DataContext.Settings.ShowLog,
-                                                                    UpdateSourceTrigger=PropertyChanged}"
-                  Header="LOG">
+        <GroupBox Grid.Row="3" Header="LOG">
             <views:LogView DataContext="{Binding Log}" />
         </GroupBox>
 

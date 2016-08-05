@@ -82,10 +82,6 @@
                    Grid.ColumnSpan="2"
                    HorizontalAlignment="Stretch"
                    LastChildFill="False">
-            <CheckBox Margin="0,0,10,0"
-                      Content="Show Log"
-                      DockPanel.Dock="Left"
-                      IsChecked="{Binding ShowLog}" />
             <Button controls:ButtonExtensions.Image="{StaticResource SaveImage}"
                     Command="{Binding}"
                     CommandParameter="{x:Static viewModels:SettingsCommand.Initialize}"

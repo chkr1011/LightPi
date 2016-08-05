@@ -5,12 +5,12 @@ using NAudio.Midi;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
-    public class MidiService
+    public class MidiService : IMidiService
     {
-        private readonly LogService _logService;
+        private readonly ILogService _logService;
         private MidiIn _attachedMidiPort;
 
-        public MidiService(LogService logService)
+        public MidiService(ILogService logService)
         {
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 

@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
              xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels"
-             xmlns:views="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Views"
-             StartupUri="UI/Views/MainWindow.xaml">
+             xmlns:views="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Views">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
