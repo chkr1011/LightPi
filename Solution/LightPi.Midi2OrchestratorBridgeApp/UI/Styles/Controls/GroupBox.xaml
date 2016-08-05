@@ -12,7 +12,7 @@
                                    DockPanel.Dock="Left"
                                    FontSize="18"
                                    Style="{StaticResource HeadlineSmallLabel}" />
-                            <CheckBox DockPanel.Dock="Right" IsChecked="{Binding Path=(controls:GroupBoxExtensions.ShowContent), RelativeSource={RelativeSource Self}}" />
+                            <CheckBox DockPanel.Dock="Right" IsChecked="{Binding Path=(controls:GroupBoxExtensions.ShowContent), RelativeSource={RelativeSource AncestorType=GroupBox}}" />
                             <StackPanel />
                         </DockPanel>
                         <Border x:Name="ContentBorder" Background="{StaticResource BackgroundDarkBrush}">
@@ -23,8 +23,8 @@
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="controls:GroupBoxExtensions.ShowContent" Value="True">
-                            <Setter TargetName="ContentBorder" Property="Visibility" Value="Visible" />
+                        <Trigger Property="controls:GroupBoxExtensions.ShowContent" Value="False">
+                            <Setter TargetName="ContentBorder" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -19,7 +19,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp
                 settingsService.Load();
                 
                 var container = new Container();
-
                 container.Register<ISettingsService>(() => settingsService, Lifestyle.Singleton);
                 container.Register<IOrchestratorService, OrchestratorService>(Lifestyle.Singleton);
                 container.Register<ILogService, LogService>(Lifestyle.Singleton);
