@@ -4,7 +4,7 @@
              xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
              xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels"
              xmlns:views="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Views"
-             StartupUri="UI/Views/MainWindow.xaml">
+             ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

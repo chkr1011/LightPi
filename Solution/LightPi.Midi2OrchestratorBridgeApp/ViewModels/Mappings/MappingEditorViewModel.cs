@@ -9,13 +9,13 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 {
     public class MappingEditorViewModel : BaseViewModel, IDialogViewModel
     {
-        private readonly MidiService _midiService;
-        private readonly LogService _logService;
+        private readonly IMidiService _midiService;
+        private readonly ILogService _logService;
         private string _note;
         private int _octave;
         private MidiChannel _channel;
 
-        public MappingEditorViewModel(MidiService midiService, LogService logService)
+        public MappingEditorViewModel(IMidiService midiService, ILogService logService)
         {
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));

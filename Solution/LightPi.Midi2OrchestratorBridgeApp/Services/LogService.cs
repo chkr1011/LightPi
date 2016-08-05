@@ -3,7 +3,7 @@ using LightPi.Midi2OrchestratorBridgeApp.Models;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
-    public class LogService
+    public class LogService : ILogService
     {
         public event EventHandler<LoggedEventArgs> Logged;
 

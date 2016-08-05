@@ -5,7 +5,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 {
     public class LogViewModel : BaseViewModel
     {
-        public LogViewModel(LogService logService)
+        public LogViewModel(ILogService logService)
         {
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 

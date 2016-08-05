@@ -9,14 +9,12 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly SettingsService _settingsService;
-        private readonly MidiService _midiService;
-        private readonly OrchestratorService _orchestratorService;
-        private readonly LogService _logService;
+        private readonly ISettingsService _settingsService;
+        private readonly IMidiService _midiService;
+        private readonly IOrchestratorService _orchestratorService;
+        private readonly ILogService _logService;
 
-        private bool _showLog;
-
-        public SettingsViewModel(SettingsService settingsService, MidiService midiService, OrchestratorService orchestratorService, LogService logService)
+        public SettingsViewModel(ISettingsService settingsService, IMidiService midiService, IOrchestratorService orchestratorService, ILogService logService)
         {
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
@@ -39,16 +37,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
         public bool UseEmulator { get; set; }
 
         public string OrchestratorAddress { get; set; }
-
-        public bool ShowLog
-        {
-            get { return _showLog; }
-            set
-            {
-                _showLog = value;
-                OnPropertyChanged();
-            }
-        }
 
         public List<MidiPortViewModel> AvailableMidiPorts { get; } = new List<MidiPortViewModel>();
 

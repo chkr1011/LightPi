@@ -10,13 +10,13 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 {
     public class MappingsViewModel : BaseViewModel
     {
-        private readonly SettingsService _settingsService;
-        private readonly MidiService _midiService;
-        private readonly DialogService _dialogService;
-        private readonly OrchestratorService _orchestratorService;
-        private readonly LogService _logService;
+        private readonly ISettingsService _settingsService;
+        private readonly IMidiService _midiService;
+        private readonly IDialogService _dialogService;
+        private readonly IOrchestratorService _orchestratorService;
+        private readonly ILogService _logService;
 
-        public MappingsViewModel(SettingsService settingsService, MidiService midiService, OrchestratorService orchestratorService, DialogService dialogService, LogService logService)
+        public MappingsViewModel(ISettingsService settingsService, IMidiService midiService, IOrchestratorService orchestratorService, IDialogService dialogService, ILogService logService)
         {
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
