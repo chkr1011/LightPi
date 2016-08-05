@@ -41,7 +41,18 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         private void MapMidiEvent(object sender, MidiMessageReceivedEventArgs e)
         {
-            bool state = e.Note.CommandCode == MidiCommandCode.NoteOn;
+            bool state = e.Note.CommandCode == MidiCommandCode.NoteOn && e.Note.Velocity > 0;
+
+            if (e.Note.CommandCode == MidiCommandCode.NoteOn && e.Note.Velocity == 0)
+            {
+                state = false;
+            }
+
+            if (e.Note.CommandCode == MidiCommandCode.NoteOff)
+            {
+                state = false;
+            }
+            
             MidiChannel channel = (MidiChannel)e.Note.Channel - 1;
 
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
