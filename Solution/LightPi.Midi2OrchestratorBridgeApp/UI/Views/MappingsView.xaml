@@ -9,18 +9,16 @@
              d:DataContext="{d:DesignInstance Type=mappings:MappingsViewModel,
                                               IsDesignTimeCreatable=False}"
              d:DesignHeight="300"
-             d:DesignWidth="300"
+             d:DesignWidth="600"
              mc:Ignorable="d">
-    <Border Background="{StaticResource BackgroundLightBrush}"
-            BorderBrush="{StaticResource BackgroundLightBrush}"
-            BorderThickness="1">
+    <Border Background="{StaticResource BackgroundLightBrush}" BorderBrush="{StaticResource BackgroundLightBrush}">
         <DockPanel LastChildFill="True">
             <DockPanel.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="Padding" Value="10" />
                     <Setter Property="Background" Value="{StaticResource TextHighlightBrush}" />
                     <Setter Property="TextElement.Foreground" Value="{StaticResource TextNormalBrush}" />
-                    <Setter Property="TextElement.FontSize" Value="16" />
+                    <Setter Property="TextElement.FontSize" Value="12" />
                 </Style>
             </DockPanel.Resources>
 
@@ -77,6 +75,7 @@
                                       HorizontalAlignment="Center"
                                       DockPanel.Dock="Left">
                                     <Ellipse x:Name="OuterEllipse"
+                                             Margin="2"
                                              DockPanel.Dock="Left"
                                              Fill="{StaticResource BackgroundDarkBrush}"
                                              StrokeThickness="1" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Xml.Linq;
 
 namespace LightPi.OrchestratorEmulator
@@ -34,6 +35,11 @@ namespace LightPi.OrchestratorEmulator
             ThrowIfNotLoaded();
 
             return _xml.Root.Element("Outputs").Elements("Output").ToList();
+        }
+
+        public IPAddress GetOrchestratorAddress()
+        {
+            return IPAddress.Parse(_xml.Root.Element("OrchestratorAddress").Value);
         }
 
         private void ThrowIfNotLoaded()

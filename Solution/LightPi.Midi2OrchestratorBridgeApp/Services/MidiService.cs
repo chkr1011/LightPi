@@ -5,12 +5,12 @@ using NAudio.Midi;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
-    public class MidiService
+    public class MidiService : IMidiService
     {
-        private readonly LogService _logService;
+        private readonly ILogService _logService;
         private MidiIn _attachedMidiPort;
 
-        public MidiService(LogService logService)
+        public MidiService(ILogService logService)
         {
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
@@ -57,7 +57,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
                 return;
             }
 
-            _logService.Verbose($"Received MIDI event: Channel-{noteEvent.Channel} / {noteEvent.NoteName} / {noteEvent.CommandCode}");
+            _logService.Verbose($"Received MIDI event: Ch:{noteEvent.Channel} / N:{noteEvent.NoteName} ({noteEvent.NoteNumber}) / C:{noteEvent.CommandCode} / V:{noteEvent.Velocity}");
 
             MidiMessageReceived?.Invoke(this, new MidiMessageReceivedEventArgs(noteEvent));
         }

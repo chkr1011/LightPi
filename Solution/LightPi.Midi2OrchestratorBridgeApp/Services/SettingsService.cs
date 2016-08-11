@@ -8,7 +8,7 @@ using LightPi.Midi2OrchestratorBridgeApp.Models;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
-    public class SettingsService   
+    public class SettingsService : ISettingsService
     {
         public Settings Settings { get; private set; } = new Settings();
 

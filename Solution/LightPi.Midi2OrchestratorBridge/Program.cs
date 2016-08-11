@@ -100,7 +100,7 @@ namespace LightPi.Midi2OrchestratorBridge
             WriteOutput(ConsoleColor.Gray, $"\tAddress: {ipAddress}");
 
             _orchestratorClient = new OrchestratorClient(ipAddress);
-            _orchestratorClient.SendState();
+            _orchestratorClient.CommitChanges();
         }
 
         private static void LoadMappings()
@@ -155,7 +155,7 @@ namespace LightPi.Midi2OrchestratorBridge
         private static void UpdateOrchestratorState(int bit, bool state)
         {
             _orchestratorClient.SetOutput(bit, state);
-            var sendStateResult = _orchestratorClient.SendState();
+            var sendStateResult = _orchestratorClient.CommitChanges();
 
             var color = state ? ConsoleColor.Green : ConsoleColor.DarkGreen;
             var stateText = state ? "On" : "Off";

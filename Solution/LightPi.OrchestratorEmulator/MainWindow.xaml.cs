@@ -10,6 +10,7 @@ namespace LightPi.OrchestratorEmulator
 {
     public partial class MainWindow
     {
+        private readonly OrchestratorClient _orchestratorClient;
         private int _frameCount;
 
         public MainWindow()
@@ -23,6 +24,8 @@ namespace LightPi.OrchestratorEmulator
 
                 var settings = new SettingsReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LightPi.OrchestratorEmulatorSettings.xml"));
                 settings.Load();
+
+                _orchestratorClient = new OrchestratorClient(settings.GetOrchestratorAddress());
 
                 Surface.RegisterBackgroundSprite(settings.GetBackgroundSpriteFilename());
                 foreach (var output in settings.GetOutputs())
@@ -40,14 +43,30 @@ namespace LightPi.OrchestratorEmulator
                 }
 
                 Surface.Updated += CalculateStatistics;
+                Surface.Updated += ForwardStateToOrchestrator;
                 Surface.Update();
-
+           
                 SetupFramesPerSecondMonitor();
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void ForwardStateToOrchestrator(object sender, EventArgs e)
+        {
+            if (ForwardCheckBox.IsChecked != true)
+            {
+                return;
+            }
+
+            foreach (var output in Surface.Outputs)
+            {
+                _orchestratorClient.SetOutput(output.ID, output.IsActive, OrchestratorClient.SetOutputMode.Set);
+            }
+
+            _orchestratorClient.CommitChanges();
         }
 
         private void SetupFramesPerSecondMonitor()
@@ -78,14 +97,12 @@ namespace LightPi.OrchestratorEmulator
 
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                if (IsEnabledCheckBox.IsChecked != true)
+                if (IsEnabledCheckBox.IsChecked == true)
                 {
-                    return;
-                }
-
-                foreach (var output in Surface.Outputs)
-                {
-                    output.IsActive = states.GetBit(output.ID);
+                    foreach (var output in Surface.Outputs)
+                    {
+                        output.IsActive = states.GetBit(output.ID);
+                    }
                 }
 
                 Surface.Update();

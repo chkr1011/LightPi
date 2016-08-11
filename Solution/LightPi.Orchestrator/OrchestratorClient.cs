@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
@@ -14,6 +15,8 @@ namespace LightPi.Orchestrator
         private readonly UdpClient _udpClient = new UdpClient();
         private readonly IPEndPoint _ipEndPoint;
 
+        private byte[] _previousSentState; 
+
         public OrchestratorClient(IPAddress ipAddress)
         {
             if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
@@ -26,32 +29,67 @@ namespace LightPi.Orchestrator
             InitializeOutputs();
         }
         
-        public void SetOutput(int id, bool state)
+        public void SetOutput(int id, bool state, SetOutputMode mode = SetOutputMode.IncrementDecrement)
         {
             lock (_syncRoot)
             {
-                if (state)
+                if (mode == SetOutputMode.IncrementDecrement)
                 {
-                    _outputs[id].Increment();
+                    if (state)
+                    {
+                        _outputs[id].Increment();
+                    }
+                    else
+                    {
+                        _outputs[id].Decrement();
+                    }
+                }
+                else if (mode == SetOutputMode.Set)
+                {
+                    if (state)
+                    {
+                        _outputs[id].Activate();
+                    }
+                    else
+                    {
+                        _outputs[id].Deactivate();
+                    }
                 }
                 else
                 {
-                    _outputs[id].Decrement();
+                    throw new NotSupportedException();
                 }
             }
         }
 
-        public SendStateResult SendState()
+        public enum SetOutputMode
+        {
+            IncrementDecrement,
+
+            Set
+        }
+
+        public CommitChangesResult CommitChanges()
         {
             lock (_syncRoot)
             {
+                var state = GenerateState();
+                if (_previousSentState != null)
+                {
+                    if (_previousSentState.SequenceEqual(state))
+                    {
+                        return new CommitChangesResult(false, null, TimeSpan.Zero);
+                    }
+                }
+
                 var stopwatch = Stopwatch.StartNew();
 
-                var state = GenerateState();
                 var package = LightPiProtocol.GeneratePackage(state);
                 _udpClient.Send(package, package.Length, _ipEndPoint);
 
-                return new SendStateResult(state, stopwatch.Elapsed);
+                _previousSentState = state;
+
+                return new CommitChangesResult(true, state, stopwatch.Elapsed);
             }
         }
 

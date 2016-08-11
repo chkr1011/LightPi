@@ -8,54 +8,85 @@
              d:DataContext="{d:DesignInstance Type=viewModels:SettingsViewModel,
                                               IsDesignTimeCreatable=False}"
              d:DesignHeight="300"
-             d:DesignWidth="300"
+             d:DesignWidth="500"
              mc:Ignorable="d">
-    <StackPanel>
-        <DockPanel>
-            <Label Content="Output target:"
-                   DockPanel.Dock="Top"
-                   Style="{StaticResource HeadlineSmallLabel}" />
-            <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Orchestrator (Hardware)" IsChecked="{Binding UseOrchestrator}" />
-                <RadioButton Margin="15,0,0,0"
-                             Content="Emulator (127.0.0.1)"
-                             IsChecked="{Binding UseEmulator}" />
-            </StackPanel>
-        </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <Separator />
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Content="Output target:"
+               DockPanel.Dock="Top"
+               Style="{StaticResource HeadlineSmallLabel}" />
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <RadioButton Content="Orchestrator (Hardware)" IsChecked="{Binding UseOrchestrator}" />
+            <RadioButton Margin="15,0,0,0"
+                         Content="Emulator (127.0.0.1)"
+                         IsChecked="{Binding UseEmulator}" />
+        </StackPanel>
 
-        <DockPanel>
-            <Label Content="Orchestrator IP address:"
-                   DockPanel.Dock="Top"
-                   Style="{StaticResource HeadlineSmallLabel}" />
-            <TextBox MinWidth="200"
-                     HorizontalAlignment="Left"
-                     Text="{Binding OrchestratorAddress}" />
-        </DockPanel>
+        <Separator Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
 
-        <Separator />
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Content="Orchestrator IP address:"
+               DockPanel.Dock="Top"
+               Style="{StaticResource HeadlineSmallLabel}" />
+        <TextBox Grid.Row="2"
+                 Grid.Column="1"
+                 MinWidth="200"
+                 HorizontalAlignment="Left"
+                 Text="{Binding OrchestratorAddress}" />
 
-        <DockPanel>
-            <Label Content="MIDI input:"
-                   DockPanel.Dock="Top"
-                   Style="{StaticResource HeadlineSmallLabel}" />
-            <ItemsControl ItemsSource="{Binding AvailableMidiPorts}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DockPanel>
-        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-            <CheckBox Margin="0,0,10,0"
-                      Content="Show Log"
-                      IsChecked="{Binding ShowLog}" />
+        <Separator Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
+
+        <Label Grid.Row="4"
+               Grid.Column="0"
+               Content="MIDI input:"
+               DockPanel.Dock="Top"
+               Style="{StaticResource HeadlineSmallLabel}" />
+        <ItemsControl Grid.Row="4"
+                      Grid.Column="1"
+                      ItemsSource="{Binding AvailableMidiPorts}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <Separator Grid.Row="5"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
+
+        <DockPanel Grid.Row="6"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Stretch"
+                   LastChildFill="False">
             <Button controls:ButtonExtensions.Image="{StaticResource SaveImage}"
                     Command="{Binding}"
-                    CommandParameter="{x:Static viewModels:SettingsCommand.Save}"
-                    Content="Save &amp; initialize" />
-        </StackPanel>
-    </StackPanel>
+                    CommandParameter="{x:Static viewModels:SettingsCommand.Initialize}"
+                    Content="Initialize"
+                    DockPanel.Dock="Right" />
+        </DockPanel>
+    </Grid>
 </UserControl>

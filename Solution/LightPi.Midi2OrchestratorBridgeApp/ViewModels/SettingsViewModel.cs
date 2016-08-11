@@ -9,14 +9,12 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly SettingsService _settingsService;
-        private readonly MidiService _midiService;
-        private readonly OrchestratorService _orchestratorService;
-        private readonly LogService _logService;
+        private readonly ISettingsService _settingsService;
+        private readonly IMidiService _midiService;
+        private readonly IOrchestratorService _orchestratorService;
+        private readonly ILogService _logService;
 
-        private bool _showLog;
-
-        public SettingsViewModel(SettingsService settingsService, MidiService midiService, OrchestratorService orchestratorService, LogService logService)
+        public SettingsViewModel(ISettingsService settingsService, IMidiService midiService, IOrchestratorService orchestratorService, ILogService logService)
         {
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
@@ -28,8 +26,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             _orchestratorService = orchestratorService;
             _logService = logService;
 
-            RegisterCommand(SettingsCommand.Save, SaveSettings);
+            RouteCommand(SettingsCommand.Initialize, Initialize);
+
             LoadSettings();
+            Initialize();
         }
 
         public bool UseOrchestrator { get; set; }
@@ -37,16 +37,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
         public bool UseEmulator { get; set; }
 
         public string OrchestratorAddress { get; set; }
-
-        public bool ShowLog
-        {
-            get { return _showLog; }
-            set
-            {
-                _showLog = value;
-                OnPropertyChanged();
-            }
-        }
 
         public List<MidiPortViewModel> AvailableMidiPorts { get; } = new List<MidiPortViewModel>();
 
@@ -71,7 +61,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
                 AvailableMidiPorts.Add(midiPortViewModel);
             }
 
-            if (!AvailableMidiPorts.Any(p => p.IsSelected))
+            if (!AvailableMidiPorts.Any(p => p.IsSelected) && AvailableMidiPorts.Any())
             {
                 AvailableMidiPorts.First().IsSelected = true;
             }
@@ -79,19 +69,35 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             _logService.Information($"Found {AvailableMidiPorts.Count} MIDI input ports");
         }
 
-        private void SaveSettings()
+        private void Initialize()
         {
-            _settingsService.Settings.Target = UseOrchestrator ? Target.Orchestrator : Target.Emulator;
+            try
+            {
+                _settingsService.Settings.Target = UseOrchestrator ? Target.Orchestrator : Target.Emulator;
 
-            _settingsService.Settings.OrchestratorAddress = IPAddress.Parse(OrchestratorAddress);
-            _settingsService.Settings.MidiIn = AvailableMidiPorts.First(m => m.IsSelected).MidiPort.Name;
+                IPAddress ipAddress;
+                IPAddress.TryParse(OrchestratorAddress, out ipAddress);
 
-            _settingsService.Save();
+                _settingsService.Settings.OrchestratorAddress = ipAddress;
+                _settingsService.Settings.MidiIn = AvailableMidiPorts.First(m => m.IsSelected).MidiPort.Name;
 
-            _logService.Information("Successfully saved settings");
+                _settingsService.Save();
 
-            _midiService.AttachMidiPort(AvailableMidiPorts.First(p => p.IsSelected).MidiPort);
-            _orchestratorService.AttachOrchestrator();
+                _logService.Information("Successfully saved settings");
+
+                _midiService.AttachMidiPort(AvailableMidiPorts.First(p => p.IsSelected).MidiPort);
+
+                if (UseEmulator)
+                {
+                    ipAddress = IPAddress.Loopback;
+                }
+
+                _orchestratorService.AttachOrchestrator(ipAddress);
+            }
+            catch (Exception exception)
+            {
+                _logService.Error("Failed to save settings: " + exception);
+            }
         }
     }
 }

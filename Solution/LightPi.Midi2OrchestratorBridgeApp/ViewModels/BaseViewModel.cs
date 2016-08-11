@@ -28,7 +28,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             }
         }
 
-        protected void RegisterCommand(object parameter, Action action)
+        protected void RouteCommand(object parameter, Action action)
         {
             if (parameter == null) throw new ArgumentNullException(nameof(parameter));
             if (action == null) throw new ArgumentNullException(nameof(action));

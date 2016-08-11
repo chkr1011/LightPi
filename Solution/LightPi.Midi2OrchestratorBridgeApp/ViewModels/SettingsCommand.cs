@@ -2,6 +2,6 @@
 {
     public enum SettingsCommand
     {
-        Save
+        Initialize
     }
 }
