@@ -2,6 +2,6 @@
 {
     public interface IDialogViewModel
     {
-        void Close();
+        void Close(DialogResult dialogResult);
     }
 }

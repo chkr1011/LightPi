@@ -22,7 +22,7 @@
                 </Style>
             </DockPanel.Resources>
 
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <UniformGrid Columns="3" DockPanel.Dock="Bottom">
                 <Button controls:ButtonExtensions.Image="{StaticResource AddImage}"
                         Command="{Binding}"
                         CommandParameter="{x:Static mappings:MappingsCommand.Add}"
@@ -35,10 +35,9 @@
                         Command="{Binding}"
                         CommandParameter="{x:Static mappings:MappingsCommand.Delete}"
                         Content="Delete" />
-            </StackPanel>
+            </UniformGrid>
 
-            <DataGrid MinHeight="200"
-                      VerticalAlignment="Stretch"
+            <DataGrid VerticalAlignment="Stretch"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"

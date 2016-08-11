@@ -28,6 +28,10 @@
                              IsChecked="{Binding IsSelected}" />
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                <views:SettingsView />
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type mappings:MappingEditorViewModel}">
                 <views:MappingEditorView />
             </DataTemplate>

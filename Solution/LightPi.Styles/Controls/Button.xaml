@@ -8,22 +8,24 @@
                     <Border x:Name="Border"
                             MinWidth="80"
                             Background="{StaticResource BackgroundLightBrush}">
-                        <DockPanel Margin="10,5" LastChildFill="True">
-                            <Label x:Name="Label"
+                        <DockPanel Margin="10,5"
                                    HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Content="{TemplateBinding Content}"
-                                   DockPanel.Dock="Right"
-                                   FontSize="12" />
+                                   LastChildFill="False">
                             <Border x:Name="ImageBorder"
                                     Width="16"
                                     Height="16"
                                     Margin="0,0,5,0">
                                 <Path x:Name="Image"
                                       Data="{TemplateBinding controls:ButtonExtensions.Image}"
-                                      Fill="{StaticResource TextNormalBrush}"
+                                      Fill="{TemplateBinding controls:ButtonExtensions.ImageBrush}"
                                       Stretch="Uniform" />
                             </Border>
+                            <Label x:Name="Label"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Content="{TemplateBinding Content}"
+                                   DockPanel.Dock="Left"
+                                   FontSize="12" />
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>

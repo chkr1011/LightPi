@@ -8,7 +8,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
     {
         event EventHandler<MidiMessageReceivedEventArgs> MidiMessageReceived;
 
-        void AttachMidiPort(MidiPort midiPort);
+        void Initialize();
         IList<MidiPort> GetMidiPorts();
     }
 }

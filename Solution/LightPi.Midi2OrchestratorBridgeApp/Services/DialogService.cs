@@ -18,7 +18,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             };
 
             window.ShowDialog();
-            viewModel.Close();
+            viewModel.Close(window.Result);
 
             return window.Result;
         }

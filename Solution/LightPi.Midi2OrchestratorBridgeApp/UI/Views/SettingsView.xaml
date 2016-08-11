@@ -21,8 +21,6 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
@@ -72,21 +70,5 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-
-        <Separator Grid.Row="5"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2" />
-
-        <DockPanel Grid.Row="6"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   HorizontalAlignment="Stretch"
-                   LastChildFill="False">
-            <Button controls:ButtonExtensions.Image="{StaticResource SaveImage}"
-                    Command="{Binding}"
-                    CommandParameter="{x:Static viewModels:SettingsCommand.Initialize}"
-                    Content="Initialize"
-                    DockPanel.Dock="Right" />
-        </DockPanel>
     </Grid>
 </UserControl>

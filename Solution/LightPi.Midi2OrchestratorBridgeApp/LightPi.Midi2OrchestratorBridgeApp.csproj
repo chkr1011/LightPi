@@ -75,8 +75,10 @@
     <Compile Include="Models\Target.cs" />
     <Compile Include="Services\DialogResult.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\FactoryService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IDialogViewModel.cs" />
+    <Compile Include="Services\IFactoryService.cs" />
     <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\IMidiService.cs" />
     <Compile Include="Services\IOrchestratorService.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="ViewModels\MidiPortViewModel.cs" />
     <Compile Include="ViewModels\SettingsCommand.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ToolBarCommand.cs" />
     <Page Include="UI\Views\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

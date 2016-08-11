@@ -1,25 +1,33 @@
 ﻿using System;
 using System.Net;
+using LightPi.Midi2OrchestratorBridgeApp.Models;
 using LightPi.Orchestrator;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
     public class OrchestratorService : IOrchestratorService
     {
+        private readonly ISettingsService _settingsService;
         private readonly ILogService _logService;
 
         private OrchestratorClient _client;
 
-        public OrchestratorService(ILogService logService)
+        public OrchestratorService(ISettingsService settingsService, ILogService logService)
         {
+            if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
+            _settingsService = settingsService;
             _logService = logService;
         }
         
-        public void AttachOrchestrator(IPAddress ipAddress)
+        public void Initialize()
         {
-            if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
+            IPAddress ipAddress = _settingsService.Settings.OrchestratorAddress;
+            if (_settingsService.Settings.Target == Target.Emulator)
+            {
+                ipAddress = IPAddress.Loopback;
+            }
 
             _client = new OrchestratorClient(ipAddress);
         }

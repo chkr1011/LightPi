@@ -98,7 +98,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             Comment = mapping.Comment;
         }
 
-        public void Close()
+        public void Close(DialogResult dialogResult)
         {
             _midiService.MidiMessageReceived -= FillFromPressedNote;
         }

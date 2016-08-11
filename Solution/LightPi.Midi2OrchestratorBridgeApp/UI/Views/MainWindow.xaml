@@ -25,23 +25,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="{StaticResource HoverBrush}">
-            <StackPanel Margin="10,15">
-                <TextBlock HorizontalAlignment="Center"
-                           FontFamily="Consolas"
-                           FontSize="20"
-                           FontWeight="SemiBold"
-                           Foreground="{StaticResource TextNormalBrush}"
-                           Text="MIDI 2 Orchestrator Bridge" />
-                <TextBlock HorizontalAlignment="Center"
-                           Foreground="{StaticResource TextNormalBrush}"
-                           Text="(c) Christian Kratky 2016 (www.ha4iot.de) / using naudio library (naudio.codeplex.com)" />
-            </StackPanel>
-        </Border>
-
-        <GroupBox Grid.Row="1" Header="SETTINGS">
-            <views:SettingsView DataContext="{Binding Settings}" />
-        </GroupBox>
+        <StackPanel Margin="0,0,0,2"
+                    Background="{StaticResource BackgroundLightBrush}"
+                    Orientation="Horizontal">
+            <Button controls:ButtonExtensions.Image="{StaticResource SettingsImage}"
+                    controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static viewModels:ToolBarCommand.Settings}">
+                Settings
+            </Button>
+        </StackPanel>
 
         <GroupBox Grid.Row="2" Header="MAPPINGS / STATUS">
             <views:MappingsView DataContext="{Binding Mappings}" />
