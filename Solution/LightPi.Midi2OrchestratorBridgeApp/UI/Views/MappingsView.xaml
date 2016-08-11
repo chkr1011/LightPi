@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridgeApp.UI.Views.MappingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls"
+             xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,7 +22,7 @@
                 </Style>
             </DockPanel.Resources>
 
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                 <Button controls:ButtonExtensions.Image="{StaticResource AddImage}"
                         Command="{Binding}"
                         CommandParameter="{x:Static mappings:MappingsCommand.Add}"

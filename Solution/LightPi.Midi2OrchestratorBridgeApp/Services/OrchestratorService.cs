@@ -6,17 +6,14 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
     public class OrchestratorService : IOrchestratorService
     {
-        private readonly ISettingsService _settingsService;
         private readonly ILogService _logService;
 
         private OrchestratorClient _client;
 
-        public OrchestratorService(ISettingsService settingsService, ILogService logService)
+        public OrchestratorService(ILogService logService)
         {
-            if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
-            _settingsService = settingsService;
             _logService = logService;
         }
         

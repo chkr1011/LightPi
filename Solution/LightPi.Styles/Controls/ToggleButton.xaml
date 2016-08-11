@@ -10,12 +10,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Border BorderBrush="{StaticResource HoverBrush}" BorderThickness="1">
+                    <Border BorderBrush="{StaticResource HoverBrush}">
                         <DockPanel>
                             <Grid Width="24"
                                   Height="24"
                                   DockPanel.Dock="Left">
+                                <Ellipse Fill="{StaticResource HoverBrush}" />
                                 <Ellipse x:Name="OuterEllipse"
+                                         Margin="1"
                                          DockPanel.Dock="Left"
                                          Fill="{StaticResource BackgroundLightBrush}"
                                          StrokeThickness="1" />
@@ -25,6 +27,7 @@
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
                                          Fill="{StaticResource HoverBrush}" />
+
                             </Grid>
 
                             <ContentPresenter Margin="10,0,0,0"
@@ -46,24 +49,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-
                     <DockPanel>
-
-                        <Border BorderBrush="{StaticResource HoverBrush}"
-                                BorderThickness="1"
-                                DockPanel.Dock="Left">
-                            <Grid Width="24" Height="24">
-                                <Rectangle x:Name="OuterRectangle"
-                                           DockPanel.Dock="Left"
-                                           Fill="{StaticResource BackgroundLightBrush}"
-                                           StrokeThickness="1" />
-                                <Rectangle x:Name="InnerRectangle"
-                                           Width="14"
-                                           Height="14"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Fill="{StaticResource HoverBrush}" />
-                            </Grid>
+                        <Border DockPanel.Dock="Left">
+                            <Border Width="24"
+                                    Height="24"
+                                    BorderBrush="{StaticResource HoverBrush}"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Rectangle x:Name="OuterRectangle"
+                                               DockPanel.Dock="Left"
+                                               Fill="{StaticResource BackgroundLightBrush}"
+                                               StrokeThickness="1" />
+                                    <Rectangle x:Name="InnerRectangle"
+                                               Width="14"
+                                               Height="14"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Fill="{StaticResource HoverBrush}" />
+                                </Grid>
+                            </Border>
                         </Border>
 
                         <ContentPresenter Margin="10,0,0,0"

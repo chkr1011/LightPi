@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls
+namespace LightPi.Styles.Controls
 {
     public static class GroupBoxExtensions
     {

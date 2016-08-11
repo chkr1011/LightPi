@@ -39,7 +39,6 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextNormalBrush}" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="FontWeight" Value="Light" />
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource TextHighlightBrush}" />

@@ -12,7 +12,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            
             try
             {
                 var settingsService = new SettingsService();

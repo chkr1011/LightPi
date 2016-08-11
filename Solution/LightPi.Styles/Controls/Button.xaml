@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls">
+                    xmlns:controls="clr-namespace:LightPi.Styles.Controls">
     <Style TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>
@@ -20,7 +20,7 @@
                                     Height="16"
                                     Margin="0,0,5,0">
                                 <Path x:Name="Image"
-                                      Data="{TemplateBinding local:ButtonExtensions.Image}"
+                                      Data="{TemplateBinding controls:ButtonExtensions.Image}"
                                       Fill="{StaticResource TextNormalBrush}"
                                       Stretch="Uniform" />
                             </Border>
@@ -35,7 +35,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource BackgroundDarkBrush}" />
                         </Trigger>
-                        <Trigger Property="local:ButtonExtensions.Image" Value="{x:Null}">
+                        <Trigger Property="controls:ButtonExtensions.Image" Value="{x:Null}">
                             <Setter TargetName="ImageBorder" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Label" Property="DockPanel.Dock" Value="Bottom" />
                         </Trigger>

@@ -8,17 +8,17 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="UI/Styles/Brushes.xaml" />
-                <ResourceDictionary Source="UI/Styles/Images.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/ToggleButton.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/Label.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/GroupBox.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/Button.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/TextBox.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/ComboBox.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/Separator.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/DataGridStyle.xaml" />
-                <ResourceDictionary Source="UI/Styles/Controls/RichTextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Images.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/GroupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Separator.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/DataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/RichTextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModels:MidiPortViewModel}">

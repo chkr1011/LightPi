@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls
+namespace LightPi.Styles.Controls
 {
     public static class ButtonExtensions
     {

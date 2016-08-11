@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style TargetType="{x:Type RichTextBox}">
-        <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontFamily" Value="Consolas" />
-        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
-    </Style>
-</ResourceDictionary>
