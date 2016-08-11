@@ -2,6 +2,7 @@
 {
     public enum ToolBarCommand
     {
-        Settings
+        Settings,
+        Outputs
     }
 }

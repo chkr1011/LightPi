@@ -9,7 +9,7 @@
         x:Name="Root"
         Title="MIDI 2 Orchestrator Bridge - LightPi"
         Width="800"
-        Height="1024"
+        Height="800"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel,
                                          IsDesignTimeCreatable=False}"
         Background="{StaticResource BackgroundDarkBrush}"
@@ -31,9 +31,13 @@
             <Button controls:ButtonExtensions.Image="{StaticResource SettingsImage}"
                     controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
                     Command="{Binding}"
-                    CommandParameter="{x:Static viewModels:ToolBarCommand.Settings}">
-                Settings
-            </Button>
+                    CommandParameter="{x:Static viewModels:ToolBarCommand.Settings}"
+                    Content="Settings" />
+            <Button controls:ButtonExtensions.Image="{StaticResource OutputsImage}"
+                    controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static viewModels:ToolBarCommand.Outputs}"
+                    Content="Outputs" />
         </StackPanel>
 
         <GroupBox Grid.Row="2" Header="MAPPINGS / STATUS">

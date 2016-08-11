@@ -120,6 +120,11 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         private void EditMapping()
         {
+            if (SelectedMapping == null)
+            {
+                return;
+            }
+
             var mapping = SelectedMapping.Mapping;
 
             _mappingEditorViewModel.Load(mapping);

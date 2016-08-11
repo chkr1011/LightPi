@@ -1,6 +1,7 @@
 ﻿using System;
 using LightPi.Midi2OrchestratorBridgeApp.Services;
 using LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings;
+using LightPi.Midi2OrchestratorBridgeApp.ViewModels.Outputs;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 {
@@ -42,6 +43,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             Log = logViewModel;
 
             RouteCommand(ToolBarCommand.Settings, ChangeSettings);
+            RouteCommand(ToolBarCommand.Outputs, ChangeOutputs);
         }
 
         public MappingsViewModel Mappings { get; }
@@ -51,12 +53,22 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
         private void ChangeSettings()
         {
             var settingsViewModel =_factoryService.GetInstance<SettingsViewModel>();
+            settingsViewModel.LoadSettings();
+
             var dialogResult = _dialogService.ShowDialog("Settings", settingsViewModel);
 
             if (dialogResult == DialogResult.OK)
             {
                 Initialize();
             }
+        }
+
+        private void ChangeOutputs()
+        {
+            var outputsViewModel = _factoryService.GetInstance<OutputListViewModel>();
+            outputsViewModel.LoadOutputs();
+
+            var dialogResult = _dialogService.ShowDialog("Outputs", outputsViewModel);
         }
 
         private void Initialize()

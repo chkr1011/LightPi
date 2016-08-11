@@ -25,8 +25,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             _midiService = midiService;
             _orchestratorService = orchestratorService;
             _logService = logService;
-            
-            LoadSettings();
         }
 
         public bool UseOrchestrator { get; set; }
@@ -37,7 +35,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 
         public List<MidiPortViewModel> AvailableMidiPorts { get; } = new List<MidiPortViewModel>();
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
             if (_settingsService.Settings.Target == Target.Orchestrator)
             {
