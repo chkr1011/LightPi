@@ -17,8 +17,6 @@
                 <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/DataGridStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/RichTextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

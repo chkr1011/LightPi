@@ -38,11 +38,11 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
         {
             var serializer = new DataContractSerializer(typeof(Settings));
             using (var fileStream = File.Create(GenerateFilename()))
-            using (var xmlWriter = new XmlTextWriter(fileStream, Encoding.UTF8))
+            using (var writer = new XmlTextWriter(fileStream, Encoding.UTF8))
             {
-                xmlWriter.Formatting = Formatting.Indented;
+                writer.Formatting = Formatting.Indented;
                 
-                serializer.WriteObject(xmlWriter, Settings);
+                serializer.WriteObject(writer, Settings);
             }
         }
 

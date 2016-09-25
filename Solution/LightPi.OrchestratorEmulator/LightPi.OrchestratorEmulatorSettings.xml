@@ -1,55 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<OrchestratorEmulatorSettings>
-  <Background Sprite=".\Sprites\Background.jpg"></Background>
-  <OrchestratorAddress>192.168.1.113</OrchestratorAddress>
-  <Outputs>
-    <Output ID="0" Watts="20" Sprite=".\Sprites\0.png" />
-    <Output ID="1" Watts="20" Sprite=".\Sprites\1.png" />
-    <Output ID="2" Watts="20" Sprite=".\Sprites\2.png" />
-    <Output ID="3" Watts="20" Sprite=".\Sprites\3.png" />
-    <Output ID="4" Watts="20" Sprite=".\Sprites\4.png" />
-    <Output ID="5" Watts="20" Sprite=".\Sprites\5.png" />
-    <Output ID="6" Watts="20" Sprite=".\Sprites\6.png" />
-    <Output ID="7" Watts="20" Sprite=".\Sprites\7.png" />
-    <Output ID="8" Watts="20" Sprite=".\Sprites\8.png" />
-    <Output ID="9" Watts="20" Sprite=".\Sprites\9.png" />
-    <Output ID="10" Watts="20" Sprite=".\Sprites\10.png" />
-    <Output ID="11" Watts="20" Sprite=".\Sprites\11.png" />
-    <Output ID="12" Watts="20" Sprite=".\Sprites\12.png" />
-    <Output ID="13" Watts="20" Sprite=".\Sprites\13.png" />
-    <Output ID="14" Watts="20" Sprite=".\Sprites\14.png" />
-    <Output ID="15" Watts="20" Sprite=".\Sprites\15.png" />
-    <Output ID="16" Watts="20" Sprite=".\Sprites\16.png" />
-    <Output ID="17" Watts="20" Sprite=".\Sprites\17.png" />
-    <Output ID="18" Watts="20" Sprite=".\Sprites\18.png" />
-    <Output ID="19" Watts="20" Sprite=".\Sprites\19.png" />
-    <Output ID="20" Watts="20" Sprite=".\Sprites\20.png" />
-    <Output ID="21" Watts="20" Sprite=".\Sprites\21.png" />
-    <Output ID="22" Watts="20" Sprite=".\Sprites\22.png" />
-    <Output ID="23" Watts="20" Sprite=".\Sprites\23.png" />
-    <Output ID="24" Watts="20" Sprite=".\Sprites\24.png" />
-    <Output ID="25" Watts="20" Sprite=".\Sprites\25.png" />
-    <Output ID="26" Watts="20" Sprite=".\Sprites\26.png" />
-    <Output ID="27" Watts="20" Sprite=".\Sprites\27.png" />
-    <Output ID="28" Watts="20" Sprite=".\Sprites\28.png" />
-    <Output ID="29" Watts="20" Sprite=".\Sprites\29.png" />
-    <Output ID="30" Watts="20" Sprite=".\Sprites\30.png" />
-    <Output ID="31" Watts="20" Sprite=".\Sprites\31.png" />
-    <Output ID="32" Watts="20" Sprite=".\Sprites\32.png" />
-    <Output ID="33" Watts="20" Sprite=".\Sprites\33.png" />
-    <Output ID="34" Watts="20" Sprite=".\Sprites\34.png" />
-    <Output ID="35" Watts="20" Sprite=".\Sprites\35.png" />
-    <Output ID="36" Watts="20" Sprite=".\Sprites\36.png" />
-    <Output ID="37" Watts="20" Sprite=".\Sprites\37.png" />
-    <Output ID="38" Watts="20" Sprite=".\Sprites\38.png" />
-    <Output ID="39" Watts="20" Sprite=".\Sprites\39.png" />
-    <Output ID="40" Watts="20" Sprite=".\Sprites\40.png" />
-    <Output ID="41" Watts="20" Sprite=".\Sprites\41.png" />
-    <Output ID="42" Watts="20" Sprite=".\Sprites\42.png" />
-    <Output ID="43" Watts="20" Sprite=".\Sprites\43.png" />
-    <Output ID="44" Watts="20" Sprite=".\Sprites\44.png" />
-    <Output ID="45" Watts="20" Sprite=".\Sprites\45.png" />
-    <Output ID="46" Watts="20" Sprite=".\Sprites\46.png" />
-    <Output ID="47" Watts="20" Sprite=".\Sprites\47.png" />
-  </Outputs>
-</OrchestratorEmulatorSettings>
+﻿<Settings xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/LightPi.OrchestratorEmulator.Settings">
+  <OrchestratorAddress>LightPi</OrchestratorAddress>
+  <OutputDefinitions>
+    <OutputDefinition>
+      <Id>1</Id>
+      <Watts>1</Watts>
+    </OutputDefinition>
+  </OutputDefinitions>
+</Settings>

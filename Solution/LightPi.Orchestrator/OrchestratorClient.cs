@@ -10,27 +10,33 @@ namespace LightPi.Orchestrator
     public class OrchestratorClient
     {
         private readonly object _syncRoot = new object();
-        private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[LightPiProtocol.StateLength*8];
+        private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[LightPiProtocol.OutputsCount];
 
-        private readonly UdpClient _udpClient = new UdpClient();
-        private readonly IPEndPoint _ipEndPoint;
+        private UdpClient _udpClient;
 
-        private byte[] _previousSentState; 
+        private byte[] _previousSentState;
+
+        public OrchestratorClient(string address)
+        {
+            if (address == null) throw new ArgumentNullException(nameof(address));
+
+            Initialize(new UdpClient(address, LightPiProtocol.Port));
+        }
 
         public OrchestratorClient(IPAddress ipAddress)
         {
             if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
 
-            _ipEndPoint = new IPEndPoint(ipAddress, LightPiProtocol.Port);
-
-            _udpClient.DontFragment = true;
-            _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
-
-            InitializeOutputs();
+            Initialize(new UdpClient(new IPEndPoint(ipAddress, LightPiProtocol.Port)));
         }
-        
+
         public void SetOutput(int id, bool state, SetOutputMode mode = SetOutputMode.IncrementDecrement)
         {
+            if (id < 0 || id >= LightPiProtocol.OutputsCount)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
             lock (_syncRoot)
             {
                 if (mode == SetOutputMode.IncrementDecrement)
@@ -62,13 +68,6 @@ namespace LightPi.Orchestrator
             }
         }
 
-        public enum SetOutputMode
-        {
-            IncrementDecrement,
-
-            Set
-        }
-
         public CommitChangesResult CommitChanges()
         {
             lock (_syncRoot)
@@ -85,7 +84,7 @@ namespace LightPi.Orchestrator
                 var stopwatch = Stopwatch.StartNew();
 
                 var package = LightPiProtocol.GeneratePackage(state);
-                _udpClient.Send(package, package.Length, _ipEndPoint);
+                _udpClient.Send(package, package.Length);
 
                 _previousSentState = state;
 
@@ -93,9 +92,19 @@ namespace LightPi.Orchestrator
             }
         }
 
+        private void Initialize(UdpClient udpClient)
+        {
+            if (udpClient == null) throw new ArgumentNullException(nameof(udpClient));
+
+            _udpClient = udpClient;
+            _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
+
+            InitializeOutputs();
+        }
+
         private void InitializeOutputs()
         {
-            for (int i = 0; i < _outputs.Length; i++)
+            for (var i = 0; i < _outputs.Length; i++)
             {
                 _outputs[i] = new OrchestratorOutput();
             }
@@ -104,7 +113,7 @@ namespace LightPi.Orchestrator
         private byte[] GenerateState()
         {
             ulong buffer = 0;
-            for (int i = 0; i < _outputs.Length; i++)
+            for (var i = 0; i < _outputs.Length; i++)
             {
                 if (_outputs[i].IsActive())
                 {

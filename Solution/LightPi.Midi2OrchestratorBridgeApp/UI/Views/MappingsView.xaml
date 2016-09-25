@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridgeApp.UI.Views.MappingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls;assembly=LightPi.Styles"
              MinHeight="200"
              d:DataContext="{d:DesignInstance Type=mappings:MappingsViewModel,
                                               IsDesignTimeCreatable=False}"

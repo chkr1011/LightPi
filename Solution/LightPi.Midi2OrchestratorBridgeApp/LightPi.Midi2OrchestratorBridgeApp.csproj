@@ -87,8 +87,6 @@
     <Compile Include="Services\OrchestratorService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="UI\Converter\ChannelToTextConverter.cs" />
-    <Compile Include="UI\Styles\Controls\ButtonExtensions.cs" />
-    <Compile Include="UI\Styles\Controls\GroupBoxExtensions.cs" />
     <Compile Include="UI\Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -114,50 +112,6 @@
     <Compile Include="ViewModels\MidiPortViewModel.cs" />
     <Compile Include="ViewModels\SettingsCommand.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Page Include="UI\Styles\Brushes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\ToggleButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\DataGridStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\GroupBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\Label.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\RichTextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\Separator.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Controls\TextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Images.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Views\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -216,6 +170,10 @@
     <ProjectReference Include="..\LightPi.Orchestrator\LightPi.Orchestrator.csproj">
       <Project>{3BAECD45-3461-467E-8308-C8368FCE5366}</Project>
       <Name>LightPi.Orchestrator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightPi.Styles\LightPi.Styles.csproj">
+      <Project>{649bfe9e-de0a-4b08-b19f-fcb00f73b7d8}</Project>
+      <Name>LightPi.Styles</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

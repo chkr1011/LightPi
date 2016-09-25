@@ -9,6 +9,8 @@ namespace LightPi.Protocol
 
         public static readonly int StateLength = 8;
 
+        public static readonly int OutputsCount = 51;
+
         public static readonly byte[] PackagePrefix = Encoding.ASCII.GetBytes("LIGHT_PI");
         public static readonly int PackagePrefixLength = PackagePrefix.Length;
         public static readonly int PackageLength = PackagePrefixLength + StateLength;

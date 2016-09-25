@@ -108,7 +108,7 @@
                                                    FontFamily="Consolas"
                                                    FontSize="14"
                                                    Foreground="{StaticResource TextNormalBrush}"
-                                                   Text="{Binding ID,
+                                                   Text="{Binding Id,
                                                                   FallbackValue=99}" />
                                         <Border.Style>
                                             <Style TargetType="{x:Type Border}">
