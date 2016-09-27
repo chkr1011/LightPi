@@ -40,7 +40,7 @@ namespace LightPi.OrchestratorFirmware
             _callback(package);
         }
 
-        private byte[] ReadPackageFromMessage(DatagramSocketMessageReceivedEventArgs message)
+        private static byte[] ReadPackageFromMessage(DatagramSocketMessageReceivedEventArgs message)
         {
             using (var reader = message.GetDataReader())
             {
