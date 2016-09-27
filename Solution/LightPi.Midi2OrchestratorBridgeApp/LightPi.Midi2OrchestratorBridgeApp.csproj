@@ -67,16 +67,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IOutput.cs" />
+    <Compile Include="Models\OutputGroup.cs" />
     <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\LogEntrySeverity.cs" />
     <Compile Include="Models\Mapping.cs" />
     <Compile Include="Models\MidiChannel.cs" />
+    <Compile Include="Models\Output.cs" />
+    <Compile Include="Models\OutputState.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Target.cs" />
     <Compile Include="Services\DialogResult.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\FactoryService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IDialogViewModel.cs" />
+    <Compile Include="Services\IFactoryService.cs" />
     <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\IMidiService.cs" />
     <Compile Include="Services\IOrchestratorService.cs" />
@@ -99,6 +105,9 @@
     <Compile Include="UI\Views\MappingsView.xaml.cs">
       <DependentUpon>MappingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Views\OutputListView.xaml.cs">
+      <DependentUpon>OutputListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -110,8 +119,11 @@
     <Compile Include="ViewModels\Mappings\MappingsViewModel.cs" />
     <Compile Include="ViewModels\Mappings\MappingViewModel.cs" />
     <Compile Include="ViewModels\MidiPortViewModel.cs" />
+    <Compile Include="ViewModels\Outputs\OutputListItemTemplateSelector.cs" />
+    <Compile Include="ViewModels\Outputs\OutputListViewModel.cs" />
     <Compile Include="ViewModels\SettingsCommand.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ToolBarCommand.cs" />
     <Page Include="UI\Views\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Views\MappingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Views\OutputListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

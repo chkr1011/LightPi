@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Brush x:Key="BackgroundLightBrush">#252526</Brush>
+    <Brush x:Key="BackgroundLightBrush">#323233</Brush>
     <Brush x:Key="BackgroundDarkBrush">#1E1E1E</Brush>
     <Brush x:Key="BorderBrush">#434346</Brush>
     <Brush x:Key="TextHighlightBrush">#569CD6</Brush>
     <Brush x:Key="TextNormalBrush">WhiteSmoke</Brush>
-    <Brush x:Key="HoverBrush">#D7AC6A</Brush>
+    <Brush x:Key="HoverBrush">#4C89BC</Brush>
     <Brush x:Key="SelectionBrush">#3399FF</Brush>
 </ResourceDictionary>

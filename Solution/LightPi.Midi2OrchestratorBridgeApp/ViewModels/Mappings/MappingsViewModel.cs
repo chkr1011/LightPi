@@ -10,13 +10,21 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 {
     public class MappingsViewModel : BaseViewModel
     {
+        private readonly MappingEditorViewModel _mappingEditorViewModel;
+
         private readonly ISettingsService _settingsService;
         private readonly IMidiService _midiService;
         private readonly IDialogService _dialogService;
         private readonly IOrchestratorService _orchestratorService;
         private readonly ILogService _logService;
 
-        public MappingsViewModel(ISettingsService settingsService, IMidiService midiService, IOrchestratorService orchestratorService, IDialogService dialogService, ILogService logService)
+        public MappingsViewModel(
+            MappingEditorViewModel mappingEditorViewModel,
+            ISettingsService settingsService,
+            IMidiService midiService, 
+            IOrchestratorService orchestratorService,
+            IDialogService dialogService,
+            ILogService logService)
         {
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
@@ -24,6 +32,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             if (orchestratorService == null) throw new ArgumentNullException(nameof(orchestratorService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
+            _mappingEditorViewModel = mappingEditorViewModel;
             _settingsService = settingsService;
             _midiService = midiService;
             _dialogService = dialogService;
@@ -86,8 +95,9 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         private void AddMapping()
         {
-            var editor = new MappingEditorViewModel(_midiService, _logService);
-            var result = _dialogService.ShowDialog("Add new mapping", editor);
+            _mappingEditorViewModel.Reset();
+
+            var result = _dialogService.ShowDialog("Add new mapping", _mappingEditorViewModel);
             if (result != DialogResult.OK)
             {
                 return;
@@ -95,10 +105,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
             var mapping = new Mapping
             {
-                Channel = editor.Channel,
-                Note = editor.CompleteNote,
-                Output = editor.Output,
-                Comment = editor.Comment
+                Channel = _mappingEditorViewModel.Channel,
+                Note = _mappingEditorViewModel.CompleteNote,
+                Output = _mappingEditorViewModel.Output,
+                Comment = _mappingEditorViewModel.Comment
             };
 
             _settingsService.Settings.Mappings.Add(mapping);
@@ -110,21 +120,25 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         private void EditMapping()
         {
+            if (SelectedMapping == null)
+            {
+                return;
+            }
+
             var mapping = SelectedMapping.Mapping;
 
-            var editor = new MappingEditorViewModel(_midiService, _logService);
-            editor.Load(mapping);
+            _mappingEditorViewModel.Load(mapping);
 
-            var result = _dialogService.ShowDialog("Edit existing mapping", editor);
+            var result = _dialogService.ShowDialog("Edit existing mapping", _mappingEditorViewModel);
             if (result != DialogResult.OK)
             {
                 return;
             }
 
-            mapping.Channel = editor.Channel;
-            mapping.Note = editor.CompleteNote;
-            mapping.Output = editor.Output;
-            mapping.Comment = editor.Comment;
+            mapping.Channel = _mappingEditorViewModel.Channel;
+            mapping.Note = _mappingEditorViewModel.CompleteNote;
+            mapping.Output = _mappingEditorViewModel.Output;
+            mapping.Comment = _mappingEditorViewModel.Comment;
             
             _settingsService.Save();
             _logService.Information("Successfully updated existing mapping");

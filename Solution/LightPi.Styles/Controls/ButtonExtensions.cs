@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls
+namespace LightPi.Styles.Controls
 {
     public static class ButtonExtensions
     {
@@ -15,7 +15,20 @@ namespace LightPi.Midi2OrchestratorBridgeApp.UI.Styles.Controls
 
         public static Geometry GetImage(DependencyObject element)
         {
-            return (Geometry) element.GetValue(ImageProperty);
+            return (Geometry)element.GetValue(ImageProperty);
+        }
+
+        public static readonly DependencyProperty ImageBrushProperty = DependencyProperty.RegisterAttached(
+            "ImageBrush", typeof(Brush), typeof(ButtonExtensions), new PropertyMetadata((Brush)Application.Current.FindResource("TextNormalBrush")));
+
+        public static void SetImageBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(ImageBrushProperty, value);
+        }
+
+        public static Brush GetImageBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(ImageBrushProperty);
         }
     }
 }

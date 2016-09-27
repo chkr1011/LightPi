@@ -18,5 +18,8 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Models
 
         [DataMember]
         public List<Mapping> Mappings { get; set; } = new List<Mapping>();
+
+        [DataMember]
+        public List<IOutput> Outputs { get; set; } = new List<IOutput>();
     }
 }

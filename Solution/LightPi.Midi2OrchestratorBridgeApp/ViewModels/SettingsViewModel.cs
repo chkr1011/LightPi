@@ -7,7 +7,7 @@ using LightPi.Midi2OrchestratorBridgeApp.Services;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 {
-    public class SettingsViewModel : BaseViewModel
+    public class SettingsViewModel : BaseViewModel, IDialogViewModel
     {
         private readonly ISettingsService _settingsService;
         private readonly IMidiService _midiService;
@@ -25,11 +25,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             _midiService = midiService;
             _orchestratorService = orchestratorService;
             _logService = logService;
-
-            RouteCommand(SettingsCommand.Initialize, Initialize);
-
-            LoadSettings();
-            Initialize();
         }
 
         public bool UseOrchestrator { get; set; }
@@ -40,7 +35,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 
         public List<MidiPortViewModel> AvailableMidiPorts { get; } = new List<MidiPortViewModel>();
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
             if (_settingsService.Settings.Target == Target.Orchestrator)
             {
@@ -68,31 +63,27 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 
             _logService.Information($"Found {AvailableMidiPorts.Count} MIDI input ports");
         }
-
-        private void Initialize()
+        
+        public void Close(DialogResult dialogResult)
         {
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
             try
             {
                 _settingsService.Settings.Target = UseOrchestrator ? Target.Orchestrator : Target.Emulator;
 
                 IPAddress ipAddress;
                 IPAddress.TryParse(OrchestratorAddress, out ipAddress);
-
                 _settingsService.Settings.OrchestratorAddress = ipAddress;
+
                 _settingsService.Settings.MidiIn = AvailableMidiPorts.First(m => m.IsSelected).MidiPort.Name;
 
                 _settingsService.Save();
 
                 _logService.Information("Successfully saved settings");
-
-                _midiService.AttachMidiPort(AvailableMidiPorts.First(p => p.IsSelected).MidiPort);
-
-                if (UseEmulator)
-                {
-                    ipAddress = IPAddress.Loopback;
-                }
-
-                _orchestratorService.AttachOrchestrator(ipAddress);
             }
             catch (Exception exception)
             {

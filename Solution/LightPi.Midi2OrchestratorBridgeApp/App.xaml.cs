@@ -12,7 +12,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            
             try
             {
                 var settingsService = new SettingsService();
@@ -24,6 +24,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp
                 container.Register<ILogService, LogService>(Lifestyle.Singleton);
                 container.Register<IMidiService, MidiService>(Lifestyle.Singleton);
                 container.Register<IDialogService, DialogService>(Lifestyle.Singleton);
+                container.Register<IFactoryService, FactoryService>(Lifestyle.Singleton);
                 container.Verify();
                 
                 var mainWindowViewModel = container.GetInstance<MainWindowViewModel>();

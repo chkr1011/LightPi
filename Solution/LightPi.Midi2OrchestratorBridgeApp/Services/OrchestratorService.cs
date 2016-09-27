@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using LightPi.Midi2OrchestratorBridgeApp.Models;
 using LightPi.Orchestrator;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Services
@@ -20,9 +21,13 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             _logService = logService;
         }
         
-        public void AttachOrchestrator(IPAddress ipAddress)
+        public void Initialize()
         {
-            if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
+            IPAddress ipAddress = _settingsService.Settings.OrchestratorAddress;
+            if (_settingsService.Settings.Target == Target.Emulator)
+            {
+                ipAddress = IPAddress.Loopback;
+            }
 
             _client = new OrchestratorClient(ipAddress);
         }

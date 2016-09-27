@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LightPi.Midi2OrchestratorBridgeApp.Models;
 using NAudio.Midi;
 
@@ -7,13 +8,16 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
 {
     public class MidiService : IMidiService
     {
+        private readonly ISettingsService _settingsService;
         private readonly ILogService _logService;
         private MidiIn _attachedMidiPort;
 
-        public MidiService(ILogService logService)
+        public MidiService(ISettingsService settingsService, ILogService logService)
         {
+            if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
+            _settingsService = settingsService;
             _logService = logService;
         }
 
@@ -40,12 +44,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             return midiPorts;
         }
 
-        public void AttachMidiPort(MidiPort midiPort)
+        public void Initialize()
         {
-            if (midiPort == null) throw new ArgumentNullException(nameof(midiPort));
-
             CleanupMidiPort();
-            AttachMidiPort(midiPort.Id);
+            AttachMidiPort();
         }
 
         private void ProcessMidiMessage(object sender, MidiInMessageEventArgs e)
@@ -67,9 +69,17 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             _logService.Error($"MIDI error: {e.MidiEvent.GetAsShortMessage()}");
         }
 
-        private void AttachMidiPort(int id)
+        private void AttachMidiPort()
         {
-            _attachedMidiPort = new MidiIn(id);
+            var midiPorts = GetMidiPorts();
+            var selectedMidiPort = midiPorts.FirstOrDefault(p => p.Name.Equals(_settingsService.Settings.MidiIn));
+            if (selectedMidiPort == null)
+            {
+                _logService.Warning("MIDI port not found.");
+                return;
+            }
+
+            _attachedMidiPort = new MidiIn(selectedMidiPort.Id);
             _attachedMidiPort.MessageReceived += ProcessMidiMessage;
             _attachedMidiPort.ErrorReceived += LogMidiError;
             _attachedMidiPort.Start();
