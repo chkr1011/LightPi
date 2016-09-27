@@ -74,7 +74,7 @@ namespace LightPi.OrchestratorEmulator
             }
         }
 
-        private BitmapImage TryLoadImageFromFile(string filename)
+        private static BitmapImage TryLoadImageFromFile(string filename)
         {
             if (!File.Exists(filename))
             {
