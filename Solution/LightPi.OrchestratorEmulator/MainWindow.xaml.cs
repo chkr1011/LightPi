@@ -4,12 +4,14 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using LightPi.Orchestrator;
+using LightPi.OrchestratorEmulator.Settings;
 using LightPi.Protocol;
 
 namespace LightPi.OrchestratorEmulator
 {
     public partial class MainWindow
     {
+        private readonly OrchestratorClient _orchestratorClient;
         private int _frameCount;
 
         public MainWindow()
@@ -18,30 +20,28 @@ namespace LightPi.OrchestratorEmulator
 
             try
             {
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
                 var udpEndpoint = new OrchestratorServer(UpdateStates);
                 udpEndpoint.Start();
 
-                var settings = new SettingsReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LightPi.OrchestratorEmulatorSettings.xml"));
-                settings.Load();
+                var settingsService = new SettingsService(Path.Combine(baseDirectory, "LightPi.OrchestratorEmulatorSettings.xml"));
+                settingsService.Load();
 
-                Surface.RegisterBackgroundSprite(settings.GetBackgroundSpriteFilename());
-                foreach (var output in settings.GetOutputs())
+                _orchestratorClient = new OrchestratorClient(settingsService.Settings.OrchestratorAddress);
+
+                Surface.RegisterBackgroundSprite(Path.Combine(baseDirectory, @"Sprites\Background.png"));
+
+                for (var i = 0; i < LightPiProtocol.OutputsCount; i++)
                 {
-                    int id = int.Parse(output.Attribute("ID").Value);
-                    string spriteFilename = output.Attribute("Sprite").Value;
-                    double watts = double.Parse(output.Attribute("Watts").Value);
-
-                    if (!File.Exists(spriteFilename))
-                    {
-                        continue;
-                    }
-
-                    Surface.RegisterOutput(id, watts, spriteFilename);
+                    var outputDefinition = settingsService.Settings.OutputDefinitions.FirstOrDefault(o => o.Id.Equals(i));
+                    Surface.RegisterOutput(i, outputDefinition?.Watts ?? 0, Path.Combine(baseDirectory, $@"Sprites\{i}.png"));
                 }
-
+                
                 Surface.Updated += CalculateStatistics;
+                Surface.Updated += ForwardStateToOrchestrator;
                 Surface.Update();
-
+           
                 SetupFramesPerSecondMonitor();
             }
             catch (Exception exception)
@@ -50,12 +50,27 @@ namespace LightPi.OrchestratorEmulator
             }
         }
 
+        private void ForwardStateToOrchestrator(object sender, EventArgs e)
+        {
+            if (ForwardCheckBox.IsChecked != true)
+            {
+                return;
+            }
+
+            foreach (var output in Surface.Outputs)
+            {
+                _orchestratorClient.SetOutput(output.Id, output.IsActive, SetOutputMode.Set);
+            }
+
+            _orchestratorClient.CommitChanges();
+        }
+
         private void SetupFramesPerSecondMonitor()
         {
             var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             timer.Tick += (_, __) =>
             {
-                int actualFrameCount = _frameCount;
+                var actualFrameCount = _frameCount;
                 _frameCount = 0;
 
                 FramesPerSecondTextBlock.Text = actualFrameCount.ToString("00") + " FPS";
@@ -66,9 +81,7 @@ namespace LightPi.OrchestratorEmulator
 
         private void CalculateStatistics(object sender, EventArgs e)
         {
-            double watts = Surface.Outputs.Where(o => o.IsActive).Sum(o => o.Watts);
-
-            // TODO: Dispatcher Timer für Summe
+            var watts = Surface.Outputs.Where(o => o.IsActive).Sum(o => o.Watts);
             ActualWattsTextBlock.Text = watts.ToString("0000") + " W";
         }
 
@@ -78,14 +91,12 @@ namespace LightPi.OrchestratorEmulator
 
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                if (IsEnabledCheckBox.IsChecked != true)
+                if (IsEnabledCheckBox.IsChecked == true)
                 {
-                    return;
-                }
-
-                foreach (var output in Surface.Outputs)
-                {
-                    output.IsActive = states.GetBit(output.ID);
+                    foreach (var output in Surface.Outputs)
+                    {
+                        output.IsActive = states.GetBit(output.Id);
+                    }
                 }
 
                 Surface.Update();

@@ -13,10 +13,9 @@ namespace LightPi.OrchestratorEmulator
 
         public Output(int id, double watts, BitmapImage sprite, SpriteSurface surface)
         {
-            if (sprite == null) throw new ArgumentNullException(nameof(sprite));
             if (surface == null) throw new ArgumentNullException(nameof(surface));
 
-            ID = id;
+            Id = id;
             Watts = watts;
             Sprite = sprite;
 
@@ -26,7 +25,7 @@ namespace LightPi.OrchestratorEmulator
         public event EventHandler CanExecuteChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int ID { get; }
+        public int Id { get; }
 
         public double Watts { get; }
 

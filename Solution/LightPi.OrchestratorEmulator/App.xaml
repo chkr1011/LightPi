@@ -3,6 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Brush x:Key="FontColor">WhiteSmoke</Brush>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Images.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/GroupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Separator.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/DataGridStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/RichTextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

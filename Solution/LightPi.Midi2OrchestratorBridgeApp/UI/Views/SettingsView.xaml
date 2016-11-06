@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridgeApp.UI.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:SettingsViewModel,
+                                              IsDesignTimeCreatable=False}"
+             d:DesignHeight="300"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
+    <Grid Margin="0,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Content="Output target:"
+               DockPanel.Dock="Top"
+               Style="{StaticResource HeadlineSmallLabel}" />
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <RadioButton Content="Orchestrator (Hardware)" IsChecked="{Binding UseOrchestrator}" />
+            <RadioButton Margin="0,15,0,0"
+                         Content="Emulator (127.0.0.1)"
+                         IsChecked="{Binding UseEmulator}" />
+        </StackPanel>
+
+        <Separator Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
+
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Content="Orchestrator IP address:"
+               DockPanel.Dock="Top"
+               Style="{StaticResource HeadlineSmallLabel}" />
+        <TextBox Grid.Row="2"
+                 Grid.Column="1"
+                 MinWidth="200"
+                 HorizontalAlignment="Left"
+                 Text="{Binding OrchestratorAddress}" />
+
+        <Separator Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
+
+        <Label Grid.Row="4"
+               Grid.Column="0"
+               Content="MIDI input:"
+               DockPanel.Dock="Top"
+               Style="{StaticResource HeadlineSmallLabel}" />
+        <ItemsControl Grid.Row="4"
+                      Grid.Column="1"
+                      ItemsSource="{Binding AvailableMidiPorts}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,46 @@
+﻿<Application x:Class="LightPi.Midi2OrchestratorBridgeApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
+             xmlns:outputs="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Outputs"
+             xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels"
+             xmlns:views="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Views"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Images.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/GroupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Separator.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/DataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/RichTextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/TabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModels:MidiPortViewModel}">
+                <RadioButton Margin="0,0,15,0"
+                             Content="{Binding MidiPort.Name}"
+                             GroupName="MidiSelector"
+                             IsChecked="{Binding IsSelected}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                <views:SettingsView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type outputs:OutputListViewModel}">
+                <views:OutputListView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type mappings:MappingEditorViewModel}">
+                <views:MappingEditorView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

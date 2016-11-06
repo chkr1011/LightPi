@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridgeApp.UI.Views.MappingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             MinHeight="200"
+             d:DataContext="{d:DesignInstance Type=mappings:MappingsViewModel,
+                                              IsDesignTimeCreatable=False}"
+             d:DesignHeight="300"
+             d:DesignWidth="600"
+             mc:Ignorable="d">
+    <Border Background="{StaticResource BackgroundLightBrush}" BorderBrush="{StaticResource BackgroundLightBrush}">
+        <DockPanel LastChildFill="True">
+            <DockPanel.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Padding" Value="10" />
+                    <Setter Property="Background" Value="{StaticResource TextHighlightBrush}" />
+                    <Setter Property="TextElement.Foreground" Value="{StaticResource TextNormalBrush}" />
+                    <Setter Property="TextElement.FontSize" Value="12" />
+                </Style>
+            </DockPanel.Resources>
+
+            <UniformGrid Columns="3" DockPanel.Dock="Bottom">
+                <Button controls:ButtonExtensions.Image="{StaticResource AddImage}"
+                        Command="{Binding}"
+                        CommandParameter="{x:Static mappings:MappingsCommand.Add}"
+                        Content="Add" />
+                <Button controls:ButtonExtensions.Image="{StaticResource EditImage}"
+                        Command="{Binding}"
+                        CommandParameter="{x:Static mappings:MappingsCommand.Edit}"
+                        Content="Edit" />
+                <Button controls:ButtonExtensions.Image="{StaticResource DeleteImage}"
+                        Command="{Binding}"
+                        CommandParameter="{x:Static mappings:MappingsCommand.Delete}"
+                        Content="Delete" />
+            </UniformGrid>
+
+            <DataGrid VerticalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      GridLinesVisibility="None"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding Mappings}"
+                      RowHeaderWidth="0"
+                      RowHeight="28"
+                      SelectedItem="{Binding SelectedMapping}"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Mapping.Channel}"
+                                        Header="Channel" />
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Mapping.Note}"
+                                        Header="Note" />
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Mapping.Output}"
+                                        Header="Output" />
+                    <DataGridTextColumn Width="2*"
+                                        Binding="{Binding Mapping.Comment}"
+                                        Header="Comment" />
+                    <DataGridTemplateColumn Width="Auto" Header="State">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type mappings:MappingViewModel}">
+                                <Grid x:Name="Grid"
+                                      Width="24"
+                                      Height="24"
+                                      HorizontalAlignment="Center"
+                                      DockPanel.Dock="Left">
+                                    <Ellipse x:Name="OuterEllipse"
+                                             Margin="2"
+                                             DockPanel.Dock="Left"
+                                             Fill="{StaticResource BackgroundDarkBrush}"
+                                             StrokeThickness="1" />
+                                    <Ellipse x:Name="InnerEllipse"
+                                             Width="14"
+                                             Height="14"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             Fill="Red" />
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding State}" Value="False">
+                                        <Setter TargetName="Grid" Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
+</UserControl>
+

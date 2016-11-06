@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace LightPi.Orchestrator
+﻿namespace LightPi.Orchestrator
 {
     public class OrchestratorOutput
     {
@@ -14,6 +12,16 @@ namespace LightPi.Orchestrator
         public void Decrement()
         {
             _onStateCounter--;
+        }
+
+        public void Activate()
+        {
+            _onStateCounter = 1;
+        }
+
+        public void Deactivate()
+        {
+            _onStateCounter = 0;
         }
 
         public bool IsActive()
