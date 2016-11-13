@@ -23,10 +23,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
         
         public void Initialize()
         {
-            IPAddress ipAddress = _settingsService.Settings.OrchestratorAddress;
+            var ipAddress = _settingsService.Settings.OrchestratorAddress;
             if (_settingsService.Settings.Target == Target.Emulator)
             {
-                ipAddress = IPAddress.Loopback;
+                ipAddress = IPAddress.Loopback.ToString();
             }
 
             _client = new OrchestratorClient(ipAddress);
@@ -36,7 +36,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
         {
             _client?.SetOutput(id, state);
 
-            string stateText = state ? "On" : "Off";
+            var stateText = state ? "On" : "Off";
             _logService.Information($"Set output {id} {stateText}");
         }
 
@@ -50,6 +50,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
 
             if (!result.StateChanged)
             {
+                _logService.Verbose("State not changed.");
                 return;
             }
 

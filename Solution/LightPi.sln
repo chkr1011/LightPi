@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.OrchestratorEmulato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Orchestrator", "LightPi.Orchestrator\LightPi.Orchestrator.csproj", "{3BAECD45-3461-467E-8308-C8368FCE5366}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.AnimationStudio", "LightPi.AnimationStudio\LightPi.AnimationStudio.csproj", "{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Protocol", "LightPi.Protocol\LightPi.Protocol.csproj", "{B77DB4EB-5B81-4596-A5F1-07424306752A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Protocol.Tests", "LightPi.Protocol.Tests\LightPi.Protocol.Tests.csproj", "{6E21D5AF-3995-4F03-93F9-1B729C0842DD}"
@@ -103,22 +101,6 @@ Global
 		{3BAECD45-3461-467E-8308-C8368FCE5366}.Release|x64.Build.0 = Release|Any CPU
 		{3BAECD45-3461-467E-8308-C8368FCE5366}.Release|x86.ActiveCfg = Release|Any CPU
 		{3BAECD45-3461-467E-8308-C8368FCE5366}.Release|x86.Build.0 = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|ARM.Build.0 = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|x64.Build.0 = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Debug|x86.Build.0 = Debug|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|ARM.ActiveCfg = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|ARM.Build.0 = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|x64.ActiveCfg = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|x64.Build.0 = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|x86.ActiveCfg = Release|Any CPU
-		{F1786453-71E0-4E2B-A7C7-6037D4A2ACAE}.Release|x86.Build.0 = Release|Any CPU
 		{B77DB4EB-5B81-4596-A5F1-07424306752A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B77DB4EB-5B81-4596-A5F1-07424306752A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B77DB4EB-5B81-4596-A5F1-07424306752A}.Debug|ARM.ActiveCfg = Debug|Any CPU

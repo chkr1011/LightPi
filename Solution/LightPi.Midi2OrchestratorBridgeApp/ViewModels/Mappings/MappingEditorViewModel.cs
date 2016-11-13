@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LightPi.Midi2OrchestratorBridgeApp.Models;
 using LightPi.Midi2OrchestratorBridgeApp.Services;
+using LightPi.Protocol;
 using NAudio.Midi;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
@@ -13,7 +15,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
         private readonly ILogService _logService;
         private string _note;
         private int _octave;
-        private MidiChannel _channel;
+        private int _channel;
 
         public MappingEditorViewModel(IMidiService midiService, ILogService logService)
         {
@@ -24,18 +26,19 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             _logService = logService;
             _midiService.MidiMessageReceived += FillFromPressedNote;
 
-            Channels = Enum.GetValues(typeof(MidiChannel)).Cast<MidiChannel>().ToArray();
-            
-            Octaves = new int[8];
-            for (int i = 0; i < Octaves.Length; i++)
+            for (var i = 0; i < 12; i++)
             {
-                Octaves[i] = i;
+                Channels.Add(i);
+            }
+            
+            for (var i = 0; i < 8; i++)
+            {
+                Octaves.Add(i);
             }
 
-            Outputs = new int[48];
-            for (int i = 0; i < Outputs.Length; i++)
+            for (var i = 0; i < LightPiProtocol.OutputsCount; i++)
             {
-                Outputs[i] = i;
+                Outputs.Add(i);
             }
 
             Channel = Channels.FirstOrDefault();
@@ -44,9 +47,9 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             Output = Outputs.FirstOrDefault();
         }
 
-        public MidiChannel[] Channels { get; }
+        public IList<int> Channels { get; } = new List<int>();
 
-        public MidiChannel Channel
+        public int Channel
         {
             get { return _channel; }
             set
@@ -56,7 +59,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             }
         }
 
-        public string[] Notes { get; } = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A# ,(B)", "H" };
+        public IList<string> Notes { get; } = new List<string> { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A# ,(B)", "H" };
 
         public string Note
         {
@@ -68,7 +71,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             }
         }
 
-        public int[] Octaves { get; }
+        public IList<int> Octaves { get; } = new List<int>();
 
         public int Octave
         {
@@ -82,7 +85,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         public string CompleteNote => Note + Octave;
 
-        public int[] Outputs { get; }
+        public IList<int> Outputs { get; } = new List<int>();
 
         public int Output { get; set; }
 
@@ -105,7 +108,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         public void Reset()
         {
-            Channel = MidiChannel.Channel0;
+            Channel = 0;
             Octave = 0;
             Note = Notes.First();
             Output = Outputs.First();
@@ -119,7 +122,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
                 return;
             }
 
-            Channel = (MidiChannel) e.Note.Channel - 1;
+            Channel = e.Note.Channel;
             FillNoteFromString(e.Note.NoteName);
         }
 
@@ -139,9 +142,8 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             }
             catch (Exception)
             {
-                _logService.Warning($"Unable to parse note information from 'note'");
+                _logService.Warning("Unable to parse note information from 'note'");
             }
-            
         }
     }
 }

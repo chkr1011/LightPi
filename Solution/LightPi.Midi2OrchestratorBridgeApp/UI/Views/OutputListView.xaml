@@ -63,9 +63,11 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <Label Grid.Row="0"
-                                       Grid.Column="0"
-                                       Content="{Binding Id}" />
+                                <Border Grid.Row="0"
+                                        Grid.Column="0"
+                                        Background="Gray">
+                                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Id}" />
+                                </Border>
                                 <TextBox Grid.Row="0"
                                          Grid.Column="1"
                                          Text="{Binding Name}" />

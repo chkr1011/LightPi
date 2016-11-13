@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/TextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/ComboBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/Separator.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/DataGridStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/DataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/LightPi.Styles;component/Controls/RichTextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

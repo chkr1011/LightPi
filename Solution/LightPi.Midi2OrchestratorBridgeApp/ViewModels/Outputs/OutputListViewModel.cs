@@ -18,21 +18,30 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Outputs
 
         public List<Output> Outputs { get; } = new List<Output>();
 
-        public List<OutputGroup> OutputGroup { get; } = new List<OutputGroup>();
+        public List<OutputGroup> OutputGroups { get; } = new List<OutputGroup>();
 
         public void LoadOutputs()
         {
-            for (int i = 0; i < 51; i++)
-            { 
-                Outputs.Add(new Output {Id = i, Name = "Output-" + i});
-            }
-                
+            for (var i = 0; i < 51; i++)
+            {
+                string name;
+                if (!_settingsService.Settings.Outputs.TryGetValue(i, out name))
+                {
+                    name = "Output-" + i;
+                }
 
-            //Outputs.AddRange(_settingsService.Settings.Outputs);
+                Outputs.Add(new Output { Id = i, Name = name });
+            }
         }
 
         public void Close(DialogResult dialogResult)
         {
+            foreach (var output in Outputs)
+            {
+                _settingsService.Settings.Outputs[output.Id] = output.Name;
+            }
+
+            _settingsService.Save();
         }
     }
 }

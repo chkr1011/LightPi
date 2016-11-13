@@ -45,10 +45,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.UI.Views
 
         private void AppendLogMessage(object sender, LoggedEventArgs e)
         {
-            string message = $"{e.Entry.Timestamp.ToString("HH:mm:ss.fff")}: {e.Entry.Message}\r";
-
             RichTextBox.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
             {
+                var message = $"{e.Entry.Timestamp:HH:mm:ss.fff}: {e.Entry.Message}\r";
+
                 var textRange = new TextRange(RichTextBox.Document.ContentEnd, RichTextBox.Document.ContentEnd)
                 {
                     Text = message,

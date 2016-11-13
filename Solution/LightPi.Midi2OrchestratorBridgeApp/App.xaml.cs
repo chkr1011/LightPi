@@ -15,16 +15,15 @@ namespace LightPi.Midi2OrchestratorBridgeApp
             
             try
             {
-                var settingsService = new SettingsService();
-                settingsService.Load();
-                
                 var container = new Container();
-                container.Register<ISettingsService>(() => settingsService, Lifestyle.Singleton);
-                container.Register<IOrchestratorService, OrchestratorService>(Lifestyle.Singleton);
-                container.Register<ILogService, LogService>(Lifestyle.Singleton);
-                container.Register<IMidiService, MidiService>(Lifestyle.Singleton);
-                container.Register<IDialogService, DialogService>(Lifestyle.Singleton);
-                container.Register<IFactoryService, FactoryService>(Lifestyle.Singleton);
+                container.RegisterSingleton<ISettingsService, SettingsService>();
+                container.RegisterInitializer<SettingsService>(s => s.Load());
+
+                container.RegisterSingleton<IOrchestratorService, OrchestratorService>();
+                container.RegisterSingleton<ILogService, LogService>();
+                container.RegisterSingleton<IMidiService, MidiService>();
+                container.RegisterSingleton<IDialogService, DialogService>();
+                container.RegisterSingleton<IFactoryService, FactoryService>();
                 container.Verify();
                 
                 var mainWindowViewModel = container.GetInstance<MainWindowViewModel>();
@@ -34,6 +33,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp
             catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(-1);
             }
         }
     }

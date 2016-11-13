@@ -74,11 +74,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             try
             {
                 _settingsService.Settings.Target = UseOrchestrator ? Target.Orchestrator : Target.Emulator;
-
-                IPAddress ipAddress;
-                IPAddress.TryParse(OrchestratorAddress, out ipAddress);
-                _settingsService.Settings.OrchestratorAddress = ipAddress;
-
+                _settingsService.Settings.OrchestratorAddress = OrchestratorAddress;
                 _settingsService.Settings.MidiIn = AvailableMidiPorts.First(m => m.IsSelected).MidiPort.Name;
 
                 _settingsService.Save();

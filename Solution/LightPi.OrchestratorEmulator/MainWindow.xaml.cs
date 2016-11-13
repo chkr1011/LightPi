@@ -25,7 +25,8 @@ namespace LightPi.OrchestratorEmulator
                 var udpEndpoint = new OrchestratorServer(UpdateStates);
                 udpEndpoint.Start();
 
-                var settingsService = new SettingsService(Path.Combine(baseDirectory, "LightPi.OrchestratorEmulatorSettings.xml"));
+                var settingsService =
+                    new SettingsService(Path.Combine(baseDirectory, "LightPi.OrchestratorEmulatorSettings.xml"));
                 settingsService.Load();
 
                 _orchestratorClient = new OrchestratorClient(settingsService.Settings.OrchestratorAddress);
@@ -35,13 +36,14 @@ namespace LightPi.OrchestratorEmulator
                 for (var i = 0; i < LightPiProtocol.OutputsCount; i++)
                 {
                     var outputDefinition = settingsService.Settings.OutputDefinitions.FirstOrDefault(o => o.Id.Equals(i));
-                    Surface.RegisterOutput(i, outputDefinition?.Watts ?? 0, Path.Combine(baseDirectory, $@"Sprites\{i}.png"));
+                    Surface.RegisterOutput(i, outputDefinition?.Watts ?? 0,
+                        Path.Combine(baseDirectory, $@"Sprites\{i}.png"));
                 }
-                
+
                 Surface.Updated += CalculateStatistics;
                 Surface.Updated += ForwardStateToOrchestrator;
                 Surface.Update();
-           
+
                 SetupFramesPerSecondMonitor();
             }
             catch (Exception exception)
@@ -62,7 +64,14 @@ namespace LightPi.OrchestratorEmulator
                 _orchestratorClient.SetOutput(output.Id, output.IsActive, SetOutputMode.Set);
             }
 
-            _orchestratorClient.CommitChanges();
+            try
+            {
+                _orchestratorClient.CommitChanges();
+            }
+            catch (Exception)
+            {
+                // Add error icon to window.
+            }
         }
 
         private void SetupFramesPerSecondMonitor()

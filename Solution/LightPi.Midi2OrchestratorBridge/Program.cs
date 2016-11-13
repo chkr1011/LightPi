@@ -92,7 +92,7 @@ namespace LightPi.Midi2OrchestratorBridge
 
         private static void InitializeOrchestratorClient()
         {
-            var ipAddress = IPAddress.Parse(_settings.Root.Element("OrchestratorAddress").Value);
+            var ipAddress = _settings.Root.Element("OrchestratorAddress").Value;
 
             // TODO: Support hostname by resolving using Dns.GetHost...
 

@@ -6,7 +6,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Models
     public class Mapping
     {
         [DataMember]
-        public MidiChannel Channel{ get; set; }
+        public int Channel{ get; set; }
 
         [DataMember]
         public string Note { get; set; }

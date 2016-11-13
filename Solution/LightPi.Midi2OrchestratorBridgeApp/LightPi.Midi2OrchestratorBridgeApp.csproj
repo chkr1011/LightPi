@@ -72,7 +72,6 @@
     <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\LogEntrySeverity.cs" />
     <Compile Include="Models\Mapping.cs" />
-    <Compile Include="Models\MidiChannel.cs" />
     <Compile Include="Models\Output.cs" />
     <Compile Include="Models\OutputState.cs" />
     <Compile Include="Models\Settings.cs" />
@@ -186,6 +185,10 @@
     <ProjectReference Include="..\LightPi.Orchestrator\LightPi.Orchestrator.csproj">
       <Project>{3BAECD45-3461-467E-8308-C8368FCE5366}</Project>
       <Name>LightPi.Orchestrator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightPi.Protocol\LightPi.Protocol.csproj">
+      <Project>{B77DB4EB-5B81-4596-A5F1-07424306752A}</Project>
+      <Name>LightPi.Protocol</Name>
     </ProjectReference>
     <ProjectReference Include="..\LightPi.Styles\LightPi.Styles.csproj">
       <Project>{649bfe9e-de0a-4b08-b19f-fcb00f73b7d8}</Project>

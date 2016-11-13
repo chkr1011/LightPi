@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Runtime.Serialization;
 
 namespace LightPi.Midi2OrchestratorBridgeApp.Models
@@ -11,7 +10,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Models
         public Target Target { get; set; }
 
         [DataMember]
-        public IPAddress OrchestratorAddress { get; set; }
+        public string OrchestratorAddress { get; set; }
 
         [DataMember]
         public string MidiIn { get; set; }
@@ -20,6 +19,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Models
         public List<Mapping> Mappings { get; set; } = new List<Mapping>();
 
         [DataMember]
-        public List<IOutput> Outputs { get; set; } = new List<IOutput>();
+        public Dictionary<int, string> Outputs { get; set; } = new Dictionary<int, string>();
     }
 }

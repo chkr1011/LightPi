@@ -11,6 +11,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
     public class SettingsService : ISettingsService
     {
         private readonly DataContractSerializer _serializer = new DataContractSerializer(typeof(Settings), new[] { typeof(Output), typeof(OutputGroup) });
+
         public Settings Settings { get; private set; } = new Settings();
 
         public void Load()
@@ -31,7 +32,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
 
                 if (settings.Outputs == null)
                 {
-                    settings.Outputs = new List<IOutput>();
+                    settings.Outputs = new Dictionary<int, string>();
                 }
 
                 Settings = settings;

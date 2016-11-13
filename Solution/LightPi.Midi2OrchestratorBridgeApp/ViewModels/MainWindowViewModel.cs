@@ -44,6 +44,8 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 
             RouteCommand(ToolBarCommand.Settings, ChangeSettings);
             RouteCommand(ToolBarCommand.Outputs, ChangeOutputs);
+
+            Initialize();
         }
 
         public MappingsViewModel Mappings { get; }

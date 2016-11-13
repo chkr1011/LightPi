@@ -13,7 +13,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
         private readonly MappingEditorViewModel _mappingEditorViewModel;
 
         private readonly ISettingsService _settingsService;
-        private readonly IMidiService _midiService;
         private readonly IDialogService _dialogService;
         private readonly IOrchestratorService _orchestratorService;
         private readonly ILogService _logService;
@@ -34,7 +33,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
             _mappingEditorViewModel = mappingEditorViewModel;
             _settingsService = settingsService;
-            _midiService = midiService;
             _dialogService = dialogService;
             _orchestratorService = orchestratorService;
             _logService = logService;
@@ -45,24 +43,24 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
             RouteCommand(MappingsCommand.Edit, EditMapping);
             RouteCommand(MappingsCommand.Delete, DeleteMapping);
 
-            _midiService.MidiMessageReceived += MapMidiEvent;
+            midiService.MidiMessageReceived += MapMidiEvent;
         }
 
         private void MapMidiEvent(object sender, MidiMessageReceivedEventArgs e)
         {
-            bool state = e.Note.CommandCode == MidiCommandCode.NoteOn && e.Note.Velocity > 0;
+            var isActive = e.Note.CommandCode == MidiCommandCode.NoteOn && e.Note.Velocity > 0;
 
             if (e.Note.CommandCode == MidiCommandCode.NoteOn && e.Note.Velocity == 0)
             {
-                state = false;
+                isActive = false;
             }
 
             if (e.Note.CommandCode == MidiCommandCode.NoteOff)
             {
-                state = false;
+                isActive = false;
             }
             
-            MidiChannel channel = (MidiChannel)e.Note.Channel - 1;
+            var channel = e.Note.Channel;
 
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -70,8 +68,11 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
                 {
                     if (mapping.Mapping.Channel == channel && mapping.Mapping.Note == e.Note.NoteName)
                     {
-                        mapping.State = state;
-                        _orchestratorService.SetOutputState(mapping.Mapping.Output, state);
+                        if (mapping.State != isActive)
+                        {
+                            mapping.State = isActive;
+                            _orchestratorService.SetOutputState(mapping.Mapping.Output, isActive);
+                        }
                     }
                 }
 

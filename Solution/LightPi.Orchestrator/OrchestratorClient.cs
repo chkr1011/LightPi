@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
 
@@ -11,25 +10,22 @@ namespace LightPi.Orchestrator
     {
         private readonly object _syncRoot = new object();
         private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[LightPiProtocol.OutputsCount];
+        private readonly UdpClient _udpClient = new UdpClient();
+        private readonly string _address;
 
-        private UdpClient _udpClient;
-
-        private byte[] _previousSentState;
+        private byte[] _previousSentState = new byte[0];
 
         public OrchestratorClient(string address)
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
 
-            Initialize(new UdpClient(address, LightPiProtocol.Port));
+            _address = address;
+
+            _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
+
+            InitializeOutputs();
         }
-
-        public OrchestratorClient(IPAddress ipAddress)
-        {
-            if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
-
-            Initialize(new UdpClient(new IPEndPoint(ipAddress, LightPiProtocol.Port)));
-        }
-
+        
         public void SetOutput(int id, bool state, SetOutputMode mode = SetOutputMode.IncrementDecrement)
         {
             if (id < 0 || id >= LightPiProtocol.OutputsCount)
@@ -73,35 +69,22 @@ namespace LightPi.Orchestrator
             lock (_syncRoot)
             {
                 var state = GenerateState();
-                if (_previousSentState != null)
+                if (_previousSentState.SequenceEqual(state))
                 {
-                    if (_previousSentState.SequenceEqual(state))
-                    {
-                        return new CommitChangesResult(false, null, TimeSpan.Zero);
-                    }
+                    return new CommitChangesResult(false, null, TimeSpan.Zero);
                 }
+
+                _previousSentState = state;
 
                 var stopwatch = Stopwatch.StartNew();
 
                 var package = LightPiProtocol.GeneratePackage(state);
-                _udpClient.Send(package, package.Length);
-
-                _previousSentState = state;
-
+                _udpClient.Send(package, package.Length, _address, LightPiProtocol.Port);
+                
                 return new CommitChangesResult(true, state, stopwatch.Elapsed);
             }
         }
-
-        private void Initialize(UdpClient udpClient)
-        {
-            if (udpClient == null) throw new ArgumentNullException(nameof(udpClient));
-
-            _udpClient = udpClient;
-            _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
-
-            InitializeOutputs();
-        }
-
+        
         private void InitializeOutputs()
         {
             for (var i = 0; i < _outputs.Length; i++)

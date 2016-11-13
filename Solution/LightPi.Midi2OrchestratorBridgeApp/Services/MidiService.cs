@@ -27,11 +27,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
         {
             var midiPorts = new List<MidiPort>();
             
-            _logService.Verbose("Searching for MIDI input ports");
-            int numberOfDevices = MidiIn.NumberOfDevices;
+            var numberOfDevices = MidiIn.NumberOfDevices;
             _logService.Verbose($"Found {numberOfDevices} MIDI input ports");
 
-            for (int i = 0; i < numberOfDevices; i++)
+            for (var i = 0; i < numberOfDevices; i++)
             {
                 var midiPortInfo = MidiIn.DeviceInfo(i);
 
