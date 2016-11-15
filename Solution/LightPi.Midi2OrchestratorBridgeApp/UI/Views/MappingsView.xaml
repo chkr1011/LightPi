@@ -52,16 +52,7 @@
                       ItemsSource="{Binding Mappings}"
                       SelectedItem="{Binding SelectedMapping}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Converter={StaticResource MappingToNoteConverter}}"
-                                        Header="Note" />
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Converter={StaticResource MappingToOutputsConverter}}"
-                                        Header="Outputs" />
-                    <DataGridTextColumn Width="2*"
-                                        Binding="{Binding Mapping.Comment}"
-                                        Header="Comment" />
-                    <DataGridTemplateColumn Width="Auto" Header="State">
+                    <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="{x:Type mappings:MappingViewModel}">
                                 <Border x:Name="Image"
@@ -79,6 +70,15 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="Auto"
+                                        Binding="{Binding Converter={StaticResource MappingToNoteConverter}}"
+                                        Header="Note" />
+                    <DataGridTextColumn Width="Auto"
+                                        Binding="{Binding Converter={StaticResource MappingToOutputsConverter}}"
+                                        Header="Outputs" />
+                    <DataGridTextColumn Width="*"
+                                        Binding="{Binding Mapping.Comment}"
+                                        Header="Comment" />
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
