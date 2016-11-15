@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Properties {
+namespace LightPi.Midi2OrchestratorBridge.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LightPi.Midi2OrchestratorBridgeApp.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LightPi.Midi2OrchestratorBridge.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

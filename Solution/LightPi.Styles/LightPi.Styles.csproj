@@ -93,6 +93,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Controls\ButtonExtensions.cs" />
+    <Compile Include="Controls\DataGridExtensions.cs" />
     <Compile Include="Controls\GroupBoxExtensions.cs" />
     <Page Include="Controls\TabControl.xaml">
       <SubType>Designer</SubType>

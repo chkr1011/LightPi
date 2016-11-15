@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows;
-using LightPi.Midi2OrchestratorBridgeApp.UI.Views;
+using LightPi.Midi2OrchestratorBridge.Models;
+using LightPi.Midi2OrchestratorBridge.UI.Views;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class DialogService : IDialogService
     {

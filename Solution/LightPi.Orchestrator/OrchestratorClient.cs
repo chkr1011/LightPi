@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using LightPi.Protocol;
 
@@ -11,21 +11,22 @@ namespace LightPi.Orchestrator
         private readonly object _syncRoot = new object();
         private readonly OrchestratorOutput[] _outputs = new OrchestratorOutput[LightPiProtocol.OutputsCount];
         private readonly UdpClient _udpClient = new UdpClient();
-        private readonly string _address;
-
+        private readonly IPEndPoint _ipEndPoint;
+        
         private byte[] _previousSentState = new byte[0];
 
-        public OrchestratorClient(string address)
+        public OrchestratorClient(IPAddress ipAddress)
         {
-            if (address == null) throw new ArgumentNullException(nameof(address));
+            if (ipAddress == null) throw new ArgumentNullException(nameof(ipAddress));
 
-            _address = address;
-
+            _ipEndPoint = new IPEndPoint(ipAddress, LightPiProtocol.Port);
             _udpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.NoDelay, true);
-
+            
             InitializeOutputs();
         }
         
+        public bool ForceCommits { get; set; }
+
         public void SetOutput(int id, bool state, SetOutputMode mode = SetOutputMode.IncrementDecrement)
         {
             if (id < 0 || id >= LightPiProtocol.OutputsCount)
@@ -69,19 +70,17 @@ namespace LightPi.Orchestrator
             lock (_syncRoot)
             {
                 var state = GenerateState();
-                if (_previousSentState.SequenceEqual(state))
+                if (!ForceCommits && _previousSentState.SequenceEqual(state))
                 {
-                    return new CommitChangesResult(false, null, TimeSpan.Zero);
+                    return new CommitChangesResult(false, null);
                 }
 
                 _previousSentState = state;
-
-                var stopwatch = Stopwatch.StartNew();
-
-                var package = LightPiProtocol.GeneratePackage(state);
-                _udpClient.Send(package, package.Length, _address, LightPiProtocol.Port);
                 
-                return new CommitChangesResult(true, state, stopwatch.Elapsed);
+                var package = LightPiProtocol.GeneratePackage(state);
+                _udpClient.Send(package, package.Length, _ipEndPoint);
+                
+                return new CommitChangesResult(true, state);
             }
         }
         

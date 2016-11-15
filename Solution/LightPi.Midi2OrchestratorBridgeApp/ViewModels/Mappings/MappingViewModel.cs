@@ -1,11 +1,11 @@
 ﻿using System;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
+using LightPi.Midi2OrchestratorBridge.Models;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
+namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 {
     public class MappingViewModel : BaseViewModel
     {
-        private bool _state;
+        private bool _isActive;
 
         public MappingViewModel(Mapping mapping)
         {
@@ -16,14 +16,10 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
 
         public Mapping Mapping { get; }
 
-        public bool State
+        public bool IsActive
         {
-            get { return _state; }
-            set
-            {
-                _state = value;
-                OnPropertyChanged();
-            }
+            get { return _isActive; }
+            set { _isActive = value; OnPropertyChanged(); }
         }
     }
 }

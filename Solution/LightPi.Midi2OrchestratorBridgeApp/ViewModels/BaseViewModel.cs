@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
+namespace LightPi.Midi2OrchestratorBridge.ViewModels
 {
     public abstract class BaseViewModel : ICommand, INotifyPropertyChanged
     {
@@ -36,7 +36,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             _actions[parameter] = action;
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

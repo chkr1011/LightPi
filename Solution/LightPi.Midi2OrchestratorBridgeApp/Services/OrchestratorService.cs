@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
+using LightPi.Midi2OrchestratorBridge.Models;
 using LightPi.Orchestrator;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class OrchestratorService : IOrchestratorService
     {
@@ -23,21 +23,19 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
         
         public void Initialize()
         {
-            var ipAddress = _settingsService.Settings.OrchestratorAddress;
-            if (_settingsService.Settings.Target == Target.Emulator)
+            _client = new OrchestratorClient(IPAddress.Parse(_settingsService.Settings.OrchestratorAddress))
             {
-                ipAddress = IPAddress.Loopback.ToString();
-            }
-
-            _client = new OrchestratorClient(ipAddress);
+                ForceCommits = Properties.Settings.Default.ForceCommits
+            };
         }
+
+        public event EventHandler<ChangesCommittedEventArgs> ChangesCommitted;
 
         public void SetOutputState(int id, bool state)
         {
             _client?.SetOutput(id, state);
 
-            var stateText = state ? "On" : "Off";
-            _logService.Information($"Set output {id} {stateText}");
+            _logService.Information("Set output " + id + " " + (state ? "on" : "off"));
         }
 
         public void CommitChanges()
@@ -54,7 +52,9 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
                 return;
             }
 
-            _logService.Information($"Sent {BitConverter.ToString(result.State)} to orchestrator");
+            _logService.Information("Sent " + BitConverter.ToString(result.State));
+
+            ChangesCommitted?.Invoke(this, new ChangesCommittedEventArgs(result.State));
         }
     }
 }

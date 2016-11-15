@@ -1,4 +1,6 @@
-﻿namespace LightPi.Midi2OrchestratorBridgeApp.Services
+﻿using LightPi.Midi2OrchestratorBridge.Models;
+
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public interface IDialogService
     {

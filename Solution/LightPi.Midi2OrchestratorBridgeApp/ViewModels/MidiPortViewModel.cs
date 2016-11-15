@@ -1,7 +1,7 @@
 ﻿using System;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
+using LightPi.Midi2OrchestratorBridge.Models;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
+namespace LightPi.Midi2OrchestratorBridge.ViewModels
 {
     public class MidiPortViewModel
     {

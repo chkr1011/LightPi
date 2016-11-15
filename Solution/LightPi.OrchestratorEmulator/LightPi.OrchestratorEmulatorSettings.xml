@@ -1,9 +1,0 @@
-﻿<Settings xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/LightPi.OrchestratorEmulator.Settings">
-  <OrchestratorAddress>LightPi</OrchestratorAddress>
-  <OutputDefinitions>
-    <OutputDefinition>
-      <Id>1</Id>
-      <Watts>1</Watts>
-    </OutputDefinition>
-  </OutputDefinitions>
-</Settings>

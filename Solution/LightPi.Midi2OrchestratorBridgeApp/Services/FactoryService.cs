@@ -1,7 +1,7 @@
 ﻿using System;
 using SimpleInjector;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class FactoryService : IFactoryService
     {

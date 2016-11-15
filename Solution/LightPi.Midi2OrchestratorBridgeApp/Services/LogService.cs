@@ -1,7 +1,7 @@
 ﻿using System;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
+using LightPi.Midi2OrchestratorBridge.Models;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class LogService : ILogService
     {

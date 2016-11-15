@@ -1,15 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
+using LightPi.Midi2OrchestratorBridge.Models;
 using NAudio.Midi;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class MidiService : IMidiService
     {
+        private static readonly string[] NoteNames =
+        {
+              "C",
+              "C#",
+              "D",
+              "D#",
+              "E",
+              "F",
+              "F#",
+              "G",
+              "G#",
+              "A",
+              "A#",
+              "B"
+        };
+
         private readonly ISettingsService _settingsService;
         private readonly ILogService _logService;
+
         private MidiIn _attachedMidiPort;
 
         public MidiService(ISettingsService settingsService, ILogService logService)
@@ -21,12 +38,12 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             _logService = logService;
         }
 
-        public event EventHandler<MidiMessageReceivedEventArgs> MidiMessageReceived; 
+        public event EventHandler<NoteEventReceivedEventArgs> NoteEventReceived;
 
         public IList<MidiPort> GetMidiPorts()
         {
             var midiPorts = new List<MidiPort>();
-            
+
             var numberOfDevices = MidiIn.NumberOfDevices;
             _logService.Verbose($"Found {numberOfDevices} MIDI input ports");
 
@@ -37,7 +54,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
                 var midiPort = new MidiPort(i, midiPortInfo.ProductName);
                 midiPorts.Add(midiPort);
             }
-            
+
             midiPorts.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase));
 
             return midiPorts;
@@ -54,13 +71,18 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
             var noteEvent = e.MidiEvent as NoteEvent;
             if (noteEvent == null)
             {
-                _logService.Warning($"Received unsupported MIDI event: {e.MidiEvent}");
+                _logService.Warning($"MIDI event: Unsupported! {e.MidiEvent}");
                 return;
             }
 
-            _logService.Verbose($"Received MIDI event: Ch:{noteEvent.Channel} / N:{noteEvent.NoteName} ({noteEvent.NoteNumber}) / C:{noteEvent.CommandCode} / V:{noteEvent.Velocity}");
+            // Use no regex here for performance reasons.
+            var channel = noteEvent.Channel;
+            var note = NoteNames[noteEvent.NoteNumber % 12];
+            var octave = noteEvent.NoteNumber / NoteNames.Length;
 
-            MidiMessageReceived?.Invoke(this, new MidiMessageReceivedEventArgs(noteEvent));
+            _logService.Verbose($"MIDI event: CH:{channel} / N:{note} / O: {octave} / C:{noteEvent.CommandCode} / V:{noteEvent.Velocity}");
+
+            NoteEventReceived?.Invoke(this, new NoteEventReceivedEventArgs(channel, note, octave, noteEvent.Velocity, noteEvent.CommandCode));
         }
 
         private void LogMidiError(object sender, MidiInMessageEventArgs e)

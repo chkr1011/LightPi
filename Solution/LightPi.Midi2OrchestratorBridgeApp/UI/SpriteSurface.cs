@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using LightPi.Midi2OrchestratorBridge.Models;
 
-namespace LightPi.OrchestratorEmulator
+namespace LightPi.Midi2OrchestratorBridge.UI
 {
     public class SpriteSurface : Canvas
     {
+        private readonly List<OutputSprite> _sprites = new List<OutputSprite>();
+        private readonly string _baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private BitmapImage _backgroundSprite;
 
         public SpriteSurface()
@@ -17,29 +20,25 @@ namespace LightPi.OrchestratorEmulator
             IsHitTestVisible = false;
         }
 
-        public ObservableCollection<Output> Outputs { get; } = new ObservableCollection<Output>();
-
-        public event EventHandler Updated;
-
-        public void RegisterBackgroundSprite(string filename)
+        public void SetBackground(string filename)
         {
             if (filename == null) throw new ArgumentNullException(nameof(filename));
 
             _backgroundSprite = TryLoadImageFromFile(filename);
         }
 
-        public void RegisterOutput(int id, double watts, string spriteFilename)
+        public void AddOutput(OutputViewModel output, string spriteFilename)
         {
+            if (output == null) throw new ArgumentNullException(nameof(output));
             if (spriteFilename == null) throw new ArgumentNullException(nameof(spriteFilename));
 
             var image = TryLoadImageFromFile(spriteFilename); ;
-            Outputs.Add(new Output(id, watts, image, this));
+            _sprites.Add(new OutputSprite(output, image));
         }
 
         public void Update()
         {
             InvalidateVisual();
-            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -65,17 +64,19 @@ namespace LightPi.OrchestratorEmulator
 
             dc.DrawImage(_backgroundSprite, spriteRect);
 
-            foreach (var output in Outputs)
+            foreach (var sprite in _sprites)
             {
-                if (output.IsActive && output.Sprite != null)
+                if (sprite.Output.IsActive && sprite.Sprite != null)
                 {
-                    dc.DrawImage(output.Sprite, spriteRect);
+                    dc.DrawImage(sprite.Sprite, spriteRect);
                 }
             }
         }
 
-        private static BitmapImage TryLoadImageFromFile(string filename)
+        private BitmapImage TryLoadImageFromFile(string filename)
         {
+            filename = Path.Combine(_baseDirectory, filename);
+
             if (!File.Exists(filename))
             {
                 return null;

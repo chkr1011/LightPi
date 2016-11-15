@@ -1,149 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
-using LightPi.Midi2OrchestratorBridgeApp.Services;
-using LightPi.Protocol;
+using LightPi.Midi2OrchestratorBridge.Models;
+using LightPi.Midi2OrchestratorBridge.Services;
 using NAudio.Midi;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
+namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 {
     public class MappingEditorViewModel : BaseViewModel, IDialogViewModel
     {
         private readonly IMidiService _midiService;
-        private readonly ILogService _logService;
-        private string _note;
-        private int _octave;
-        private int _channel;
 
-        public MappingEditorViewModel(IMidiService midiService, ILogService logService)
+        public MappingEditorViewModel(IMidiService midiService, ISettingsService settingsService)
         {
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
-            if (logService == null) throw new ArgumentNullException(nameof(logService));
 
             _midiService = midiService;
-            _logService = logService;
-            _midiService.MidiMessageReceived += FillFromPressedNote;
+            _midiService.NoteEventReceived += FillFromPressedNote;
 
             for (var i = 0; i < 12; i++)
             {
-                Channels.Add(i);
+                Channels.Add(new SelectableViewModel<int>(i));
             }
             
             for (var i = 0; i < 8; i++)
             {
-                Octaves.Add(i);
+                Octaves.Add(new SelectableViewModel<int>(i));
             }
 
-            for (var i = 0; i < LightPiProtocol.OutputsCount; i++)
-            {
-                Outputs.Add(i);
-            }
+            Outputs.AddRange(settingsService.OutputViewModels.Select(o => new SelectableViewModel<OutputViewModel>(o)));
 
-            Channel = Channels.FirstOrDefault();
-            Note = Notes.FirstOrDefault();
-            Octave = Octaves.FirstOrDefault();
-            Output = Outputs.FirstOrDefault();
+            Notes.Add(new SelectableViewModel<string>("C"));
+            Notes.Add(new SelectableViewModel<string>("C#"));
+            Notes.Add(new SelectableViewModel<string>("D"));
+            Notes.Add(new SelectableViewModel<string>("D#"));
+            Notes.Add(new SelectableViewModel<string>("E"));
+            Notes.Add(new SelectableViewModel<string>("F"));
+            Notes.Add(new SelectableViewModel<string>("F#"));
+            Notes.Add(new SelectableViewModel<string>("G"));
+            Notes.Add(new SelectableViewModel<string>("G#"));
+            Notes.Add(new SelectableViewModel<string>("A"));
+            Notes.Add(new SelectableViewModel<string>("A#/B"));
+            Notes.Add(new SelectableViewModel<string>("H"));
         }
 
-        public IList<int> Channels { get; } = new List<int>();
+        public List<SelectableViewModel<int>> Channels { get; } = new List<SelectableViewModel<int>>();
+        
+        public List<SelectableViewModel<string>> Notes { get; } = new List<SelectableViewModel<string>>();
+        
+        public List<SelectableViewModel<int>> Octaves { get; } = new List<SelectableViewModel<int>>();
 
-        public int Channel
-        {
-            get { return _channel; }
-            set
-            {
-                _channel = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public IList<string> Notes { get; } = new List<string> { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A# ,(B)", "H" };
-
-        public string Note
-        {
-            get { return _note; }
-            set
-            {
-                _note = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public IList<int> Octaves { get; } = new List<int>();
-
-        public int Octave
-        {
-            get { return _octave; }
-            set
-            {
-                _octave = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string CompleteNote => Note + Octave;
-
-        public IList<int> Outputs { get; } = new List<int>();
-
-        public int Output { get; set; }
-
+        public List<SelectableViewModel<OutputViewModel>> Outputs { get; } = new List<SelectableViewModel<OutputViewModel>>();
+        
         public string Comment { get; set; }
 
         public void Load(Mapping mapping)
         {
             if (mapping == null) throw new ArgumentNullException(nameof(mapping));
 
-            Channel = mapping.Channel;
-            FillNoteFromString(mapping.Note);
-            Output = mapping.Output;
+            Reset();
+
+            Channels.SelectMatching(c => c.Model == mapping.Channel);
+            Notes.SelectMatching(c => c.Model == mapping.Note);
+            Octaves.SelectMatching(o => o.Model == mapping.Octave);
+            Outputs.SelectMatching(o => mapping.Outputs.Contains(o.Model.Output.Id));
             Comment = mapping.Comment;
+        }
+
+        public void Update(Mapping mapping)
+        {
+            if (mapping == null) throw new ArgumentNullException(nameof(mapping));
+
+            mapping.Channel = Channels.First(c => c.IsSelected).Model;
+            mapping.Note = Notes.First(c => c.IsSelected).Model;
+            mapping.Octave = Octaves.First(c => c.IsSelected).Model;
+            mapping.Outputs = Outputs.Where(o => o.IsSelected).Select(o => o.Model.Output.Id).ToList();
+            mapping.Comment = Comment;
         }
 
         public void Close(DialogResult dialogResult)
         {
-            _midiService.MidiMessageReceived -= FillFromPressedNote;
+            _midiService.NoteEventReceived -= FillFromPressedNote;
         }
 
         public void Reset()
         {
-            Channel = 0;
-            Octave = 0;
-            Note = Notes.First();
-            Output = Outputs.First();
+            Channels.ForEach(c => c.Deselect());
+            Notes.ForEach(c => c.Deselect());
+            Octaves.ForEach(c => c.Deselect());
+            Outputs.ForEach(c => c.Deselect());
+            
             Comment = string.Empty;
         }
 
-        private void FillFromPressedNote(object sender, MidiMessageReceivedEventArgs e)
+        private void FillFromPressedNote(object sender, NoteEventReceivedEventArgs e)
         {
-            if (e.Note.CommandCode != MidiCommandCode.NoteOn)
+            if (e.Command != MidiCommandCode.NoteOn)
             {
                 return;
-            }
+            } 
 
-            Channel = e.Note.Channel;
-            FillNoteFromString(e.Note.NoteName);
-        }
-
-        private void FillNoteFromString(string note)
-        {
-            if (string.IsNullOrEmpty(note))
-            {
-                return;
-            }
-
-            var noteMatch = Regex.Match(note, "(?<note>[A-Z]{1,1}#{0,1})(?<octave>[0-9]{1})");
-
-            try
-            {
-                Note = noteMatch.Groups["note"].Value;
-                Octave = int.Parse(noteMatch.Groups["octave"].Value);
-            }
-            catch (Exception)
-            {
-                _logService.Warning("Unable to parse note information from 'note'");
-            }
+            Channels.SelectMatching(c => c.Model == e.Channel);
+            Notes.SelectMatching(c => c.Model == e.Note);
+            Octaves.SelectMatching(o => o.Model == e.Octave);
         }
     }
 }

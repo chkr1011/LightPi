@@ -41,6 +41,9 @@
                             <Setter TargetName="ImageBorder" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Label" Property="DockPanel.Dock" Value="Bottom" />
                         </Trigger>
+                        <Trigger Property="HasContent" Value="False">
+                            <Setter TargetName="Label" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,51 +1,156 @@
-﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridgeApp.UI.Views.MappingEditorView"
+﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridge.UI.Views.MappingEditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converter="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.UI.Converter"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings"
+             xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels.Mappings"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Width="700"
              d:DataContext="{d:DesignInstance Type=mappings:MappingEditorViewModel,
                                               IsDesignTimeCreatable=False}"
              d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
-    <StackPanel>
-        <StackPanel.Resources>
-            <converter:ChannelToTextConverter x:Key="ChannelToTextConverter" />
-        </StackPanel.Resources>
-        <Border Background="{StaticResource HoverBrush}">
-            <Label Margin="15"
-                   Content="Press MIDI key for automatic detection of key parameters."
-                   FontSize="14"
-                   Foreground="{StaticResource BackgroundDarkBrush}" />
+
+    <DockPanel>
+        <!--  ########## Headline ##########  -->
+        <Border Margin="0,0,0,10"
+                Background="{StaticResource BackgroundLightBrush}"
+                DockPanel.Dock="Top">
+            <Label Margin="10">
+                The application is listening for MIDI events. 'NoteOn' events are updating the settings here automatically.
+            </Label>
         </Border>
-        <Separator />
 
-        <Label Content="Channel:" Style="{StaticResource HeadlineSmallLabel}" />
-        <ComboBox ItemsSource="{Binding Channels}" SelectedItem="{Binding Channel}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding Converter={StaticResource ChannelToTextConverter}}" Foreground="Black" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Separator />
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type ItemsControl}">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="12" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style BasedOn="{StaticResource {x:Type RadioButton}}" TargetType="{x:Type RadioButton}">
+                    <Setter Property="Margin" Value="0,0,10,0" />
+                </Style>
+                <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+                    <Setter Property="Margin" Value="0,0,10,0" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <Label Content="Note:" Style="{StaticResource HeadlineSmallLabel}" />
-        <ComboBox ItemsSource="{Binding Notes}" SelectedItem="{Binding Note}" />
-        <Separator />
+            <!--  ########## Channel ##########  -->
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Content="Channel:"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <ItemsControl Grid.Row="0"
+                          Grid.Column="1"
+                          ItemsSource="{Binding Channels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding Model}"
+                                     GroupName="Channel"
+                                     IsChecked="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-        <Label Content="Octave:" Style="{StaticResource HeadlineSmallLabel}" />
-        <ComboBox ItemsSource="{Binding Octaves}" SelectedItem="{Binding Octave}" />
-        <Separator />
 
-        <Label Content="Output:" Style="{StaticResource HeadlineSmallLabel}" />
-        <ComboBox ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output}" />
-        <Separator />
+            <Separator Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2" />
 
-        <Label Content="Comment:" Style="{StaticResource HeadlineSmallLabel}" />
-        <TextBox Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged}" />
+            <!--  ########## Note ##########  -->
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   Content="Note:"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <ItemsControl Grid.Row="2"
+                          Grid.Column="1"
+                          ItemsSource="{Binding Notes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding Model}"
+                                     GroupName="Note"
+                                     IsChecked="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-    </StackPanel>
+            <Separator Grid.Row="3"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2" />
+
+            <!--  ########## Octave ##########  -->
+            <Label Grid.Row="4"
+                   Grid.Column="0"
+                   Content="Octave:"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <ItemsControl Grid.Row="4"
+                          Grid.Column="1"
+                          ItemsSource="{Binding Octaves}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding Model}"
+                                     GroupName="Octave"
+                                     IsChecked="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Separator Grid.Row="5"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2" />
+
+            <!--  ########## Outputs ##########  -->
+            <Label Grid.Row="6"
+                   Grid.Column="0"
+                   Content="Outputs:"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <ItemsControl Grid.Row="6"
+                          Grid.Column="1"
+                          ItemsSource="{Binding Outputs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Model.Output.Id}" IsChecked="{Binding IsSelected}">
+                            <CheckBox.ToolTip>
+                                <TextBlock Text="{Binding Model.Output.Name}" />
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Separator Grid.Row="7"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2" />
+
+            <!--  ########## Comment ##########  -->
+            <Label Grid.Row="8"
+                   Grid.Column="0"
+                   Content="Comment:"
+                   Style="{StaticResource HeadlineSmallLabel}" />
+            <TextBox Grid.Row="8"
+                     Grid.Column="1"
+                     Text="{Binding Path=Comment,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </DockPanel>
+
 </UserControl>

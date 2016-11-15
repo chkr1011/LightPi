@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Models
+namespace LightPi.Midi2OrchestratorBridge.Models
 {
     public class LogEntry
     {

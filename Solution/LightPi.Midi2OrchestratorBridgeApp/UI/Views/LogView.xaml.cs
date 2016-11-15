@@ -3,16 +3,15 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
-using LightPi.Midi2OrchestratorBridgeApp.Services;
-using LightPi.Midi2OrchestratorBridgeApp.ViewModels;
+using LightPi.Midi2OrchestratorBridge.Models;
+using LightPi.Midi2OrchestratorBridge.ViewModels;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.UI.Views
+namespace LightPi.Midi2OrchestratorBridge.UI.Views
 {
     public partial class LogView
     {
         private LogViewModel _dataContext;
-
+        
         public LogView()
         {
             DataContextChanged += OnDataContextChanged;
@@ -49,11 +48,17 @@ namespace LightPi.Midi2OrchestratorBridgeApp.UI.Views
             {
                 var message = $"{e.Entry.Timestamp:HH:mm:ss.fff}: {e.Entry.Message}\r";
 
+                var existingTextRange = new TextRange(RichTextBox.Document.ContentStart, RichTextBox.Document.ContentEnd);
+                if (existingTextRange.Text.Length > Properties.Settings.Default.MaxLogLength)
+                {
+                    existingTextRange.Text = string.Empty;
+                }
+
                 var textRange = new TextRange(RichTextBox.Document.ContentEnd, RichTextBox.Document.ContentEnd)
                 {
-                    Text = message,
+                    Text = message
                 };
-
+                
                 textRange.ApplyPropertyValue(TextElement.ForegroundProperty, GetBrushForSeverity(e.Entry.Severity));
 
                 RichTextBox.ScrollToEnd();

@@ -1,7 +1,6 @@
 ﻿using System;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Models
 {
     public class LoggedEventArgs : EventArgs
     {

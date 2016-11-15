@@ -4,15 +4,21 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
+using LightPi.Midi2OrchestratorBridge.Models;
+using LightPi.Midi2OrchestratorBridge.ViewModels.Mappings;
+using LightPi.Protocol;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Services
+namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class SettingsService : ISettingsService
     {
-        private readonly DataContractSerializer _serializer = new DataContractSerializer(typeof(Settings), new[] { typeof(Output), typeof(OutputGroup) });
+        private readonly DataContractSerializer _serializer = new DataContractSerializer(typeof(Settings), new[] { typeof(OutputViewModel) });
 
         public Settings Settings { get; private set; } = new Settings();
+
+        public List<MappingViewModel> MappingViewModels { get; } = new List<MappingViewModel>();
+
+        public List<OutputViewModel> OutputViewModels { get; } = new List<OutputViewModel>();
 
         public void Load()
         {
@@ -29,13 +35,19 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
                 {
                     settings.Mappings = new List<Mapping>();
                 }
-
-                if (settings.Outputs == null)
+                else
                 {
-                    settings.Outputs = new Dictionary<int, string>();
+                    foreach (var mapping in settings.Mappings)
+                    {
+                        if (mapping.Outputs == null)
+                        {
+                            mapping.Outputs = new List<int>();
+                        }
+                    }
                 }
 
                 Settings = settings;
+                GenerateViewModels();
             }
         }
 
@@ -53,6 +65,27 @@ namespace LightPi.Midi2OrchestratorBridgeApp.Services
         private string GenerateFilename()
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LightPi.Midi2OrchestratorBridgeSettings.xml");
+        }
+
+        private void GenerateViewModels()
+        {
+            OutputViewModels.Clear();
+            for (var i = 0; i < LightPiProtocol.OutputsCount; i++)
+            {
+                Output output;
+                if (!Settings.Outputs.TryGetValue(i, out output))
+                {
+                    output = new Output {Id = i};
+                }
+
+                OutputViewModels.Add(new OutputViewModel(output));
+            }
+
+            MappingViewModels.Clear();
+            foreach (var mapping in Settings.Mappings)
+            {
+                MappingViewModels.Add(new MappingViewModel(mapping));       
+            }
         }
     }
 }

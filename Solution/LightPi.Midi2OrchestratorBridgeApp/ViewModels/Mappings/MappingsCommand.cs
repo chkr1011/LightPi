@@ -1,4 +1,4 @@
-﻿namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings
+﻿namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 {
     public enum MappingsCommand
     {
@@ -6,6 +6,10 @@
 
         Edit,
 
-        Delete
+        Delete,
+
+        MoveUp,
+
+        MoveDown
     }
 }

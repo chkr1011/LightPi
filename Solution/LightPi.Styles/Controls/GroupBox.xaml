@@ -28,6 +28,9 @@
                         <Trigger Property="controls:GroupBoxExtensions.ShowContent" Value="False">
                             <Setter TargetName="Content" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                        <Trigger Property="controls:GroupBoxExtensions.CanHideContent" Value="False">
+                            <Setter TargetName="ToggleCheckBox" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

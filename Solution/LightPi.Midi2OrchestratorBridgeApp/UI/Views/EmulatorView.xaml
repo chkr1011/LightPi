@@ -1,19 +1,21 @@
-﻿<Window x:Class="LightPi.OrchestratorEmulator.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:LightPi.OrchestratorEmulator"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="Orchestrator Emulator - LightPi"
-        Width="1280"
-        Height="1024"
-        Background="{StaticResource BackgroundLightBrush}"
-        Icon="App.ico"
-        SnapsToDevicePixels="True"
-        TextOptions.TextFormattingMode="Display"
-        mc:Ignorable="d">
+﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridge.UI.Views.EmulatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:LightPi.Midi2OrchestratorBridge.Models"
+             xmlns:ui="clr-namespace:LightPi.Midi2OrchestratorBridge.UI"
+             xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:EmulatorViewModel,
+                                              IsDesignTimeCreatable=False}"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
     <DockPanel>
-        <GroupBox DockPanel.Dock="Bottom" Header="STATISTICS">
+        <GroupBox controls:GroupBoxExtensions.CanHideContent="True"
+                  DockPanel.Dock="Bottom"
+                  Header="STATISTICS">
             <DockPanel Margin="10,15,10,10">
                 <Path Width="24"
                       Height="24"
@@ -22,14 +24,14 @@
                       Fill="{StaticResource TextNormalBrush}"
                       Stretch="Uniform" />
 
-                <TextBlock x:Name="ActualWattsTextBlock"
-                           Margin="15,0,0,0"
+                <TextBlock Margin="15,0,0,0"
                            VerticalAlignment="Center"
                            DockPanel.Dock="Left"
                            FontFamily="Consolas"
                            FontSize="16"
                            Foreground="{StaticResource TextNormalBrush}"
-                           Text="0000 W" />
+                           Text="{Binding PowerConsumption,
+                                          StringFormat={}{0:0000} W}" />
 
                 <Path Width="24"
                       Height="24"
@@ -39,44 +41,43 @@
                       Fill="{StaticResource TextNormalBrush}"
                       Stretch="Uniform" />
 
-                <TextBlock x:Name="FramesPerSecondTextBlock"
-                           Margin="15,0,0,0"
+                <TextBlock Margin="15,0,0,0"
                            VerticalAlignment="Center"
                            DockPanel.Dock="Left"
                            FontFamily="Consolas"
                            FontSize="16"
                            Foreground="{StaticResource TextNormalBrush}"
-                           Text="00 FPS" />
+                           Text="{Binding FramesPerSecond,
+                                          StringFormat={}{0:00} FPS}" />
 
-                <CheckBox x:Name="ForwardCheckBox"
-                          Margin="10,0,0,0"
-                          VerticalAlignment="Center"
-                          Content="Forward"
+                <CheckBox VerticalAlignment="Center"
+                          Content="Enabled"
                           DockPanel.Dock="Right"
-                          IsChecked="True" />
-                <CheckBox x:Name="IsEnabledCheckBox"
-                          VerticalAlignment="Center"
-                          Content="Listen"
-                          DockPanel.Dock="Right"
-                          IsChecked="True" />
+                          IsChecked="{Binding IsEnabled}" />
 
                 <StackPanel />
             </DockPanel>
         </GroupBox>
 
-        <GroupBox DockPanel.Dock="Bottom" Header="OUTPUT STATES">
+        <GroupBox controls:GroupBoxExtensions.CanHideContent="True"
+                  DockPanel.Dock="Bottom"
+                  Header="OUTPUT STATES">
             <ItemsControl Margin="10,15,10,10"
                           HorizontalAlignment="Left"
-                          ItemsSource="{Binding ElementName=Surface,
-                                                Path=Outputs}">
+                          ItemsSource="{Binding Outputs}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:Output}">
-                        <Button Command="{Binding}">
+                    <DataTemplate DataType="{x:Type models:OutputViewModel}">
+                        <Button Command="{Binding}" CommandParameter="{x:Static models:OutputCommand.ToggleState}">
+                            <Button.ToolTip>
+                                <TextBlock>
+                                    <Run Text="{Binding Output.Name}" /> <Run Text="(" /><Run Text="{Binding Output.Watts}" /><Run Text=")" />
+                                </TextBlock>
+                            </Button.ToolTip>
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border Width="40"
@@ -91,7 +92,7 @@
                                                    FontFamily="Consolas"
                                                    FontSize="14"
                                                    Foreground="{StaticResource TextNormalBrush}"
-                                                   Text="{Binding Id,
+                                                   Text="{Binding Output.Id,
                                                                   FallbackValue=99}" />
                                         <Border.Style>
                                             <Style TargetType="{x:Type Border}">
@@ -113,9 +114,8 @@
         </GroupBox>
 
         <GroupBox Header="SIMULATION">
-            <local:SpriteSurface x:Name="Surface" Background="Transparent" />
+            <ui:SpriteSurface x:Name="Surface" Background="Transparent" />
         </GroupBox>
 
     </DockPanel>
-
-</Window>
+</UserControl>

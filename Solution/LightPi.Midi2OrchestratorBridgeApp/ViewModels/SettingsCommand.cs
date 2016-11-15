@@ -1,4 +1,4 @@
-﻿namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
+﻿namespace LightPi.Midi2OrchestratorBridge.ViewModels
 {
     public enum SettingsCommand
     {

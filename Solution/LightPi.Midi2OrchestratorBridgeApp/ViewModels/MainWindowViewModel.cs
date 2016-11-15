@@ -1,9 +1,9 @@
 ﻿using System;
-using LightPi.Midi2OrchestratorBridgeApp.Services;
-using LightPi.Midi2OrchestratorBridgeApp.ViewModels.Mappings;
-using LightPi.Midi2OrchestratorBridgeApp.ViewModels.Outputs;
+using LightPi.Midi2OrchestratorBridge.Models;
+using LightPi.Midi2OrchestratorBridge.Services;
+using LightPi.Midi2OrchestratorBridge.ViewModels.Mappings;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
+namespace LightPi.Midi2OrchestratorBridge.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
@@ -21,6 +21,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             IMidiService midiService,
             IOrchestratorService orchestratorService,
             ILogService logService,
+            EmulatorViewModel emulatorViewModel,
             MappingsViewModel mappingsViewModel, 
             LogViewModel logViewModel)
         {
@@ -40,6 +41,7 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
             _logService = logService;
 
             Mappings = mappingsViewModel;
+            Emulator = emulatorViewModel;
             Log = logViewModel;
 
             RouteCommand(ToolBarCommand.Settings, ChangeSettings);
@@ -47,6 +49,8 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 
             Initialize();
         }
+
+        public EmulatorViewModel Emulator { get; }
 
         public MappingsViewModel Mappings { get; }
 

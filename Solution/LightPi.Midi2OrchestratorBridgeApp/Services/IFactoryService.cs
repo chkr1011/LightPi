@@ -1,4 +1,4 @@
-﻿namespace LightPi.Midi2OrchestratorBridgeApp.Services
+﻿namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public interface IFactoryService
     {

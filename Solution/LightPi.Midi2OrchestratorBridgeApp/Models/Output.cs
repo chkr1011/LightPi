@@ -1,16 +1,15 @@
-﻿using System;
-using LightPi.Midi2OrchestratorBridgeApp.Services;
+﻿using System.Runtime.Serialization;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.Models
+namespace LightPi.Midi2OrchestratorBridge.Models
 {
-    public class Output : IOutput
+    [DataContract]
+    public class Output
     {
+        [DataMember]
         public int Id { get; set; }
+        [DataMember]
         public string Name { get; set; }
-        
-        public void SetState(OutputState state, IOrchestratorService orchestratorService)
-        {
-            orchestratorService.SetOutputState(Id, state == OutputState.On);
-        }
+        [DataMember]
+        public int Watts { get; set; }
     }
 }

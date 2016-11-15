@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
-using LightPi.Midi2OrchestratorBridgeApp.Services;
-using LightPi.Midi2OrchestratorBridgeApp.UI.Views;
-using LightPi.Midi2OrchestratorBridgeApp.ViewModels;
+using LightPi.Midi2OrchestratorBridge.Services;
+using LightPi.Midi2OrchestratorBridge.UI.Views;
+using LightPi.Midi2OrchestratorBridge.ViewModels;
 using SimpleInjector;
 
-namespace LightPi.Midi2OrchestratorBridgeApp
+namespace LightPi.Midi2OrchestratorBridge
 {
     public partial class App
     {

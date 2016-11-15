@@ -5,10 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.OrchestratorFirmware", "LightPi.OrchestratorFirmware\LightPi.OrchestratorFirmware.csproj", "{15D0A4B8-2B93-49F1-910B-556A9760B2F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Midi2OrchestratorBridge", "LightPi.Midi2OrchestratorBridge\LightPi.Midi2OrchestratorBridge.csproj", "{F994E901-2201-48D1-9EDB-7D1D41B417A3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.OrchestratorEmulator", "LightPi.OrchestratorEmulator\LightPi.OrchestratorEmulator.csproj", "{C10687D6-DBFC-4043-9E01-F9A27EE60A16}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Orchestrator", "LightPi.Orchestrator\LightPi.Orchestrator.csproj", "{3BAECD45-3461-467E-8308-C8368FCE5366}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Protocol", "LightPi.Protocol\LightPi.Protocol.csproj", "{B77DB4EB-5B81-4596-A5F1-07424306752A}"
@@ -17,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Protocol.Tests", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Orchestrator.Tests", "LightPi.Orchestrator.Tests\LightPi.Orchestrator.Tests.csproj", "{50A98DDC-0363-49AA-A667-91AFB17AD236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Midi2OrchestratorBridgeApp", "LightPi.Midi2OrchestratorBridgeApp\LightPi.Midi2OrchestratorBridgeApp.csproj", "{307CA624-096D-4184-9D21-E83BDCD98D27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Midi2OrchestratorBridge", "LightPi.Midi2OrchestratorBridgeApp\LightPi.Midi2OrchestratorBridge.csproj", "{307CA624-096D-4184-9D21-E83BDCD98D27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Styles", "LightPi.Styles\LightPi.Styles.csproj", "{649BFE9E-DE0A-4B08-B19F-FCB00F73B7D8}"
 EndProject
@@ -53,38 +49,6 @@ Global
 		{15D0A4B8-2B93-49F1-910B-556A9760B2F5}.Release|x86.ActiveCfg = Release|x86
 		{15D0A4B8-2B93-49F1-910B-556A9760B2F5}.Release|x86.Build.0 = Release|x86
 		{15D0A4B8-2B93-49F1-910B-556A9760B2F5}.Release|x86.Deploy.0 = Release|x86
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|ARM.Build.0 = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|x64.Build.0 = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Debug|x86.Build.0 = Debug|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|ARM.ActiveCfg = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|ARM.Build.0 = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|x64.ActiveCfg = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|x64.Build.0 = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|x86.ActiveCfg = Release|Any CPU
-		{F994E901-2201-48D1-9EDB-7D1D41B417A3}.Release|x86.Build.0 = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|ARM.Build.0 = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|x64.Build.0 = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Debug|x86.Build.0 = Debug|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|ARM.ActiveCfg = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|ARM.Build.0 = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|x64.ActiveCfg = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|x64.Build.0 = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|x86.ActiveCfg = Release|Any CPU
-		{C10687D6-DBFC-4043-9E01-F9A27EE60A16}.Release|x86.Build.0 = Release|Any CPU
 		{3BAECD45-3461-467E-8308-C8368FCE5366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BAECD45-3461-467E-8308-C8368FCE5366}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BAECD45-3461-467E-8308-C8368FCE5366}.Debug|ARM.ActiveCfg = Debug|Any CPU

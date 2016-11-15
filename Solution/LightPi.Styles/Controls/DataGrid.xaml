@@ -3,6 +3,17 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserDeleteRows" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="CanUserResizeColumns" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="RowHeight" Value="28" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
     </Style>
 
     <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -13,7 +24,7 @@
                         <Label FontSize="12"
                                FontWeight="SemiBold"
                                Foreground="{StaticResource BackgroundDarkBrush}">
-                            <ContentPresenter Content="{Binding}" />
+                            <ContentPresenter />
                         </Label>
                     </Border>
                 </ControlTemplate>

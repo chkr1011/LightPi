@@ -1,56 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using LightPi.Midi2OrchestratorBridgeApp.Models;
-using LightPi.Midi2OrchestratorBridgeApp.Services;
+using LightPi.Midi2OrchestratorBridge.Models;
+using LightPi.Midi2OrchestratorBridge.Services;
 
-namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
+namespace LightPi.Midi2OrchestratorBridge.ViewModels
 {
     public class SettingsViewModel : BaseViewModel, IDialogViewModel
     {
         private readonly ISettingsService _settingsService;
         private readonly IMidiService _midiService;
-        private readonly IOrchestratorService _orchestratorService;
         private readonly ILogService _logService;
 
-        public SettingsViewModel(ISettingsService settingsService, IMidiService midiService, IOrchestratorService orchestratorService, ILogService logService)
+        public SettingsViewModel(ISettingsService settingsService, IMidiService midiService, ILogService logService)
         {
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
-            if (orchestratorService == null) throw new ArgumentNullException(nameof(orchestratorService));
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
             _settingsService = settingsService;
             _midiService = midiService;
-            _orchestratorService = orchestratorService;
             _logService = logService;
         }
-
-        public bool UseOrchestrator { get; set; }
-
-        public bool UseEmulator { get; set; }
-
+        
         public string OrchestratorAddress { get; set; }
 
         public List<MidiPortViewModel> AvailableMidiPorts { get; } = new List<MidiPortViewModel>();
 
         public void LoadSettings()
         {
-            if (_settingsService.Settings.Target == Target.Orchestrator)
-            {
-                UseOrchestrator = true;
-            }
-            else
-            {
-                UseEmulator = true;
-            }
-
-            OrchestratorAddress = _settingsService.Settings.OrchestratorAddress?.ToString();
+            OrchestratorAddress = _settingsService.Settings.OrchestratorAddress;
 
             foreach (var midiPort in _midiService.GetMidiPorts())
             {
-                bool isSelected = midiPort.Name.Equals(_settingsService.Settings.MidiIn);
+                var isSelected = midiPort.Name.Equals(_settingsService.Settings.MidiIn);
 
                 var midiPortViewModel = new MidiPortViewModel(midiPort, isSelected);
                 AvailableMidiPorts.Add(midiPortViewModel);
@@ -73,7 +56,6 @@ namespace LightPi.Midi2OrchestratorBridgeApp.ViewModels
 
             try
             {
-                _settingsService.Settings.Target = UseOrchestrator ? Target.Orchestrator : Target.Emulator;
                 _settingsService.Settings.OrchestratorAddress = OrchestratorAddress;
                 _settingsService.Settings.MidiIn = AvailableMidiPorts.First(m => m.IsSelected).MidiPort.Name;
 

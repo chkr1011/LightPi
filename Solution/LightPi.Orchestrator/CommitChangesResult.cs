@@ -1,20 +1,15 @@
-﻿using System;
-
-namespace LightPi.Orchestrator
+﻿namespace LightPi.Orchestrator
 {
     public class CommitChangesResult
     {
-        public CommitChangesResult(bool stateChanged, byte[] state, TimeSpan duration)
+        public CommitChangesResult(bool stateChanged, byte[] state)
         {
             StateChanged = stateChanged;
             State = state;
-            Duration = duration;
         }
 
         public bool StateChanged { get; }
 
         public byte[] State { get; }
-
-        public TimeSpan Duration { get; }
     }
 }

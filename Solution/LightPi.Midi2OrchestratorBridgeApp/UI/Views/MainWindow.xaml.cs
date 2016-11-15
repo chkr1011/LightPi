@@ -1,4 +1,4 @@
-﻿namespace LightPi.Midi2OrchestratorBridgeApp.UI.Views
+﻿namespace LightPi.Midi2OrchestratorBridge.UI.Views
 {
     public partial class MainWindow 
     {
