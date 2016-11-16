@@ -12,6 +12,8 @@ namespace LightPi.Midi2OrchestratorBridge.Services
 
         List<OutputViewModel> OutputViewModels { get; }
 
+        void ImportMappingViewModels(ICollection<MappingViewModel> mappings);
+
         void Save();
     }
 }

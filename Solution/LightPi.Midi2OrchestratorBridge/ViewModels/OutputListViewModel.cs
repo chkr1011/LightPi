@@ -25,12 +25,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
 
         public void Close(DialogResult dialogResult)
         {
-            foreach (var output in Outputs)
-            {
-                _settingsService.Settings.Outputs[output.Output.Id] = output.Output;
-            }
-
-            _settingsService.Save();
         }
     }
 }

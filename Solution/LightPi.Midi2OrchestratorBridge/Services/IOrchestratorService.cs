@@ -7,8 +7,9 @@ namespace LightPi.Midi2OrchestratorBridge.Services
     {
         event EventHandler<ChangesCommittedEventArgs> ChangesCommitted;
          
-        void SetOutputState(int id, bool state);
+        void SetOutputState(int id, bool isActive);
         void CommitChanges();
         void Initialize();
+        void Reset();
     }
 }

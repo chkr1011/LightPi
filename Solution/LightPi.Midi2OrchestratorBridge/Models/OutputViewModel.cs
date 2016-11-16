@@ -23,7 +23,18 @@ namespace LightPi.Midi2OrchestratorBridge.Models
         public bool IsActive
         {
             get { return _isActive; }
-            set { _isActive = value; OnPropertyChanged(); }
+            set
+            {
+                var hasChanged = _isActive != value;
+                if (!hasChanged)
+                {
+                    return;
+                }
+
+                _isActive = value;
+                OnPropertyChanged();
+                StateChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void ToggleState()

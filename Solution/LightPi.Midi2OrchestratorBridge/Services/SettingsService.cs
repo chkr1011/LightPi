@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
@@ -60,6 +61,15 @@ namespace LightPi.Midi2OrchestratorBridge.Services
 
                 _serializer.WriteObject(xmlWriter, Settings);
             }
+        }
+
+        public void ImportMappingViewModels(ICollection<MappingViewModel> mappings)
+        {
+            MappingViewModels.Clear();
+            MappingViewModels.AddRange(mappings);
+
+            Settings.Mappings.Clear();
+            Settings.Mappings.AddRange(mappings.Select(m => m.Mapping));
         }
 
         private string GenerateFilename()

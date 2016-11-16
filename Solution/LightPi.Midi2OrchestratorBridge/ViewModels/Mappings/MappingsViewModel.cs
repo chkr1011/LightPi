@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 using LightPi.Midi2OrchestratorBridge.Models;
 using LightPi.Midi2OrchestratorBridge.Services;
 using NAudio.Midi;
@@ -8,41 +10,37 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 {
     public class MappingsViewModel : BaseViewModel
     {
-        private readonly MappingEditorViewModel _mappingEditorViewModel;
-
+        private readonly IFactoryService _factoryService;
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IOrchestratorService _orchestratorService;
-        private readonly ILogService _logService;
 
         public MappingsViewModel(
-            MappingEditorViewModel mappingEditorViewModel,
+            IFactoryService factoryService,
             ISettingsService settingsService,
             IMidiService midiService,
             IOrchestratorService orchestratorService,
-            IDialogService dialogService,
-            ILogService logService)
+            IDialogService dialogService)
         {
+            if (factoryService == null) throw new ArgumentNullException(nameof(factoryService));
             if (settingsService == null) throw new ArgumentNullException(nameof(settingsService));
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
             if (dialogService == null) throw new ArgumentNullException(nameof(dialogService));
             if (orchestratorService == null) throw new ArgumentNullException(nameof(orchestratorService));
-            if (logService == null) throw new ArgumentNullException(nameof(logService));
 
-            _mappingEditorViewModel = mappingEditorViewModel;
+            _factoryService = factoryService;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _orchestratorService = orchestratorService;
-            _logService = logService;
-
-            LoadMappings();
 
             RouteCommand(MappingsCommand.Add, AddMapping);
             RouteCommand(MappingsCommand.Edit, EditMapping);
             RouteCommand(MappingsCommand.Delete, DeleteMapping);
-            RouteCommand(MappingsCommand.MoveUp, MoveMappingUp);
-            RouteCommand(MappingsCommand.MoveDown, MoveMappingDown);
+            RouteCommand(MappingsCommand.MoveUp, () => MoveMapping(-1));
+            RouteCommand(MappingsCommand.MoveDown, () => MoveMapping(1));
+            RouteCommand(ToolBarCommand.Reset, ResetStates);
 
+            LoadMappings();
             midiService.NoteEventReceived += MapMidiEvent;
         }
 
@@ -64,81 +62,64 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
                 isActive = false;
             }
 
+            var hasChangedMappings = false;
             foreach (var mapping in Mappings)
             {
-                if (mapping.Mapping.Channel != e.Channel || mapping.Mapping.Octave != e.Octave || mapping.Mapping.Note != e.Note)
+                var isMatch = mapping.Mapping.Channel == e.Channel
+                    && mapping.Mapping.Octave == e.Octave
+                    && mapping.Mapping.Note == e.Note;
+
+                if (!isMatch)
                 {
                     continue;
                 }
 
-                if (mapping.IsActive == isActive)
+                var hasChanged = mapping.IsActive != isActive;
+                if (!hasChanged)
                 {
                     continue;
-                }
-
-                foreach (var output in mapping.Mapping.Outputs)
-                {
-                    _orchestratorService.SetOutputState(output, isActive);
                 }
 
                 mapping.IsActive = isActive;
+                hasChangedMappings = true;
+
+                foreach (var output in mapping.Mapping.Outputs)
+                {
+                    _orchestratorService.SetOutputState(output, mapping.IsActive);
+                }
             }
-
-            _orchestratorService.CommitChanges();
-
-            ////Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Send, new Action(() =>
-            ////{
-            ////    foreach (var mapping in Mappings)
-            ////    {
-            ////        if (mapping.Mapping.Channel != e.Channel || mapping.Mapping.Octave != e.Octave || mapping.Mapping.Note != e.Note)
-            ////        {
-            ////            continue;
-            ////        }
-
-            ////        if (mapping.State == isActive)
-            ////        {
-            ////            continue;
-            ////        }
-
-            ////        mapping.State = isActive;
-            ////        foreach (var output in mapping.Mapping.Outputs)
-            ////        {
-            ////            _orchestratorService.SetOutputState(output, isActive);
-            ////        }
-            ////    }
-
-            ////    _orchestratorService.CommitChanges();
-            ////}));
+            
+            if (hasChangedMappings)
+            {
+                _orchestratorService.CommitChanges();
+            }
         }
 
         private void LoadMappings()
         {
             Mappings.Clear();
-            foreach (var mapping in _settingsService.Settings.Mappings)
+            foreach (var mapping in _settingsService.MappingViewModels)
             {
-                var mappingViewModel = new MappingViewModel(mapping);
-                Mappings.Add(mappingViewModel);
+                Mappings.Add(mapping);
             }
         }
 
         private void AddMapping()
         {
-            _mappingEditorViewModel.Reset();
+            var editor = _factoryService.GetInstance<MappingEditorViewModel>();
 
-            var result = _dialogService.ShowDialog("Add new mapping", _mappingEditorViewModel);
+            var result = _dialogService.ShowDialog("Add new mapping", editor);
             if (result != DialogResult.OK)
             {
                 return;
             }
 
             var mapping = new Mapping();
-            _mappingEditorViewModel.Update(mapping);
+            editor.Update(mapping);
+            Mappings.Add(new MappingViewModel(mapping));
 
-            _settingsService.Settings.Mappings.Add(mapping);
+            _settingsService.ImportMappingViewModels(Mappings);
             _settingsService.Save();
-
-            _logService.Information("Successfully added new mapping");
-            LoadMappings();
         }
 
         private void EditMapping()
@@ -150,47 +131,61 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 
             var mapping = SelectedMapping.Mapping;
 
-            _mappingEditorViewModel.Load(mapping);
+            var editor = _factoryService.GetInstance<MappingEditorViewModel>();
+            editor.Load(mapping);
 
-            var result = _dialogService.ShowDialog("Edit existing mapping", _mappingEditorViewModel);
+            var result = _dialogService.ShowDialog("Edit existing mapping", editor);
             if (result != DialogResult.OK)
             {
                 return;
             }
 
-            _mappingEditorViewModel.Update(mapping);
-
+            editor.Update(mapping);
             _settingsService.Save();
-            _logService.Information("Successfully updated existing mapping");
             LoadMappings();
         }
 
         private void DeleteMapping()
         {
-            _settingsService.Settings.Mappings.Remove(SelectedMapping.Mapping);
+            if (SelectedMapping == null)
+            {
+                return;
+            }
 
+            Mappings.Remove(SelectedMapping);
+
+            _settingsService.ImportMappingViewModels(Mappings);
             _settingsService.Save();
-            _logService.Information("Successfully deleted existing mapping");
-            LoadMappings();
         }
 
-        private void MoveMappingUp()
+        private void ResetStates()
+        {
+            foreach (var mapping in Mappings)
+            {
+                mapping.IsActive = false;
+            }
+
+            _orchestratorService.Reset();
+        }
+
+        private void MoveMapping(int direction)
         {
             if (SelectedMapping == null)
             {
                 return;
             }
 
-            _settingsService.Save();
-        }
+            var currentIndex = Mappings.IndexOf(SelectedMapping);
+            var newIndex = currentIndex + direction;
 
-        private void MoveMappingDown()
-        {
-            if (SelectedMapping == null)
+            if (newIndex < 0 || newIndex >= Mappings.Count)
             {
                 return;
             }
 
+            Mappings.Move(currentIndex, newIndex);
+
+            _settingsService.ImportMappingViewModels(Mappings);
             _settingsService.Save();
         }
     }

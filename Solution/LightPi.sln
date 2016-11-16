@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Protocol.Tests", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Orchestrator.Tests", "LightPi.Orchestrator.Tests\LightPi.Orchestrator.Tests.csproj", "{50A98DDC-0363-49AA-A667-91AFB17AD236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Midi2OrchestratorBridge", "LightPi.Midi2OrchestratorBridgeApp\LightPi.Midi2OrchestratorBridge.csproj", "{307CA624-096D-4184-9D21-E83BDCD98D27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Midi2OrchestratorBridge", "LightPi.Midi2OrchestratorBridge\LightPi.Midi2OrchestratorBridge.csproj", "{307CA624-096D-4184-9D21-E83BDCD98D27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightPi.Styles", "LightPi.Styles\LightPi.Styles.csproj", "{649BFE9E-DE0A-4B08-B19F-FCB00F73B7D8}"
 EndProject

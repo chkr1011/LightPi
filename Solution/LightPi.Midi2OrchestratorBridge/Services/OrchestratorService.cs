@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using LightPi.Midi2OrchestratorBridge.Models;
 using LightPi.Orchestrator;
@@ -29,13 +30,19 @@ namespace LightPi.Midi2OrchestratorBridge.Services
             };
         }
 
+        public void Reset()
+        {
+            var result = _client.Reset();
+            ChangesCommitted?.Invoke(this, new ChangesCommittedEventArgs(result.State));
+        }
+
         public event EventHandler<ChangesCommittedEventArgs> ChangesCommitted;
 
-        public void SetOutputState(int id, bool state)
+        public void SetOutputState(int id, bool isActive)
         {
-            _client?.SetOutput(id, state);
+            _client?.SetOutput(id, isActive, SetOutputMode.Set);
 
-            _logService.Information("Set output " + id + " " + (state ? "on" : "off"));
+            _logService.Information("Set " + id + " = " + (isActive ? "on" : "off"));
         }
 
         public void CommitChanges()

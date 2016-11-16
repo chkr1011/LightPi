@@ -13,26 +13,19 @@ namespace LightPi.Midi2OrchestratorBridge.UI
     {
         private readonly List<OutputSprite> _sprites = new List<OutputSprite>();
         private readonly string _baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        private BitmapImage _backgroundSprite;
+        private readonly BitmapImage _backgroundSprite;
 
         public SpriteSurface()
         {
             IsHitTestVisible = false;
+            _backgroundSprite = TryLoadImageFromFile(@"Sprites\Background.png");
         }
-
-        public void SetBackground(string filename)
-        {
-            if (filename == null) throw new ArgumentNullException(nameof(filename));
-
-            _backgroundSprite = TryLoadImageFromFile(filename);
-        }
-
-        public void AddOutput(OutputViewModel output, string spriteFilename)
+        
+        public void AddOutput(OutputViewModel output)
         {
             if (output == null) throw new ArgumentNullException(nameof(output));
-            if (spriteFilename == null) throw new ArgumentNullException(nameof(spriteFilename));
-
-            var image = TryLoadImageFromFile(spriteFilename); ;
+            
+            var image = TryLoadImageFromFile($@"Sprites\{output.Output.Id}.png");
             _sprites.Add(new OutputSprite(output, image));
         }
 

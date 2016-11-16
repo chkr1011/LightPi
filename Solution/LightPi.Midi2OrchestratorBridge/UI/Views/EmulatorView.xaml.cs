@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using LightPi.Midi2OrchestratorBridge.ViewModels;
 
 namespace LightPi.Midi2OrchestratorBridge.UI.Views
@@ -16,6 +17,11 @@ namespace LightPi.Midi2OrchestratorBridge.UI.Views
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (_dataContext != null)
+            {
+                throw new InvalidOperationException();
+            }
+
             _dataContext = e.NewValue as EmulatorViewModel;
             if (_dataContext == null)
             {
@@ -24,10 +30,9 @@ namespace LightPi.Midi2OrchestratorBridge.UI.Views
 
             _dataContext.View = this;
 
-            Surface.SetBackground(@"Sprites\Background.png");
             foreach (var output in _dataContext.Outputs)
             {
-                Surface.AddOutput(output, $@"Sprites\{output.Output.Id}.png");
+                Surface.AddOutput(output);
             }
 
             Surface.Update();

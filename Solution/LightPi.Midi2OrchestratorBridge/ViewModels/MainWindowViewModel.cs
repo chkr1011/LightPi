@@ -75,6 +75,17 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             outputsViewModel.LoadOutputs();
 
             var dialogResult = _dialogService.ShowDialog("Outputs", outputsViewModel);
+            if (dialogResult == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            foreach (var output in outputsViewModel.Outputs)
+            {
+                _settingsService.Settings.Outputs[output.Output.Id] = output.Output;
+            }
+
+            _settingsService.Save();
         }
 
         private void Initialize()

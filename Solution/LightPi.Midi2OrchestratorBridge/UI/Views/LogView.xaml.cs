@@ -10,6 +10,7 @@ namespace LightPi.Midi2OrchestratorBridge.UI.Views
 {
     public partial class LogView
     {
+        private readonly int _maxLogLength = Properties.Settings.Default.MaxLogLength;
         private LogViewModel _dataContext;
         
         public LogView()
@@ -49,7 +50,7 @@ namespace LightPi.Midi2OrchestratorBridge.UI.Views
                 var message = $"{e.Entry.Timestamp:HH:mm:ss.fff}: {e.Entry.Message}\r";
 
                 var existingTextRange = new TextRange(RichTextBox.Document.ContentStart, RichTextBox.Document.ContentEnd);
-                if (existingTextRange.Text.Length > Properties.Settings.Default.MaxLogLength)
+                if (existingTextRange.Text.Length > _maxLogLength)
                 {
                     existingTextRange.Text = string.Empty;
                 }

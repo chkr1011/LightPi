@@ -83,7 +83,20 @@ namespace LightPi.Orchestrator
                 return new CommitChangesResult(true, state);
             }
         }
-        
+
+        public CommitChangesResult Reset()
+        {
+            lock (_syncRoot)
+            {
+                foreach (var output in _outputs)
+                {
+                    output.Deactivate();
+                }
+
+                return CommitChanges();
+            }
+        }
+
         private void InitializeOutputs()
         {
             for (var i = 0; i < _outputs.Length; i++)

@@ -43,8 +43,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             {
                 AvailableMidiPorts.First().IsSelected = true;
             }
-
-            _logService.Information($"Found {AvailableMidiPorts.Count} MIDI input ports");
         }
         
         public void Close(DialogResult dialogResult)

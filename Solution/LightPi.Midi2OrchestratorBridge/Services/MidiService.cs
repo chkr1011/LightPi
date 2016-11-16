@@ -69,20 +69,26 @@ namespace LightPi.Midi2OrchestratorBridge.Services
         private void ProcessMidiMessage(object sender, MidiInMessageEventArgs e)
         {
             var noteEvent = e.MidiEvent as NoteEvent;
-            if (noteEvent == null)
+            if (noteEvent != null)
             {
-                _logService.Warning($"MIDI event: Unsupported! {e.MidiEvent}");
+                // Use no regex here for performance reasons.
+                var channel = noteEvent.Channel;
+                var note = NoteNames[noteEvent.NoteNumber % 12];
+                var octave = noteEvent.NoteNumber / NoteNames.Length;
+
+                _logService.Verbose($"MIDI event: CH:{channel} / N:{note} / O: {octave} / C:{noteEvent.CommandCode} / V:{noteEvent.Velocity}");
+
+                NoteEventReceived?.Invoke(this, new NoteEventReceivedEventArgs(channel, note, octave, noteEvent.Velocity, noteEvent.CommandCode));
                 return;
             }
 
-            // Use no regex here for performance reasons.
-            var channel = noteEvent.Channel;
-            var note = NoteNames[noteEvent.NoteNumber % 12];
-            var octave = noteEvent.NoteNumber / NoteNames.Length;
+            var controlChangeEvent = e.MidiEvent as ControlChangeEvent;
+            if (controlChangeEvent != null)
+            {
+                // TODO: Handle AllNotesOff event.
+            }
 
-            _logService.Verbose($"MIDI event: CH:{channel} / N:{note} / O: {octave} / C:{noteEvent.CommandCode} / V:{noteEvent.Velocity}");
-
-            NoteEventReceived?.Invoke(this, new NoteEventReceivedEventArgs(channel, note, octave, noteEvent.Velocity, noteEvent.CommandCode));
+            _logService.Warning($"MIDI event: Unsupported! {e.MidiEvent}");
         }
 
         private void LogMidiError(object sender, MidiInMessageEventArgs e)

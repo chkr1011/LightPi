@@ -1,32 +1,34 @@
-﻿namespace LightPi.Orchestrator
+﻿using System.Threading;
+
+namespace LightPi.Orchestrator
 {
     public class OrchestratorOutput
     {
-        private int _onStateCounter;
+        private int _counter;
 
         public void Increment()
         {
-            _onStateCounter++;
+            Interlocked.Increment(ref _counter);
         }
 
         public void Decrement()
         {
-            _onStateCounter--;
+            Interlocked.Decrement(ref _counter);
         }
 
         public void Activate()
         {
-            _onStateCounter = 1;
+            Interlocked.Exchange(ref _counter, 1);
         }
 
         public void Deactivate()
         {
-            _onStateCounter = 0;
+            Interlocked.Exchange(ref _counter, 0);
         }
 
         public bool IsActive()
         {
-            return _onStateCounter > 0;
+            return _counter > 0;
         }
     }
 }

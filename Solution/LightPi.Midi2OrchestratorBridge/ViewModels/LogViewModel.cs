@@ -10,9 +10,21 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
         {
             if (logService == null) throw new ArgumentNullException(nameof(logService));
 
-            logService.Logged += (sender, args) => Logged?.Invoke(this, args);
+            logService.Logged += ForwardLogEntry;
         }
 
+        public bool IsEnabled { get; set; }
+
         public event EventHandler<LoggedEventArgs> Logged;
+
+        private void ForwardLogEntry(object sender, LoggedEventArgs loggedEventArgs)
+        {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
+            Logged?.Invoke(this, loggedEventArgs);
+        }
     }
 }
