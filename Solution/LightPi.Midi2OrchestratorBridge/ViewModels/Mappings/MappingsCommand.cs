@@ -10,6 +10,8 @@
 
         MoveUp,
 
-        MoveDown
+        MoveDown,
+
+        Import
     }
 }

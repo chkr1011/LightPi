@@ -123,19 +123,24 @@
                    Grid.Column="0"
                    Content="Outputs:"
                    Style="{StaticResource HeadlineSmallLabel}" />
-            <ItemsControl Grid.Row="6"
-                          Grid.Column="1"
-                          ItemsSource="{Binding Outputs}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Content="{Binding Model.Output.Id}" IsChecked="{Binding IsSelected}">
-                            <CheckBox.ToolTip>
-                                <TextBlock Text="{Binding Model.Output.Name}" />
-                            </CheckBox.ToolTip>
-                        </CheckBox>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <DockPanel Grid.Row="6" Grid.Column="1">
+                <Button Margin="0,10,0,0"
+                        Command="{Binding}"
+                        CommandParameter="{x:Static mappings:MappingsCommand.Import}"
+                        Content="Import from current state"
+                        DockPanel.Dock="Bottom" />
+                <ItemsControl ItemsSource="{Binding Outputs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Model.Output.Id}" IsChecked="{Binding IsSelected}">
+                                <CheckBox.ToolTip>
+                                    <TextBlock Text="{Binding Model.Output.Name}" />
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DockPanel>
 
             <Separator Grid.Row="7"
                        Grid.Column="0"

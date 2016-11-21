@@ -3,6 +3,7 @@ using System.Windows;
 using LightPi.Midi2OrchestratorBridge.Services;
 using LightPi.Midi2OrchestratorBridge.UI.Views;
 using LightPi.Midi2OrchestratorBridge.ViewModels;
+using LightPi.Midi2OrchestratorBridge.ViewModels.Mappings;
 using SimpleInjector;
 
 namespace LightPi.Midi2OrchestratorBridge
@@ -24,6 +25,13 @@ namespace LightPi.Midi2OrchestratorBridge
                 container.RegisterSingleton<IMidiService, MidiService>();
                 container.RegisterSingleton<IDialogService, DialogService>();
                 container.RegisterSingleton<IFactoryService, FactoryService>();
+
+                container.RegisterSingleton<MainWindowViewModel>();
+                container.RegisterSingleton<EmulatorViewModel>();
+                container.RegisterSingleton<SettingsViewModel>();
+                container.RegisterSingleton<MappingsViewModel>();
+                container.RegisterSingleton<LogViewModel>();
+
                 container.Verify();
                 
                 var mainWindowViewModel = container.GetInstance<MainWindowViewModel>();

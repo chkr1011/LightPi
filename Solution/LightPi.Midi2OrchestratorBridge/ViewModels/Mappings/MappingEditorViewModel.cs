@@ -10,7 +10,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
     public class MappingEditorViewModel : BaseViewModel, IDialogViewModel
     {
         private readonly IMidiService _midiService;
-
+  
         public MappingEditorViewModel(IMidiService midiService, ISettingsService settingsService)
         {
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
@@ -40,8 +40,10 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             Notes.Add(new SelectableViewModel<string>("G"));
             Notes.Add(new SelectableViewModel<string>("G#"));
             Notes.Add(new SelectableViewModel<string>("A"));
-            Notes.Add(new SelectableViewModel<string>("A#/B"));
-            Notes.Add(new SelectableViewModel<string>("H"));
+            Notes.Add(new SelectableViewModel<string>("A#"));
+            Notes.Add(new SelectableViewModel<string>("B"));
+
+            RouteCommand(MappingsCommand.Import, ImportOutputsFromCurrentState);
         }
 
         public List<SelectableViewModel<int>> Channels { get; } = new List<SelectableViewModel<int>>();
@@ -57,8 +59,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         public void Load(Mapping mapping)
         {
             if (mapping == null) throw new ArgumentNullException(nameof(mapping));
-
-            Reset();
 
             Channels.SelectMatching(c => c.Model == mapping.Channel);
             Notes.SelectMatching(c => c.Model == mapping.Note);
@@ -83,16 +83,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             _midiService.NoteEventReceived -= FillFromPressedNote;
         }
 
-        public void Reset()
-        {
-            Channels.ForEach(c => c.Deselect());
-            Notes.ForEach(c => c.Deselect());
-            Octaves.ForEach(c => c.Deselect());
-            Outputs.ForEach(c => c.Deselect());
-            
-            Comment = string.Empty;
-        }
-
         private void FillFromPressedNote(object sender, NoteEventReceivedEventArgs e)
         {
             if (e.Command != MidiCommandCode.NoteOn)
@@ -103,6 +93,14 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             Channels.SelectMatching(c => c.Model == e.Channel);
             Notes.SelectMatching(c => c.Model == e.Note);
             Octaves.SelectMatching(o => o.Model == e.Octave);
+        }
+
+        private void ImportOutputsFromCurrentState()
+        {
+            foreach (var output in Outputs)
+            {
+                output.IsSelected = output.Model.IsActive;
+            }
         }
     }
 }
