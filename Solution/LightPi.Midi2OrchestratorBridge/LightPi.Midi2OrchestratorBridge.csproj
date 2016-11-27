@@ -203,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="LightPi.Midi2OrchestratorBridgeSettings.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
