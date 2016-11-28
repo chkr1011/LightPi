@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightPi.OrchestratorFirmware
+namespace LightPi.OrchestratorFirmware.Core
 {
     internal sealed class StateConverter
     {

@@ -1,4 +1,4 @@
-﻿namespace LightPi.OrchestratorFirmware
+namespace LightPi.OrchestratorFirmware.Core
 {
     internal enum MoveBitMode
     {

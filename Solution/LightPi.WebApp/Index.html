@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LightPi</title>
+
+    <link href="Content/bootstrap.min.css" rel="stylesheet">
+
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="WebApp.js"></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1 class="text-center">LightPi Control</h1>
+        <hr />
+
+        <div id="state" class="text-center">OFF</div>
+        <hr />
+
+        <div class="btn-group-horizontal text-center" role="group">
+            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="turnOn()">Turn on</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="turnOff()">Turn off</button>
+        </div>
+
+    </div>
+
+</body>
+</html>
