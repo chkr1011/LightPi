@@ -29,6 +29,8 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
 
         public void LoadSettings()
         {
+            AvailableMidiPorts.Clear();
+
             OrchestratorAddress = _settingsService.Settings.OrchestratorAddress;
 
             foreach (var midiPort in _midiService.GetMidiPorts())

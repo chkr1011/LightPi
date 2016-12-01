@@ -6,16 +6,14 @@ namespace LightPi.Protocol
     public static class LightPiProtocol
     {
         public static readonly int Port = 12345;
-
         public static readonly int StateLength = 8;
-
         public static readonly int OutputsCount = 51;
 
         public static readonly byte[] PackagePrefix = Encoding.ASCII.GetBytes("LIGHT_PI");
         public static readonly int PackagePrefixLength = PackagePrefix.Length;
         public static readonly int PackageLength = PackagePrefixLength + StateLength;
 
-        public static bool TryGetState(byte[] package, out byte[] state)
+        public static bool TryParsePackage(byte[] package, out byte[] state)
         {
             state = null;
 
@@ -35,7 +33,7 @@ namespace LightPi.Protocol
             return true;
         }
 
-        public static byte[] GeneratePackage(byte[] state)
+        public static byte[] CreatePackage(byte[] state)
         {
             if (state == null) throw new ArgumentNullException(nameof(state));
 

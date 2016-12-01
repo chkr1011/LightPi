@@ -6,4 +6,6 @@
     <Brush x:Key="TextNormalBrush">WhiteSmoke</Brush>
     <Brush x:Key="HoverBrush">#4C89BC</Brush>
     <Brush x:Key="SelectionBrush">#3399FF</Brush>
+    <Brush x:Key="ActiveBrush">#FF4D3C</Brush>
+    <Brush x:Key="InactiveBrush">#3E3E42</Brush>
 </ResourceDictionary>

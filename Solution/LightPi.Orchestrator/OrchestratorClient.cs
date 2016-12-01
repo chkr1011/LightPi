@@ -77,7 +77,7 @@ namespace LightPi.Orchestrator
 
                 _previousSentState = state;
                 
-                var package = LightPiProtocol.GeneratePackage(state);
+                var package = LightPiProtocol.CreatePackage(state);
                 _udpClient.Send(package, package.Length, _ipEndPoint);
                 
                 return new CommitChangesResult(true, state);

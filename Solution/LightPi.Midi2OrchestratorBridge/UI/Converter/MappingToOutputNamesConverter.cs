@@ -5,17 +5,12 @@ using LightPi.Midi2OrchestratorBridge.ViewModels.Mappings;
 
 namespace LightPi.Midi2OrchestratorBridge.UI.Converter
 {
-    public class MappingToNoteConverter : IValueConverter
+    public class MappingToOutputNamesConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var mapping = value as MappingViewModel;
-            if (mapping == null)
-            {
-                return string.Empty;
-            }
-
-            return $"{mapping.Mapping.Channel}-{mapping.Mapping.Note}{mapping.Mapping.Octave}";
+            var mapping = (MappingViewModel)value;
+            return string.Join(", ", mapping.Mapping.Outputs);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

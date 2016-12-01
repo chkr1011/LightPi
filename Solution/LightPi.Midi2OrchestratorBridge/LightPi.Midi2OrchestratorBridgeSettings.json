@@ -1,5 +1,5 @@
 {
-  "OrchestratorAddress": "192.168.1.55",
+  "OrchestratorAddress": "192.168.0.170",
   "MidiIn": "loopMIDI Port",
   "Mappings": [
     {
@@ -7,16 +7,29 @@
       "Note": "C",
       "Octave": 3,
       "Outputs": [
-        34
+        29
       ],
       "Comment": "Hecke-1"
+    },
+    {
+      "Channel": 2,
+      "Note": "C#",
+      "Octave": 3,
+      "Outputs": [
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "Comment": "Hecke-Alle"
     },
     {
       "Channel": 2,
       "Note": "D",
       "Octave": 3,
       "Outputs": [
-        33
+        28
       ],
       "Comment": "Hecke-2"
     },
@@ -25,7 +38,7 @@
       "Note": "E",
       "Octave": 3,
       "Outputs": [
-        32
+        27
       ],
       "Comment": "Hecke-3"
     },
@@ -34,7 +47,7 @@
       "Note": "F",
       "Octave": 3,
       "Outputs": [
-        31
+        26
       ],
       "Comment": "Hecke-4"
     },
@@ -43,477 +56,632 @@
       "Note": "G",
       "Octave": 3,
       "Outputs": [
-        30
+        25
       ],
       "Comment": "Hecke-5"
     },
     {
       "Channel": 2,
-      "Note": "A",
-      "Octave": 3,
+      "Note": "C",
+      "Octave": 4,
       "Outputs": [
-        29
+        21
       ],
-      "Comment": "Hecke-6"
-    },
-    {
-      "Channel": 2,
-      "Note": "B",
-      "Octave": 3,
-      "Outputs": [
-        28
-      ],
-      "Comment": "Hecke-7"
+      "Comment": "Zaun (außen)"
     },
     {
       "Channel": 2,
       "Note": "C#",
-      "Octave": 3,
+      "Octave": 4,
       "Outputs": [
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34
+        21,
+        24
       ],
-      "Comment": "Hecke-All"
+      "Comment": "Zaun-Alles"
     },
     {
       "Channel": 2,
-      "Note": "C",
+      "Note": "D",
       "Octave": 4,
       "Outputs": [
         24
       ],
-      "Comment": "Gap-1"
-    },
-    {
-      "Channel": 2,
-      "Note": "D",
-      "Octave": 4,
-      "Outputs": [
-        25
-      ],
-      "Comment": "Gap-2"
-    },
-    {
-      "Channel": 2,
-      "Note": "E",
-      "Octave": 4,
-      "Outputs": [
-        26
-      ],
-      "Comment": "Gap-3"
-    },
-    {
-      "Channel": 2,
-      "Note": "F",
-      "Octave": 4,
-      "Outputs": [
-        27
-      ],
-      "Comment": "Gap-4"
-    },
-    {
-      "Channel": 2,
-      "Note": "C#",
-      "Octave": 4,
-      "Outputs": [
-        24,
-        25,
-        26,
-        27
-      ],
-      "Comment": "Gap-All"
+      "Comment": "Nikolaus"
     },
     {
       "Channel": 2,
       "Note": "G",
       "Octave": 4,
       "Outputs": [
-        35
+        15
       ],
-      "Comment": "Haus-1"
+      "Comment": "Haus-links"
+    },
+    {
+      "Channel": 2,
+      "Note": "G#",
+      "Octave": 5,
+      "Outputs": [
+        10,
+        15,
+        22
+      ],
+      "Comment": "Haus-Alle"
     },
     {
       "Channel": 2,
       "Note": "A",
       "Octave": 4,
       "Outputs": [
-        15
+        22
       ],
-      "Comment": "Haus-2"
+      "Comment": "Haus-Dach"
     },
     {
       "Channel": 2,
       "Note": "B",
       "Octave": 4,
       "Outputs": [
-        14
+        10
       ],
-      "Comment": "Haus-3"
+      "Comment": "Haus-rechts"
     },
     {
       "Channel": 2,
       "Note": "C",
       "Octave": 5,
       "Outputs": [
-        13
-      ],
-      "Comment": "Haus-4"
-    },
-    {
-      "Channel": 2,
-      "Note": "D",
-      "Octave": 5,
-      "Outputs": [
-        12
-      ],
-      "Comment": "Haus-5"
-    },
-    {
-      "Channel": 2,
-      "Note": "E",
-      "Octave": 5,
-      "Outputs": [
-        18
-      ],
-      "Comment": "Fenster-OL"
-    },
-    {
-      "Channel": 2,
-      "Note": "F",
-      "Octave": 5,
-      "Outputs": [
-        16
-      ],
-      "Comment": "Fenster-OR"
-    },
-    {
-      "Channel": 2,
-      "Note": "G",
-      "Octave": 5,
-      "Outputs": [
-        19
+        14
       ],
       "Comment": "Fenster-UL"
     },
     {
       "Channel": 2,
-      "Note": "A",
+      "Note": "C#",
       "Octave": 5,
       "Outputs": [
-        17
+        8,
+        12,
+        13,
+        14,
+        23
+      ],
+      "Comment": "Fenster-ALL"
+    },
+    {
+      "Channel": 2,
+      "Note": "D",
+      "Octave": 5,
+      "Outputs": [
+        23
+      ],
+      "Comment": "Fenster-OL"
+    },
+    {
+      "Channel": 2,
+      "Note": "D#",
+      "Octave": 5,
+      "Outputs": [
+        8,
+        23
+      ],
+      "Comment": "Fenster-OBEN"
+    },
+    {
+      "Channel": 2,
+      "Note": "E",
+      "Octave": 5,
+      "Outputs": [
+        13
       ],
       "Comment": "Fenster-UM"
     },
     {
       "Channel": 2,
-      "Note": "B",
+      "Note": "F",
       "Octave": 5,
       "Outputs": [
-        20
+        8
+      ],
+      "Comment": "Fenster-OR"
+    },
+    {
+      "Channel": 2,
+      "Note": "F#",
+      "Octave": 5,
+      "Outputs": [
+        12,
+        13,
+        14
+      ],
+      "Comment": "Fenster-UNTEN"
+    },
+    {
+      "Channel": 2,
+      "Note": "G",
+      "Octave": 5,
+      "Outputs": [
+        12
       ],
       "Comment": "Fenster-UR"
     },
     {
       "Channel": 2,
-      "Note": "F#",
-      "Octave": 4,
+      "Note": "A",
+      "Octave": 5,
       "Outputs": [
-        12,
-        13,
-        14,
-        15,
-        35
+        30
       ],
-      "Comment": "Haus-All"
-    },
-    {
-      "Channel": 2,
-      "Note": "G#",
-      "Octave": 4,
-      "Outputs": [
-        16,
-        17,
-        18,
-        19,
-        20
-      ],
-      "Comment": "Fenster-All"
+      "Comment": "Busch-1"
     },
     {
       "Channel": 2,
       "Note": "A#",
       "Octave": 5,
       "Outputs": [
-        16,
-        17
+        30,
+        31,
+        32,
+        33,
+        34
       ],
-      "Comment": "Fenster-All-O"
+      "Comment": "Busch-ALL"
     },
     {
       "Channel": 2,
-      "Note": "C#",
-      "Octave": 6,
+      "Note": "B",
+      "Octave": 5,
       "Outputs": [
-        18,
-        19,
-        20
+        31
       ],
-      "Comment": "Fenster-All-U"
+      "Comment": "Busch-2"
     },
     {
       "Channel": 2,
       "Note": "C",
       "Octave": 6,
       "Outputs": [
-        21
+        32
       ],
-      "Comment": "Garten-1"
+      "Comment": "Busch-3"
+    },
+    {
+      "Channel": 2,
+      "Note": "C#",
+      "Octave": 6,
+      "Outputs": [
+        30,
+        34
+      ],
+      "Comment": "Busch-Außen-1"
     },
     {
       "Channel": 2,
       "Note": "D",
       "Octave": 6,
       "Outputs": [
-        22
+        33
       ],
-      "Comment": "Garten-2"
+      "Comment": "Busch-4"
     },
     {
       "Channel": 2,
       "Note": "E",
       "Octave": 6,
       "Outputs": [
-        23
+        34
       ],
-      "Comment": "Garten-3"
+      "Comment": "Busch-5"
     },
     {
       "Channel": 2,
       "Note": "D#",
       "Octave": 6,
       "Outputs": [
-        21,
-        22,
-        23
+        31,
+        33
       ],
-      "Comment": "Garten-All"
+      "Comment": "Busch-Außen-2"
+    },
+    {
+      "Channel": 2,
+      "Note": "F",
+      "Octave": 6,
+      "Outputs": [
+        37
+      ],
+      "Comment": "Schneemann"
+    },
+    {
+      "Channel": 2,
+      "Note": "G",
+      "Octave": 6,
+      "Outputs": [
+        39
+      ],
+      "Comment": "Tannenbaum"
+    },
+    {
+      "Channel": 2,
+      "Note": "A",
+      "Octave": 6,
+      "Outputs": [
+        38
+      ],
+      "Comment": "Schlitten"
     },
     {
       "Channel": 2,
       "Note": "F#",
       "Octave": 6,
       "Outputs": [
-        21,
-        23
+        37,
+        38,
+        39
       ],
-      "Comment": "Garden-Outer"
+      "Comment": "Figuren-ALL"
+    },
+    {
+      "Channel": 2,
+      "Note": "G#",
+      "Octave": 6,
+      "Outputs": [
+        37,
+        38
+      ],
+      "Comment": "Figuren-Außen"
+    },
+    {
+      "Channel": 2,
+      "Note": "B",
+      "Octave": 6,
+      "Outputs": [
+        0
+      ],
+      "Comment": "Pfosten-LINKS"
+    },
+    {
+      "Channel": 2,
+      "Note": "C",
+      "Octave": 7,
+      "Outputs": [
+        3
+      ],
+      "Comment": "Balken-ROT"
+    },
+    {
+      "Channel": 2,
+      "Note": "D",
+      "Octave": 7,
+      "Outputs": [
+        2
+      ],
+      "Comment": "Pfosten-RECHTS"
+    },
+    {
+      "Channel": 2,
+      "Note": "C#",
+      "Octave": 7,
+      "Outputs": [
+        1
+      ],
+      "Comment": "Stern"
+    },
+    {
+      "Channel": 2,
+      "Note": "D#",
+      "Octave": 7,
+      "Outputs": [
+        0,
+        2
+      ],
+      "Comment": "Pfosten-Außen"
+    },
+    {
+      "Channel": 2,
+      "Note": "E",
+      "Octave": 7,
+      "Outputs": [
+        9
+      ],
+      "Comment": "Kl.Fenster-LINKS"
+    },
+    {
+      "Channel": 2,
+      "Note": "F",
+      "Octave": 7,
+      "Outputs": [
+        7
+      ],
+      "Comment": "Tür"
+    },
+    {
+      "Channel": 2,
+      "Note": "G",
+      "Octave": 7,
+      "Outputs": [
+        6
+      ],
+      "Comment": "Kl.Fenster-RECHTS"
+    },
+    {
+      "Channel": 2,
+      "Note": "A",
+      "Octave": 7,
+      "Outputs": [
+        5
+      ],
+      "Comment": "Tor-LINKS"
+    },
+    {
+      "Channel": 2,
+      "Note": "B",
+      "Octave": 7,
+      "Outputs": [
+        4
+      ],
+      "Comment": "Tor-RECHTS"
+    },
+    {
+      "Channel": 2,
+      "Note": "A#",
+      "Octave": 7,
+      "Outputs": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "Comment": "ALLES"
     }
   ],
   "Outputs": {
     "0": {
       "Id": 0,
-      "Name": "Hecke-1",
-      "Watts": 120
+      "Name": "Pfosten links",
+      "Watts": 10
     },
     "1": {
       "Id": 1,
-      "Name": "Hecke-2",
-      "Watts": 240
+      "Name": "Stern",
+      "Watts": 10
     },
     "2": {
       "Id": 2,
-      "Name": null,
-      "Watts": 0
+      "Name": "Pfosten rechts",
+      "Watts": 10
     },
     "3": {
       "Id": 3,
-      "Name": null,
-      "Watts": 50
+      "Name": "Balken rot",
+      "Watts": 170
     },
     "4": {
       "Id": 4,
-      "Name": null,
-      "Watts": 0
+      "Name": "Tor rechts",
+      "Watts": 14
     },
     "5": {
       "Id": 5,
-      "Name": null,
-      "Watts": 20
+      "Name": "Tor links",
+      "Watts": 14
     },
     "6": {
       "Id": 6,
-      "Name": null,
-      "Watts": 0
+      "Name": "Kl. Fenster rechts",
+      "Watts": 8
     },
     "7": {
       "Id": 7,
-      "Name": null,
-      "Watts": 0
+      "Name": "Tür",
+      "Watts": 10
     },
     "8": {
       "Id": 8,
-      "Name": null,
-      "Watts": 0
+      "Name": "Fenster o. r.",
+      "Watts": 12
     },
     "9": {
       "Id": 9,
-      "Name": null,
-      "Watts": 0
+      "Name": "Kl. Fenster links",
+      "Watts": 8
     },
     "10": {
       "Id": 10,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hauswand rechts",
+      "Watts": 10
     },
     "11": {
       "Id": 11,
-      "Name": null,
+      "Name": "- frei -",
       "Watts": 0
     },
     "12": {
       "Id": 12,
-      "Name": null,
-      "Watts": 0
+      "Name": "Fenster u. r.",
+      "Watts": 12
     },
     "13": {
       "Id": 13,
-      "Name": null,
-      "Watts": 0
+      "Name": "Fenster u. m.",
+      "Watts": 12
     },
     "14": {
       "Id": 14,
-      "Name": null,
-      "Watts": 0
+      "Name": "Fenster u. l.",
+      "Watts": 12
     },
     "15": {
       "Id": 15,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hauswand links",
+      "Watts": 10
     },
     "16": {
       "Id": 16,
-      "Name": null,
+      "Name": "- frei (Relay) -",
       "Watts": 0
     },
     "17": {
       "Id": 17,
-      "Name": null,
+      "Name": "- frei (Relay) -",
       "Watts": 0
     },
     "18": {
       "Id": 18,
-      "Name": null,
+      "Name": "- frei (Relay) -",
       "Watts": 0
     },
     "19": {
       "Id": 19,
-      "Name": null,
+      "Name": "- frei (Relay) -",
       "Watts": 0
     },
     "20": {
       "Id": 20,
-      "Name": null,
+      "Name": "- frei (Relay) -",
       "Watts": 0
     },
     "21": {
       "Id": 21,
-      "Name": null,
-      "Watts": 0
+      "Name": "Zaun außen",
+      "Watts": 15
     },
     "22": {
       "Id": 22,
-      "Name": null,
-      "Watts": 0
+      "Name": "Dach",
+      "Watts": 20
     },
     "23": {
       "Id": 23,
-      "Name": null,
-      "Watts": 0
+      "Name": "Fenster o. l.",
+      "Watts": 12
     },
     "24": {
       "Id": 24,
-      "Name": null,
-      "Watts": 0
+      "Name": "Nikolaus",
+      "Watts": 120
     },
     "25": {
       "Id": 25,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hecke-1 (R to L)",
+      "Watts": 20
     },
     "26": {
       "Id": 26,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hecke-2",
+      "Watts": 20
     },
     "27": {
       "Id": 27,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hecke-3",
+      "Watts": 20
     },
     "28": {
       "Id": 28,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hecke-4",
+      "Watts": 20
     },
     "29": {
       "Id": 29,
-      "Name": null,
-      "Watts": 0
+      "Name": "Hecke-5",
+      "Watts": 20
     },
     "30": {
       "Id": 30,
-      "Name": null,
-      "Watts": 0
+      "Name": "Busch-1",
+      "Watts": 20
     },
     "31": {
       "Id": 31,
-      "Name": null,
-      "Watts": 0
+      "Name": "Busch-2",
+      "Watts": 20
     },
     "32": {
       "Id": 32,
-      "Name": null,
-      "Watts": 0
+      "Name": "Busch-3",
+      "Watts": 20
     },
     "33": {
       "Id": 33,
-      "Name": null,
-      "Watts": 0
+      "Name": "Busch-4",
+      "Watts": 20
     },
     "34": {
       "Id": 34,
-      "Name": null,
-      "Watts": 0
+      "Name": "Busch-5",
+      "Watts": 20
     },
     "35": {
       "Id": 35,
-      "Name": null,
+      "Name": "- frei -",
       "Watts": 0
     },
     "36": {
       "Id": 36,
-      "Name": null,
+      "Name": "- frei -",
       "Watts": 0
     },
     "37": {
       "Id": 37,
-      "Name": null,
-      "Watts": 0
+      "Name": "Schneeman",
+      "Watts": 20
     },
     "38": {
       "Id": 38,
-      "Name": null,
-      "Watts": 0
+      "Name": "Schlitten",
+      "Watts": 20
     },
     "39": {
       "Id": 39,
-      "Name": null,
-      "Watts": 0
+      "Name": "Tannenbaum",
+      "Watts": 120
     },
     "40": {
       "Id": 40,

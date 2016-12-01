@@ -38,7 +38,7 @@ namespace LightPi.OrchestratorFirmware.Rest
             return new GetResponse(GetResponse.ResponseStatus.OK, response);
         }
 
-        [UriFormat("/State/{state}")]
+        [UriFormat("/State")]
         public PutResponse SetState([FromContent] long state)
         {
             var stateValue = BitConverter.GetBytes(state);
@@ -48,14 +48,14 @@ namespace LightPi.OrchestratorFirmware.Rest
         }
 
         [UriFormat("/TurnOff")]
-        public PostResponse TurnOff()
+        public PutResponse TurnOff()
         {
             _engine.EnqueueState(new byte[LightPiProtocol.StateLength]);
-            return new PostResponse(PostResponse.ResponseStatus.Created);
+            return new PutResponse(PutResponse.ResponseStatus.OK);
         }
 
         [UriFormat("/TurnOn")]
-        public PostResponse TurnOn()
+        public PutResponse TurnOn()
         {
             var state = new byte[LightPiProtocol.StateLength];
             for (var i = 0; i < state.Length; i++)
@@ -64,7 +64,7 @@ namespace LightPi.OrchestratorFirmware.Rest
             }
 
             _engine.EnqueueState(state);
-            return new PostResponse(PostResponse.ResponseStatus.Created);
+            return new PutResponse(PutResponse.ResponseStatus.OK);
         }
     }
 }

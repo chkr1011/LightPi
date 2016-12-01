@@ -24,13 +24,13 @@ namespace LightPi.OrchestratorFirmware.Udp
             _datagramSocket.Control.DontFragment = true;
             _datagramSocket.Control.QualityOfService = SocketQualityOfService.LowLatency;
 
-            _datagramSocket.MessageReceived += ProcessIncomingData;
+            _datagramSocket.MessageReceived += ProcessMessage;
             _datagramSocket.BindServiceNameAsync(LightPiProtocol.Port.ToString()).AsTask().Wait();
 
             Debug.WriteLine($"UDP endpoint opened on port {LightPiProtocol.Port}");
         }
 
-        private void ProcessIncomingData(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs message)
+        private void ProcessMessage(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs message)
         {
             var package = ReadPackageFromMessage(message);
             if (package == null)
@@ -39,7 +39,7 @@ namespace LightPi.OrchestratorFirmware.Udp
             }
 
             byte[] state;
-            if (!LightPiProtocol.TryGetState(package, out state))
+            if (!LightPiProtocol.TryParsePackage(package, out state))
             {
                 return;
             }

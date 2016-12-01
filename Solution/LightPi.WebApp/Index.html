@@ -1,7 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-status-bar-style content=black>
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LightPi</title>
@@ -19,13 +24,16 @@
         <h1 class="text-center">LightPi Control</h1>
         <hr />
 
-        <div id="state" class="text-center">OFF</div>
+        <h1 class="text-center"><span id="state" class="label label-default">OFF</span></h1>
         <hr />
 
         <div class="btn-group-horizontal text-center" role="group">
             <button type="button" class="btn btn-primary btn-lg btn-block" onclick="turnOn()">Turn on</button>
             <button type="button" class="btn btn-primary btn-lg btn-block" onclick="turnOff()">Turn off</button>
         </div>
+        
+        <hr />
+        Version 1.0.2
 
     </div>
 

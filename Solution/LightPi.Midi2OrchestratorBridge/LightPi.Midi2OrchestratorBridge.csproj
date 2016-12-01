@@ -88,7 +88,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="UI\Converter\MappingToOutputsConverter.cs" />
+    <Compile Include="UI\Converter\MappingToOutputIdsConverter.cs" />
+    <Compile Include="UI\Converter\MappingToOutputNamesConverter.cs" />
     <Compile Include="UI\OutputSprite.cs" />
     <Compile Include="Models\DialogResult.cs" />
     <Compile Include="Services\DialogService.cs" />
@@ -203,7 +204,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="LightPi.Midi2OrchestratorBridgeSettings.json" />
+    <None Include="LightPi.Midi2OrchestratorBridgeSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

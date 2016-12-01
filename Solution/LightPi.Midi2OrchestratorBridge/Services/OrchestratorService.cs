@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using LightPi.Midi2OrchestratorBridge.Models;
 using LightPi.Orchestrator;
 
@@ -20,11 +22,29 @@ namespace LightPi.Midi2OrchestratorBridge.Services
 
             _settingsService = settingsService;
             _logService = logService;
+
+            Task.Factory.StartNew(CommitStateLoop);
         }
-        
+
+        private void CommitStateLoop()
+        {
+            while (true)
+            {
+                //CommitChanges();
+                Thread.Sleep(50); // TODO: As Settings.
+            }
+        }
+
         public void Initialize()
         {
-            _client = new OrchestratorClient(IPAddress.Parse(_settingsService.Settings.OrchestratorAddress))
+            IPAddress orchestratorIpAddress;
+            if(IPAddress.TryParse(_settingsService.Settings.OrchestratorAddress, out orchestratorIpAddress))
+            {
+                orchestratorIpAddress = Dns.GetHostAddresses(_settingsService.Settings.OrchestratorAddress).First();
+                _logService.Information($"Resolved orchestrator address '{_settingsService.Settings.OrchestratorAddress}' to '{orchestratorIpAddress}'");
+            }
+
+            _client = new OrchestratorClient(orchestratorIpAddress)
             {
                 ForceCommits = Properties.Settings.Default.ForceCommits
             };
@@ -61,7 +81,10 @@ namespace LightPi.Midi2OrchestratorBridge.Services
 
             _logService.Information("Sent " + BitConverter.ToString(result.State));
 
-            ChangesCommitted?.Invoke(this, new ChangesCommittedEventArgs(result.State));
+            //if (fireEvent)
+            {
+                ChangesCommitted?.Invoke(this, new ChangesCommittedEventArgs(result.State));
+            }
         }
     }
 }

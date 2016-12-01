@@ -39,7 +39,7 @@ namespace LightPi.Orchestrator
                     byte[] package = _datagramSocket.Receive(ref remoteIPEndpoint);
 
                     byte[] state;
-                    if (!LightPiProtocol.TryGetState(package, out state))
+                    if (!LightPiProtocol.TryParsePackage(package, out state))
                     {
                         continue;
                     }

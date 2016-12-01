@@ -10,7 +10,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
     public class MappingEditorViewModel : BaseViewModel, IDialogViewModel
     {
         private readonly IMidiService _midiService;
-  
+
         public MappingEditorViewModel(IMidiService midiService, ISettingsService settingsService)
         {
             if (midiService == null) throw new ArgumentNullException(nameof(midiService));
@@ -20,10 +20,10 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 
             for (var i = 0; i < 12; i++)
             {
-                Channels.Add(new SelectableViewModel<int>(i));
+                Channels.Add(new SelectableViewModel<int>(i) { IsSelected = i == 2 });
             }
-            
-            for (var i = 0; i < 8; i++)
+
+            for (var i = 0; i < 9; i++)
             {
                 Octaves.Add(new SelectableViewModel<int>(i));
             }
@@ -47,13 +47,13 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         }
 
         public List<SelectableViewModel<int>> Channels { get; } = new List<SelectableViewModel<int>>();
-        
+
         public List<SelectableViewModel<string>> Notes { get; } = new List<SelectableViewModel<string>>();
-        
+
         public List<SelectableViewModel<int>> Octaves { get; } = new List<SelectableViewModel<int>>();
 
         public List<SelectableViewModel<OutputViewModel>> Outputs { get; } = new List<SelectableViewModel<OutputViewModel>>();
-        
+
         public string Comment { get; set; }
 
         public void Load(Mapping mapping)
@@ -88,7 +88,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             if (e.Command != MidiCommandCode.NoteOn)
             {
                 return;
-            } 
+            }
 
             Channels.SelectMatching(c => c.Model == e.Channel);
             Notes.SelectMatching(c => c.Model == e.Note);

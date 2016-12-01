@@ -1,20 +1,21 @@
-﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridge.UI.Views.MappingsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
-             xmlns:converter="clr-namespace:LightPi.Midi2OrchestratorBridge.UI.Converter"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels.Mappings"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             MinHeight="200"
-             d:DataContext="{d:DesignInstance Type=mappings:MappingsViewModel,
-                                              IsDesignTimeCreatable=False}"
-             d:DesignHeight="300"
-             d:DesignWidth="600"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="LightPi.Midi2OrchestratorBridge.UI.Views.MappingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
+    xmlns:converter="clr-namespace:LightPi.Midi2OrchestratorBridge.UI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels.Mappings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinHeight="200"
+    d:DataContext="{d:DesignInstance Type=mappings:MappingsViewModel,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="300"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <converter:MappingToNoteConverter x:Key="MappingToNoteConverter" />
-        <converter:MappingToOutputsConverter x:Key="MappingToOutputsConverter" />
+        <converter:MappingToOutputIdsConverter x:Key="MappingToOutputIdsConverter" />
     </UserControl.Resources>
     <Border Background="{StaticResource BackgroundLightBrush}" BorderBrush="{StaticResource BackgroundLightBrush}">
         <DockPanel LastChildFill="True">
@@ -28,57 +29,70 @@
             </DockPanel.Resources>
 
             <UniformGrid Columns="5" DockPanel.Dock="Bottom">
-                <Button controls:ButtonExtensions.Image="{StaticResource AddImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.Add}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource EditImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.Edit}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource DeleteImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.Delete}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource MoveUpImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.MoveUp}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource MoveDownImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.MoveDown}" />
+                <Button
+                    controls:ButtonExtensions.Image="{StaticResource AddImage}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static mappings:MappingsCommand.Add}" />
+                <Button
+                    controls:ButtonExtensions.Image="{StaticResource EditImage}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static mappings:MappingsCommand.Edit}" />
+                <Button
+                    controls:ButtonExtensions.Image="{StaticResource DeleteImage}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static mappings:MappingsCommand.Delete}" />
+                <Button
+                    controls:ButtonExtensions.Image="{StaticResource MoveUpImage}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static mappings:MappingsCommand.MoveUp}" />
+                <Button
+                    controls:ButtonExtensions.Image="{StaticResource MoveDownImage}"
+                    Command="{Binding}"
+                    CommandParameter="{x:Static mappings:MappingsCommand.MoveDown}" />
             </UniformGrid>
 
-            <DataGrid VerticalAlignment="Stretch"
-                      controls:DataGridExtensions.DoubleClickCommand="{Binding}"
-                      controls:DataGridExtensions.DoubleClickCommandParameter="{x:Static mappings:MappingsCommand.Edit}"
-                      IsReadOnly="True"
-                      ItemsSource="{Binding Mappings}"
-                      SelectedItem="{Binding SelectedMapping}">
+            <DataGrid
+                VerticalAlignment="Stretch"
+                controls:DataGridExtensions.DoubleClickCommand="{Binding}"
+                controls:DataGridExtensions.DoubleClickCommandParameter="{x:Static mappings:MappingsCommand.Edit}"
+                IsReadOnly="True"
+                ItemsSource="{Binding Mappings}"
+                SelectedItem="{Binding SelectedMapping}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="{x:Type mappings:MappingViewModel}">
-                                <Border x:Name="Image"
-                                        Width="16"
-                                        Height="16">
-                                    <Path Data="{StaticResource OutputsImage}"
-                                          Fill="#FF4D3C"
-                                          Stretch="Uniform" />
+                                <Border Width="16" Height="16">
+                                    <Path
+                                        x:Name="Image"
+                                        Data="{StaticResource OutputsImage}"
+                                        Fill="{StaticResource InactiveBrush}"
+                                        Stretch="Uniform" />
                                 </Border>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsActive}" Value="False">
-                                        <Setter TargetName="Image" Property="Visibility" Value="Hidden" />
+                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                        <Setter TargetName="Image" Property="Fill" Value="{StaticResource ActiveBrush}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Converter={StaticResource MappingToNoteConverter}}"
-                                        Header="Note" />
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Converter={StaticResource MappingToOutputsConverter}}"
-                                        Header="Outputs" />
-                    <DataGridTextColumn Width="*"
-                                        Binding="{Binding Mapping.Comment}"
-                                        Header="Comment" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        Binding="{Binding Converter={StaticResource MappingToNoteConverter}}"
+                        FontFamily="Consolas"
+                        FontSize="14"
+                        Header="Note" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        Binding="{Binding Converter={StaticResource MappingToOutputIdsConverter}}"
+                        FontFamily="Consolas"
+                        FontSize="12"
+                        Header="Outputs" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Mapping.Comment}"
+                        Header="Comment" />
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
