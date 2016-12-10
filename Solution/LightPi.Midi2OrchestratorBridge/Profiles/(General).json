@@ -1,0 +1,481 @@
+﻿[
+  {
+    "Channel": 2,
+    "Note": "C",
+    "Octave": 3,
+    "Outputs": [
+      29
+    ],
+    "Comment": "Hecke-1"
+  },
+  {
+    "Channel": 2,
+    "Note": "C#",
+    "Octave": 3,
+    "Outputs": [
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "Comment": "Hecke-Alle"
+  },
+  {
+    "Channel": 2,
+    "Note": "D",
+    "Octave": 3,
+    "Outputs": [
+      28
+    ],
+    "Comment": "Hecke-2"
+  },
+  {
+    "Channel": 2,
+    "Note": "E",
+    "Octave": 3,
+    "Outputs": [
+      27
+    ],
+    "Comment": "Hecke-3"
+  },
+  {
+    "Channel": 2,
+    "Note": "F",
+    "Octave": 3,
+    "Outputs": [
+      26
+    ],
+    "Comment": "Hecke-4"
+  },
+  {
+    "Channel": 2,
+    "Note": "G",
+    "Octave": 3,
+    "Outputs": [
+      25
+    ],
+    "Comment": "Hecke-5"
+  },
+  {
+    "Channel": 2,
+    "Note": "C",
+    "Octave": 4,
+    "Outputs": [
+      21
+    ],
+    "Comment": "Zaun (außen)"
+  },
+  {
+    "Channel": 2,
+    "Note": "C#",
+    "Octave": 4,
+    "Outputs": [
+      21,
+      24
+    ],
+    "Comment": "Zaun-Alles"
+  },
+  {
+    "Channel": 2,
+    "Note": "D",
+    "Octave": 4,
+    "Outputs": [
+      24
+    ],
+    "Comment": "Nikolaus"
+  },
+  {
+    "Channel": 2,
+    "Note": "G",
+    "Octave": 4,
+    "Outputs": [
+      15
+    ],
+    "Comment": "Haus-links"
+  },
+  {
+    "Channel": 2,
+    "Note": "G#",
+    "Octave": 5,
+    "Outputs": [
+      10,
+      15,
+      22
+    ],
+    "Comment": "Haus-Alle"
+  },
+  {
+    "Channel": 2,
+    "Note": "A",
+    "Octave": 4,
+    "Outputs": [
+      22
+    ],
+    "Comment": "Haus-Dach"
+  },
+  {
+    "Channel": 2,
+    "Note": "B",
+    "Octave": 4,
+    "Outputs": [
+      10
+    ],
+    "Comment": "Haus-rechts"
+  },
+  {
+    "Channel": 2,
+    "Note": "C",
+    "Octave": 5,
+    "Outputs": [
+      14
+    ],
+    "Comment": "Fenster-UL"
+  },
+  {
+    "Channel": 2,
+    "Note": "C#",
+    "Octave": 5,
+    "Outputs": [
+      8,
+      12,
+      13,
+      14,
+      23
+    ],
+    "Comment": "Fenster-ALL"
+  },
+  {
+    "Channel": 2,
+    "Note": "D",
+    "Octave": 5,
+    "Outputs": [
+      23
+    ],
+    "Comment": "Fenster-OL"
+  },
+  {
+    "Channel": 2,
+    "Note": "D#",
+    "Octave": 5,
+    "Outputs": [
+      8,
+      23
+    ],
+    "Comment": "Fenster-OBEN"
+  },
+  {
+    "Channel": 2,
+    "Note": "E",
+    "Octave": 5,
+    "Outputs": [
+      13
+    ],
+    "Comment": "Fenster-UM"
+  },
+  {
+    "Channel": 2,
+    "Note": "F",
+    "Octave": 5,
+    "Outputs": [
+      8
+    ],
+    "Comment": "Fenster-OR"
+  },
+  {
+    "Channel": 2,
+    "Note": "F#",
+    "Octave": 5,
+    "Outputs": [
+      12,
+      13,
+      14
+    ],
+    "Comment": "Fenster-UNTEN"
+  },
+  {
+    "Channel": 2,
+    "Note": "G",
+    "Octave": 5,
+    "Outputs": [
+      12
+    ],
+    "Comment": "Fenster-UR"
+  },
+  {
+    "Channel": 2,
+    "Note": "A",
+    "Octave": 5,
+    "Outputs": [
+      30
+    ],
+    "Comment": "Busch-1"
+  },
+  {
+    "Channel": 2,
+    "Note": "A#",
+    "Octave": 5,
+    "Outputs": [
+      30,
+      31,
+      32,
+      33,
+      34
+    ],
+    "Comment": "Busch-ALL"
+  },
+  {
+    "Channel": 2,
+    "Note": "B",
+    "Octave": 5,
+    "Outputs": [
+      31
+    ],
+    "Comment": "Busch-2"
+  },
+  {
+    "Channel": 2,
+    "Note": "C",
+    "Octave": 6,
+    "Outputs": [
+      32
+    ],
+    "Comment": "Busch-3"
+  },
+  {
+    "Channel": 2,
+    "Note": "C#",
+    "Octave": 6,
+    "Outputs": [
+      30,
+      34
+    ],
+    "Comment": "Busch-Außen-1"
+  },
+  {
+    "Channel": 2,
+    "Note": "D",
+    "Octave": 6,
+    "Outputs": [
+      33
+    ],
+    "Comment": "Busch-4"
+  },
+  {
+    "Channel": 2,
+    "Note": "E",
+    "Octave": 6,
+    "Outputs": [
+      34
+    ],
+    "Comment": "Busch-5"
+  },
+  {
+    "Channel": 2,
+    "Note": "D#",
+    "Octave": 6,
+    "Outputs": [
+      31,
+      33
+    ],
+    "Comment": "Busch-Außen-2"
+  },
+  {
+    "Channel": 2,
+    "Note": "F",
+    "Octave": 6,
+    "Outputs": [
+      37
+    ],
+    "Comment": "Schneemann"
+  },
+  {
+    "Channel": 2,
+    "Note": "G",
+    "Octave": 6,
+    "Outputs": [
+      39
+    ],
+    "Comment": "Tannenbaum"
+  },
+  {
+    "Channel": 2,
+    "Note": "A",
+    "Octave": 6,
+    "Outputs": [
+      38
+    ],
+    "Comment": "Schlitten"
+  },
+  {
+    "Channel": 2,
+    "Note": "F#",
+    "Octave": 6,
+    "Outputs": [
+      37,
+      38,
+      39
+    ],
+    "Comment": "Figuren-ALL"
+  },
+  {
+    "Channel": 2,
+    "Note": "G#",
+    "Octave": 6,
+    "Outputs": [
+      37,
+      38
+    ],
+    "Comment": "Figuren-Außen"
+  },
+  {
+    "Channel": 2,
+    "Note": "B",
+    "Octave": 6,
+    "Outputs": [
+      0
+    ],
+    "Comment": "Pfosten-LINKS"
+  },
+  {
+    "Channel": 2,
+    "Note": "C",
+    "Octave": 7,
+    "Outputs": [
+      3
+    ],
+    "Comment": "Balken-ROT"
+  },
+  {
+    "Channel": 2,
+    "Note": "D",
+    "Octave": 7,
+    "Outputs": [
+      2
+    ],
+    "Comment": "Pfosten-RECHTS"
+  },
+  {
+    "Channel": 2,
+    "Note": "C#",
+    "Octave": 7,
+    "Outputs": [
+      1
+    ],
+    "Comment": "Stern"
+  },
+  {
+    "Channel": 2,
+    "Note": "D#",
+    "Octave": 7,
+    "Outputs": [
+      0,
+      2
+    ],
+    "Comment": "Pfosten-Außen"
+  },
+  {
+    "Channel": 2,
+    "Note": "E",
+    "Octave": 7,
+    "Outputs": [
+      9
+    ],
+    "Comment": "Kl.Fenster-LINKS"
+  },
+  {
+    "Channel": 2,
+    "Note": "F",
+    "Octave": 7,
+    "Outputs": [
+      7
+    ],
+    "Comment": "Tür"
+  },
+  {
+    "Channel": 2,
+    "Note": "G",
+    "Octave": 7,
+    "Outputs": [
+      6
+    ],
+    "Comment": "Kl.Fenster-RECHTS"
+  },
+  {
+    "Channel": 2,
+    "Note": "A",
+    "Octave": 7,
+    "Outputs": [
+      5
+    ],
+    "Comment": "Tor-LINKS"
+  },
+  {
+    "Channel": 2,
+    "Note": "B",
+    "Octave": 7,
+    "Outputs": [
+      4
+    ],
+    "Comment": "Tor-RECHTS"
+  },
+  {
+    "Channel": 2,
+    "Note": "A#",
+    "Octave": 7,
+    "Outputs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "Comment": "ALLES"
+  }
+]

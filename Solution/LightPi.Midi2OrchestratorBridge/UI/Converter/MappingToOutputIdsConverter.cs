@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 using LightPi.Midi2OrchestratorBridge.ViewModels.Mappings;
 
@@ -15,7 +16,7 @@ namespace LightPi.Midi2OrchestratorBridge.UI.Converter
                 return string.Empty;
             }
 
-            return string.Join(", ", mapping.Mapping.Outputs);
+            return string.Join(", ", mapping.Outputs.Select(o => o.Output.Id));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

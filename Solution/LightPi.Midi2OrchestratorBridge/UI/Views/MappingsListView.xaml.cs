@@ -1,8 +1,8 @@
 ﻿namespace LightPi.Midi2OrchestratorBridge.UI.Views
 {
-    public partial class OutputListView
+    public partial class MappingsListView
     {
-        public OutputListView()
+        public MappingsListView()
         {
             InitializeComponent();
         }

@@ -8,12 +8,12 @@ namespace LightPi.Midi2OrchestratorBridge.Services
     {
         Settings Settings { get; }
 
-        List<MappingViewModel> MappingViewModels { get; }
+        List<ProfileViewModel> ProfileViewModels { get; }
 
         List<OutputViewModel> OutputViewModels { get; }
 
-        void ImportMappingViewModels(ICollection<MappingViewModel> mappings);
+        void SaveSettings();
 
-        void Save();
+        void SaveProfile(ProfileViewModel profile);
     }
 }

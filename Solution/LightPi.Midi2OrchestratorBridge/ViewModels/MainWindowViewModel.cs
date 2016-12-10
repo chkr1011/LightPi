@@ -22,7 +22,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             IOrchestratorService orchestratorService,
             ILogService logService,
             EmulatorViewModel emulatorViewModel,
-            MappingsViewModel mappingsViewModel, 
+            MappingsListViewModel mappingsViewModel, 
             LogViewModel logViewModel)
         {
             if (factoryService == null) throw new ArgumentNullException(nameof(factoryService));
@@ -52,7 +52,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
 
         public EmulatorViewModel Emulator { get; }
 
-        public MappingsViewModel Mappings { get; }
+        public MappingsListViewModel Mappings { get; }
 
         public LogViewModel Log { get; }
 
@@ -85,7 +85,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
                 _settingsService.Settings.Outputs[output.Output.Id] = output.Output;
             }
 
-            _settingsService.Save();
+            _settingsService.SaveSettings();
         }
 
         private void Initialize()

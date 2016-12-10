@@ -23,17 +23,17 @@ namespace LightPi.Midi2OrchestratorBridge.Services
             _settingsService = settingsService;
             _logService = logService;
 
-            Task.Factory.StartNew(CommitStateLoop);
+            ////Task.Factory.StartNew(CommitStateLoop);
         }
 
-        private void CommitStateLoop()
-        {
-            while (true)
-            {
-                //CommitChanges();
-                Thread.Sleep(50); // TODO: As Settings.
-            }
-        }
+        ////private void CommitStateLoop()
+        ////{
+        ////    while (true)
+        ////    {
+        ////        //CommitChanges();
+        ////        Thread.Sleep(50); // TODO: As Settings.
+        ////    }
+        ////}
 
         public void Initialize()
         {
@@ -75,16 +75,12 @@ namespace LightPi.Midi2OrchestratorBridge.Services
 
             if (!result.StateChanged)
             {
-                _logService.Verbose("State not changed.");
                 return;
             }
 
             _logService.Information("Sent " + BitConverter.ToString(result.State));
-
-            //if (fireEvent)
-            {
-                ChangesCommitted?.Invoke(this, new ChangesCommittedEventArgs(result.State));
-            }
+      
+            ChangesCommitted?.Invoke(this, new ChangesCommittedEventArgs(result.State));
         }
     }
 }

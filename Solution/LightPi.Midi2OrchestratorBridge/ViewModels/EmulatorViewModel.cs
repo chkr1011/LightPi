@@ -69,7 +69,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
                 return;
             }
 
-            View?.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            View?.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 foreach (var output in Outputs)
                 {

@@ -13,9 +13,6 @@ namespace LightPi.Midi2OrchestratorBridge.Models
         public string MidiIn { get; set; }
 
         [DataMember]
-        public List<Mapping> Mappings { get; set; } = new List<Mapping>();
-
-        [DataMember]
         public Dictionary<int, Output> Outputs { get; set; } = new Dictionary<int, Output>();
     }
 }

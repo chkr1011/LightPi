@@ -29,7 +29,7 @@ namespace LightPi.Midi2OrchestratorBridge
                 container.RegisterSingleton<MainWindowViewModel>();
                 container.RegisterSingleton<EmulatorViewModel>();
                 container.RegisterSingleton<SettingsViewModel>();
-                container.RegisterSingleton<MappingsViewModel>();
+                container.RegisterSingleton<MappingsListViewModel>();
                 container.RegisterSingleton<LogViewModel>();
 
                 container.Verify();

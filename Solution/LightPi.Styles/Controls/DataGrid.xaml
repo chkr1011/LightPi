@@ -14,6 +14,8 @@
         <Setter Property="RowHeight" Value="26" />
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="EnableColumnVirtualization" Value="False" />
+        <Setter Property="EnableRowVirtualization" Value="False" />
     </Style>
 
     <Style TargetType="{x:Type DataGridColumnHeader}">

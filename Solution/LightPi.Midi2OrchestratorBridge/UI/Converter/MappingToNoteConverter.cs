@@ -15,7 +15,7 @@ namespace LightPi.Midi2OrchestratorBridge.UI.Converter
                 return string.Empty;
             }
 
-            return $"{mapping.Mapping.Channel}-{mapping.Mapping.Note}{mapping.Mapping.Octave}";
+            return $"{mapping.Channel}-{mapping.Note}{mapping.Octave}";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

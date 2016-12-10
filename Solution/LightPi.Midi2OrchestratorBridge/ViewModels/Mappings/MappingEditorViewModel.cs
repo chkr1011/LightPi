@@ -56,26 +56,36 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 
         public string Comment { get; set; }
 
-        public void Load(Mapping mapping)
+        public void Load(MappingViewModel mapping)
         {
             if (mapping == null) throw new ArgumentNullException(nameof(mapping));
 
             Channels.SelectMatching(c => c.Model == mapping.Channel);
             Notes.SelectMatching(c => c.Model == mapping.Note);
             Octaves.SelectMatching(o => o.Model == mapping.Octave);
-            Outputs.SelectMatching(o => mapping.Outputs.Contains(o.Model.Output.Id));
+            Outputs.SelectMatching(o1 => mapping.Outputs.Any(o2 => o1.Model.Output.Id == o2.Output.Id));
             Comment = mapping.Comment;
         }
 
-        public void Update(Mapping mapping)
+        public void Update(MappingViewModel mapping)
         {
             if (mapping == null) throw new ArgumentNullException(nameof(mapping));
 
             mapping.Channel = Channels.First(c => c.IsSelected).Model;
             mapping.Note = Notes.First(c => c.IsSelected).Model;
             mapping.Octave = Octaves.First(c => c.IsSelected).Model;
-            mapping.Outputs = Outputs.Where(o => o.IsSelected).Select(o => o.Model.Output.Id).ToList();
             mapping.Comment = Comment;
+
+            mapping.Outputs.Clear();
+            foreach (var output in Outputs)
+            {
+                if (!output.IsSelected)
+                {
+                    continue;
+                }
+
+                mapping.Outputs.Add(output.Model);
+            }
         }
 
         public void Close(DialogResult dialogResult)

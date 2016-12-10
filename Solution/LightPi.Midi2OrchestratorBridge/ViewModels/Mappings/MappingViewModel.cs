@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using LightPi.Midi2OrchestratorBridge.Models;
 
 namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
@@ -7,14 +7,15 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
     {
         private bool _isActive;
 
-        public MappingViewModel(Mapping mapping)
-        {
-            if (mapping == null) throw new ArgumentNullException(nameof(mapping));
+        public int Channel { get; set; }
 
-            Mapping = mapping;
-        }
+        public string Note { get; set; }
 
-        public Mapping Mapping { get; }
+        public int Octave { get; set; }
+
+        public string Comment { get; set; }
+
+        public List<OutputViewModel> Outputs { get; private set; } = new List<OutputViewModel>();
 
         public bool IsActive
         {

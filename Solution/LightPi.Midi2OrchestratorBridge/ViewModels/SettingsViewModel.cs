@@ -59,7 +59,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
                 _settingsService.Settings.OrchestratorAddress = OrchestratorAddress;
                 _settingsService.Settings.MidiIn = AvailableMidiPorts.First(m => m.IsSelected).MidiPort.Name;
 
-                _settingsService.Save();
+                _settingsService.SaveSettings();
 
                 _logService.Information("Successfully saved settings");
             }

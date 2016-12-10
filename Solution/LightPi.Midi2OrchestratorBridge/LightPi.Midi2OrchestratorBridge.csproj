@@ -89,7 +89,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="UI\Converter\MappingToOutputIdsConverter.cs" />
-    <Compile Include="UI\Converter\MappingToOutputNamesConverter.cs" />
     <Compile Include="UI\OutputSprite.cs" />
     <Compile Include="Models\DialogResult.cs" />
     <Compile Include="Services\DialogService.cs" />
@@ -120,11 +119,11 @@
     <Compile Include="UI\Views\MappingEditorView.xaml.cs">
       <DependentUpon>MappingEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\MappingsView.xaml.cs">
-      <DependentUpon>MappingsView.xaml</DependentUpon>
+    <Compile Include="UI\Views\MappingsListView.xaml.cs">
+      <DependentUpon>MappingsListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\OutputListView.xaml.cs">
-      <DependentUpon>OutputListView.xaml</DependentUpon>
+    <Compile Include="UI\Views\OutputsListView.xaml.cs">
+      <DependentUpon>OutputsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -135,8 +134,9 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Mappings\MappingEditorViewModel.cs" />
     <Compile Include="ViewModels\Mappings\MappingsCommand.cs" />
-    <Compile Include="ViewModels\Mappings\MappingsViewModel.cs" />
+    <Compile Include="ViewModels\Mappings\MappingsListViewModel.cs" />
     <Compile Include="ViewModels\Mappings\MappingViewModel.cs" />
+    <Compile Include="ViewModels\Mappings\ProfileViewModel.cs" />
     <Compile Include="ViewModels\MidiPortViewModel.cs" />
     <Compile Include="ViewModels\OutputListViewModel.cs" />
     <Compile Include="ViewModels\SelectableViewModel.cs" />
@@ -174,11 +174,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Views\MappingsView.xaml">
+    <Page Include="UI\Views\MappingsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Views\OutputListView.xaml">
+    <Page Include="UI\Views\OutputsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,6 +227,9 @@
     <Resource Include="App.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Profiles\%28General%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
