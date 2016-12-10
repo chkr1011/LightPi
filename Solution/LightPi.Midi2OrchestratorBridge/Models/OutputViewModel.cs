@@ -13,7 +13,7 @@ namespace LightPi.Midi2OrchestratorBridge.Models
 
             Output = output;
 
-            RouteCommand(OutputCommand.ToggleState, ToggleState);
+            RouteCommand(OutputCommand.ToggleState, ()=> IsActive = !IsActive);
         }
 
         public event EventHandler StateChanged;
@@ -35,12 +35,6 @@ namespace LightPi.Midi2OrchestratorBridge.Models
                 OnPropertyChanged();
                 StateChanged?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        private void ToggleState()
-        {
-            IsActive = !IsActive;
-            StateChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
