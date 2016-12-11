@@ -77,9 +77,9 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
                 }
 
                 View.Update();
-            }));
 
-            CalculateStatistics();
+                PowerConsumption = Outputs.Where(o => o.IsActive).Sum(o => o.Output.Watts);
+            }));
         }
 
         private void SetupFramesPerSecondMonitor()
@@ -91,11 +91,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             };
 
             timer.Start();
-        }
-
-        private void CalculateStatistics()
-        {
-            PowerConsumption = Outputs.Where(o => o.IsActive).Sum(o => o.Output.Watts);
         }
     }
 }
