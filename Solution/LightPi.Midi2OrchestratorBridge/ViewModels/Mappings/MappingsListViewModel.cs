@@ -15,6 +15,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         private readonly IDialogService _dialogService;
         private readonly IOrchestratorService _orchestratorService;
         private ProfileViewModel _selectedProfile;
+        private string _latestNote = "-";
 
         public MappingsListViewModel(
             IFactoryService factoryService,
@@ -53,6 +54,12 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             set { _selectedProfile = value; OnPropertyChanged(); }
         }
 
+        public string LatestNote
+        {
+            get { return _latestNote; }
+            set { _latestNote = value; OnPropertyChanged(); }
+        }
+
         private bool NoteIsActive(NoteEventReceivedEventArgs e)
         {
             var isActive = e.Command == MidiCommandCode.NoteOn && e.Velocity > 0;
@@ -74,6 +81,8 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         {
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
+                LatestNote = $"{e.Channel}-{e.Note}{e.Octave}";
+
                 if (SelectedProfile == null)
                 {
                     return;

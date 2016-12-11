@@ -8,4 +8,7 @@
     <Brush x:Key="SelectionBrush">#3399FF</Brush>
     <Brush x:Key="ActiveBrush">#FF4D3C</Brush>
     <Brush x:Key="InactiveBrush">#3E3E42</Brush>
+
+    <Color x:Key="ActiveColor">#FF4D3C</Color>
+    <Color x:Key="TextNormalColor">WhiteSmoke</Color>
 </ResourceDictionary>

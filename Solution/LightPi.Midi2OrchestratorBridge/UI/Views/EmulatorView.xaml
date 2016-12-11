@@ -1,74 +1,65 @@
-﻿<UserControl
-    x:Class="LightPi.Midi2OrchestratorBridge.UI.Views.EmulatorView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:LightPi.Midi2OrchestratorBridge.Models"
-    xmlns:ui="clr-namespace:LightPi.Midi2OrchestratorBridge.UI"
-    xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels"
-    d:DataContext="{d:DesignInstance Type=viewModels:EmulatorViewModel,
-                                     IsDesignTimeCreatable=False}"
-    d:DesignHeight="300"
-    d:DesignWidth="900"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="LightPi.Midi2OrchestratorBridge.UI.Views.EmulatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:LightPi.Styles.Controls;assembly=LightPi.Styles"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:LightPi.Midi2OrchestratorBridge.Models"
+             xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:EmulatorViewModel,
+                                              IsDesignTimeCreatable=False}"
+             d:DesignHeight="600"
+             d:DesignWidth="900"
+             mc:Ignorable="d">
     <DockPanel>
-        <GroupBox
-            controls:GroupBoxExtensions.CanHideContent="True"
-            DockPanel.Dock="Bottom"
-            Header="STATISTICS">
-            <DockPanel Margin="10,15,10,10">
-                <Path
-                    Width="24"
-                    Height="24"
-                    Data="{StaticResource PowerConsumptionImage}"
-                    DockPanel.Dock="Left"
-                    Fill="{StaticResource TextNormalBrush}"
-                    Stretch="Uniform" />
+        <GroupBox controls:GroupBoxExtensions.CanHideContent="True"
+                  DockPanel.Dock="Bottom"
+                  Header="STATISTICS">
+            <DockPanel>
+                <Path Width="16"
+                      Data="{StaticResource PowerConsumptionImage}"
+                      DockPanel.Dock="Left"
+                      Fill="{StaticResource TextNormalBrush}"
+                      Stretch="Uniform" />
 
-                <TextBlock
-                    Margin="15,0,0,0"
-                    VerticalAlignment="Center"
-                    DockPanel.Dock="Left"
-                    FontFamily="Consolas"
-                    FontSize="16"
-                    Foreground="{StaticResource TextNormalBrush}"
-                    Text="{Binding PowerConsumption, StringFormat={}{0:0000} W}" />
+                <TextBlock Margin="15,0,0,0"
+                           VerticalAlignment="Center"
+                           DockPanel.Dock="Left"
+                           FontFamily="Consolas"
+                           FontSize="14"
+                           Foreground="{StaticResource TextNormalBrush}"
+                           Text="{Binding PowerConsumption,
+                                          StringFormat={}{0:0000} W}" />
 
-                <Path
-                    Width="24"
-                    Height="24"
-                    Margin="25,0,0,0"
-                    Data="{StaticResource FramesPerSecondImage}"
-                    DockPanel.Dock="Left"
-                    Fill="{StaticResource TextNormalBrush}"
-                    Stretch="Uniform" />
+                <Path Width="16"
+                      Margin="25,0,0,0"
+                      Data="{StaticResource FramesPerSecondImage}"
+                      DockPanel.Dock="Left"
+                      Fill="{StaticResource TextNormalBrush}"
+                      Stretch="Uniform" />
 
-                <TextBlock
-                    Margin="15,0,0,0"
-                    VerticalAlignment="Center"
-                    DockPanel.Dock="Left"
-                    FontFamily="Consolas"
-                    FontSize="16"
-                    Foreground="{StaticResource TextNormalBrush}"
-                    Text="{Binding FramesPerSecond, StringFormat={}{0:00} FPS}" />
+                <TextBlock Margin="15,0,0,0"
+                           VerticalAlignment="Center"
+                           DockPanel.Dock="Left"
+                           FontFamily="Consolas"
+                           FontSize="14"
+                           Foreground="{StaticResource TextNormalBrush}"
+                           Text="{Binding FramesPerSecond,
+                                          StringFormat={}{0:00} FPS}" />
 
-                <CheckBox
-                    VerticalAlignment="Center"
-                    Content="Enabled"
-                    DockPanel.Dock="Right"
-                    IsChecked="{Binding IsEnabled}" />
+                <CheckBox VerticalAlignment="Center"
+                          Content="Enabled"
+                          DockPanel.Dock="Right"
+                          IsChecked="{Binding IsEnabled}" />
 
                 <StackPanel />
             </DockPanel>
         </GroupBox>
 
-        <GroupBox
-            controls:GroupBoxExtensions.CanHideContent="True"
-            DockPanel.Dock="Bottom"
-            Header="OUTPUT STATES">
-            <ItemsControl Margin="10" ItemsSource="{Binding Outputs}">
+        <GroupBox controls:GroupBoxExtensions.CanHideContent="True"
+                  DockPanel.Dock="Bottom"
+                  Header="OUTPUT STATES">
+            <ItemsControl ItemsSource="{Binding Outputs}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />
@@ -84,21 +75,20 @@
                             </Button.ToolTip>
                             <Button.Template>
                                 <ControlTemplate>
-                                    <Border
-                                        Width="40"
-                                        Height="40"
-                                        Margin="5"
-                                        BorderBrush="#686868"
-                                        BorderThickness="2"
-                                        CornerRadius="180"
-                                        Cursor="Hand">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontFamily="Consolas"
-                                            FontSize="14"
-                                            Foreground="{StaticResource TextNormalBrush}"
-                                            Text="{Binding Output.Id, FallbackValue=99}" />
+                                    <Border Width="34"
+                                            Height="34"
+                                            Margin="5"
+                                            BorderBrush="#686868"
+                                            BorderThickness="2"
+                                            CornerRadius="180"
+                                            Cursor="Hand">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Consolas"
+                                                   FontSize="14"
+                                                   Foreground="{StaticResource TextNormalBrush}"
+                                                   Text="{Binding Output.Id,
+                                                                  FallbackValue=99}" />
                                         <Border.Style>
                                             <Style TargetType="{x:Type Border}">
                                                 <Setter Property="Background" Value="{StaticResource InactiveBrush}" />
@@ -119,7 +109,8 @@
         </GroupBox>
 
         <GroupBox Header="SIMULATION">
-            <ui:SpriteSurface x:Name="Surface" Background="Transparent" />
+            <!--<ui:SpriteSurface x:Name="Surface" Background="Transparent" />-->
+            <Grid x:Name="SpritesGrid" />
         </GroupBox>
 
     </DockPanel>

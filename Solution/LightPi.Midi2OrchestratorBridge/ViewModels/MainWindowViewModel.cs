@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using LightPi.Midi2OrchestratorBridge.Models;
 using LightPi.Midi2OrchestratorBridge.Services;
 using LightPi.Midi2OrchestratorBridge.ViewModels.Mappings;
@@ -48,7 +49,12 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             RouteCommand(ToolBarCommand.Outputs, ChangeOutputs);
 
             Initialize();
+
+            var version = Assembly.GetEntryAssembly().GetName().Version;
+            Title = $"MIDI 2 Orchestrator Bridge v{version} - LightPi";
         }
+
+        public string Title { get; private set; }
 
         public EmulatorViewModel Emulator { get; }
 

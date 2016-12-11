@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows.Threading;
 using LightPi.Midi2OrchestratorBridge.Models;
 using LightPi.Midi2OrchestratorBridge.Services;
-using LightPi.Midi2OrchestratorBridge.UI.Views;
 using LightPi.Protocol;
 
 namespace LightPi.Midi2OrchestratorBridge.ViewModels
@@ -51,7 +50,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             private set { _powerConsumption = value; OnPropertyChanged(); }
         }
 
-        public EmulatorView View { get; set; }
+        ////public EmulatorView View { get; set; }
 
         private void UpdateOutputState(object sender, EventArgs e)
         {
@@ -69,14 +68,14 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
                 return;
             }
 
-            View?.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 foreach (var output in Outputs)
                 {
                     output.IsActive = e.State.GetBit(output.Output.Id);
                 }
 
-                View.Update();
+                ////View.Update();
 
                 PowerConsumption = Outputs.Where(o => o.IsActive).Sum(o => o.Output.Watts);
             }));

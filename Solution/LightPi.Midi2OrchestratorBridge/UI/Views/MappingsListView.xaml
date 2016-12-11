@@ -27,72 +27,105 @@
                 </Style>
             </DockPanel.Resources>
 
-            <DockPanel Margin="0,10,0,0" DockPanel.Dock="Bottom">
-                <Label Margin="0,0,10,0" Content="Profile:" />
-                <ComboBox Margin="0"
-                          VerticalContentAlignment="Center"
-                          DisplayMemberPath="Name"
-                          ItemsSource="{Binding Profiles}"
-                          SelectedItem="{Binding SelectedProfile}" />
+            <DockPanel DockPanel.Dock="Top">
+                <GroupBox Header="NOTE TRACKER">
+                    <Label x:Name="Label"
+                           HorizontalAlignment="Center"
+                           Content="{Binding LatestNote,
+                                             UpdateSourceTrigger=PropertyChanged,
+                                             NotifyOnTargetUpdated=True}"
+                           FontFamily="Georgia"
+                           FontSize="26"
+                           FontWeight="Light">
+                        <Label.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard>
+                                    <Storyboard AutoReverse="False">
+                                        <ColorAnimation Duration="0:0:.5"
+                                                        From="{StaticResource ActiveColor}"
+                                                        Storyboard.TargetName="Label"
+                                                        Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)"
+                                                        To="{StaticResource TextNormalColor}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </GroupBox>
             </DockPanel>
 
-            <UniformGrid Columns="5" DockPanel.Dock="Bottom">
-                <Button controls:ButtonExtensions.Image="{StaticResource AddImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.Add}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource EditImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.Edit}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource DeleteImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.Delete}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource MoveUpImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.MoveUp}" />
-                <Button controls:ButtonExtensions.Image="{StaticResource MoveDownImage}"
-                        Command="{Binding}"
-                        CommandParameter="{x:Static mappings:MappingsCommand.MoveDown}" />
-            </UniformGrid>
+            <GroupBox Header="MAPPINGS">
+                <DockPanel>
 
-            <DataGrid VerticalAlignment="Stretch"
-                      controls:DataGridExtensions.DoubleClickCommand="{Binding}"
-                      controls:DataGridExtensions.DoubleClickCommandParameter="{x:Static mappings:MappingsCommand.Edit}"
-                      IsReadOnly="True"
-                      ItemsSource="{Binding SelectedProfile.Mappings}"
-                      SelectedItem="{Binding SelectedProfile.SelectedMapping}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type mappings:MappingViewModel}">
-                                <Border Width="16" Height="16">
-                                    <Path x:Name="Image"
-                                          Data="{StaticResource OutputsImage}"
-                                          Fill="{StaticResource InactiveBrush}"
-                                          Stretch="Uniform" />
-                                </Border>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                        <Setter TargetName="Image" Property="Fill" Value="{StaticResource ActiveBrush}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Converter={StaticResource MappingToNoteConverter}}"
-                                        FontFamily="Consolas"
-                                        FontSize="14"
-                                        Header="Note" />
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Comment}"
-                                        Header="Comment" />
-                    <DataGridTextColumn Width="Auto"
-                                        Binding="{Binding Converter={StaticResource MappingToOutputIdsConverter}}"
-                                        FontFamily="Consolas"
-                                        FontSize="12"
-                                        Header="Outputs" />
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DockPanel Margin="0,10,0,0" DockPanel.Dock="Bottom">
+                        <Label Margin="0,0,10,0" Content="Profile:" />
+                        <ComboBox Margin="0"
+                                  VerticalContentAlignment="Center"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding Profiles}"
+                                  SelectedItem="{Binding SelectedProfile}" />
+                    </DockPanel>
+
+                    <UniformGrid Columns="5" DockPanel.Dock="Bottom">
+                        <Button controls:ButtonExtensions.Image="{StaticResource AddImage}"
+                                Command="{Binding}"
+                                CommandParameter="{x:Static mappings:MappingsCommand.Add}" />
+                        <Button controls:ButtonExtensions.Image="{StaticResource EditImage}"
+                                Command="{Binding}"
+                                CommandParameter="{x:Static mappings:MappingsCommand.Edit}" />
+                        <Button controls:ButtonExtensions.Image="{StaticResource DeleteImage}"
+                                Command="{Binding}"
+                                CommandParameter="{x:Static mappings:MappingsCommand.Delete}" />
+                        <Button controls:ButtonExtensions.Image="{StaticResource MoveUpImage}"
+                                Command="{Binding}"
+                                CommandParameter="{x:Static mappings:MappingsCommand.MoveUp}" />
+                        <Button controls:ButtonExtensions.Image="{StaticResource MoveDownImage}"
+                                Command="{Binding}"
+                                CommandParameter="{x:Static mappings:MappingsCommand.MoveDown}" />
+                    </UniformGrid>
+
+                    <DataGrid VerticalAlignment="Stretch"
+                              controls:DataGridExtensions.DoubleClickCommand="{Binding}"
+                              controls:DataGridExtensions.DoubleClickCommandParameter="{x:Static mappings:MappingsCommand.Edit}"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding SelectedProfile.Mappings}"
+                              SelectedItem="{Binding SelectedProfile.SelectedMapping}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type mappings:MappingViewModel}">
+                                        <Border Width="16" Height="16">
+                                            <Path x:Name="Image"
+                                                  Data="{StaticResource OutputsImage}"
+                                                  Fill="{StaticResource InactiveBrush}"
+                                                  Stretch="Uniform" />
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                <Setter TargetName="Image" Property="Fill" Value="{StaticResource ActiveBrush}" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Width="Auto"
+                                                Binding="{Binding Converter={StaticResource MappingToNoteConverter}}"
+                                                FontFamily="Consolas"
+                                                FontSize="14"
+                                                Header="Note" />
+                            <DataGridTextColumn Width="Auto"
+                                                Binding="{Binding Comment}"
+                                                Header="Comment" />
+                            <DataGridTextColumn Width="Auto"
+                                                Binding="{Binding Converter={StaticResource MappingToOutputIdsConverter}}"
+                                                FontFamily="Consolas"
+                                                FontSize="12"
+                                                Header="Outputs" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </DockPanel>
+            </GroupBox>
         </DockPanel>
     </Border>
 </UserControl>
