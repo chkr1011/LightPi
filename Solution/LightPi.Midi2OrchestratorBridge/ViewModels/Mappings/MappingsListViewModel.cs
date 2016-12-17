@@ -14,8 +14,10 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IOrchestratorService _orchestratorService;
+
         private ProfileViewModel _selectedProfile;
-        private string _latestNote = "-";
+        private NoteEventReceivedEventArgs _latestNote;
+        private string _filterText;
 
         public MappingsListViewModel(
             IFactoryService factoryService,
@@ -51,13 +53,49 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         public ProfileViewModel SelectedProfile
         {
             get { return _selectedProfile; }
-            set { _selectedProfile = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedProfile = value;
+                OnPropertyChanged();
+                ApplyFilter();
+            }
         }
 
-        public string LatestNote
+        public NoteEventReceivedEventArgs LatestNote
         {
             get { return _latestNote; }
             set { _latestNote = value; OnPropertyChanged(); }
+        }
+
+        public string FilterText
+        {
+            get { return _filterText; }
+            set {
+                _filterText = value;
+                OnPropertyChanged();
+                ApplyFilter();
+            }
+        }
+
+        private void ApplyFilter()
+        {
+            if (SelectedProfile == null)
+            {
+                return;
+            }
+
+            foreach (var mapping in SelectedProfile.Mappings)
+            {
+                if (string.IsNullOrEmpty(FilterText))
+                {
+                    mapping.IsHidden = false;
+                }
+                else
+                {
+                    mapping.IsHidden = mapping.Comment.IndexOf(FilterText, StringComparison.CurrentCultureIgnoreCase) ==
+                                       -1;
+                }               
+            }
         }
 
         private bool NoteIsActive(NoteEventReceivedEventArgs e)
@@ -81,8 +119,11 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         {
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                LatestNote = $"{e.Channel}-{e.Note}{e.Octave}";
-
+                if (e.Command == MidiCommandCode.NoteOn)
+                {
+                    LatestNote = e;
+                }
+                
                 if (SelectedProfile == null)
                 {
                     return;
@@ -139,6 +180,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             }
 
             var editor = _factoryService.GetInstance<MappingEditorViewModel>();
+            editor.FillNote(_latestNote);
 
             var result = _dialogService.ShowDialog("Add new mapping", editor);
             if (result != DialogResult.OK)

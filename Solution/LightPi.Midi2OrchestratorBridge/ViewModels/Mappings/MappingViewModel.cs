@@ -6,6 +6,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
     public class MappingViewModel : BaseViewModel
     {
         private bool _isActive;
+        private bool _isHidden;
 
         public int Channel { get; set; }
 
@@ -21,6 +22,12 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
         {
             get { return _isActive; }
             set { _isActive = value; OnPropertyChanged(); }
+        }
+
+        public bool IsHidden
+        {
+            get { return _isHidden; }
+            set { _isHidden = value; OnPropertyChanged(); }
         }
     }
 }

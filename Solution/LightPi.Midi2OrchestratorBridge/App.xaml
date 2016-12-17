@@ -1,6 +1,7 @@
 ﻿<Application x:Class="LightPi.Midi2OrchestratorBridge.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converter="clr-namespace:LightPi.Midi2OrchestratorBridge.UI.Converter"
              xmlns:mappings="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels.Mappings"
              xmlns:viewModels="clr-namespace:LightPi.Midi2OrchestratorBridge.ViewModels"
              xmlns:views="clr-namespace:LightPi.Midi2OrchestratorBridge.UI.Views"
@@ -23,6 +24,9 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converter:NoteToTextConverter x:Key="NoteToTextConverter" />
+            <converter:MappingToNoteConverter x:Key="MappingToNoteConverter" />
+            <converter:MappingToOutputIdsConverter x:Key="MappingToOutputIdsConverter" />
 
             <DataTemplate DataType="{x:Type viewModels:MidiPortViewModel}">
                 <RadioButton Margin="0,0,15,0"

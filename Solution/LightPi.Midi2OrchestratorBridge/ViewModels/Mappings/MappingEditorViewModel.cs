@@ -44,6 +44,9 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             Notes.Add(new SelectableViewModel<string>("B"));
 
             RouteCommand(MappingsCommand.Import, ImportOutputsFromCurrentState);
+            RouteCommand(MappingsCommand.Reset, ResetOutputs);
+
+            ImportOutputsFromCurrentState();
         }
 
         public List<SelectableViewModel<int>> Channels { get; } = new List<SelectableViewModel<int>>();
@@ -65,6 +68,18 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             Octaves.SelectMatching(o => o.Model == mapping.Octave);
             Outputs.SelectMatching(o1 => mapping.Outputs.Any(o2 => o1.Model.Output.Id == o2.Output.Id));
             Comment = mapping.Comment;
+        }
+
+        public void FillNote(NoteEventReceivedEventArgs eventArgs)
+        {
+            if (eventArgs?.Command != MidiCommandCode.NoteOn)
+            {
+                return;
+            }
+
+            Channels.SelectMatching(c => c.Model == eventArgs.Channel);
+            Notes.SelectMatching(c => c.Model == eventArgs.Note);
+            Octaves.SelectMatching(o => o.Model == eventArgs.Octave);
         }
 
         public void Update(MappingViewModel mapping)
@@ -95,14 +110,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
 
         private void FillFromPressedNote(object sender, NoteEventReceivedEventArgs e)
         {
-            if (e.Command != MidiCommandCode.NoteOn)
-            {
-                return;
-            }
-
-            Channels.SelectMatching(c => c.Model == e.Channel);
-            Notes.SelectMatching(c => c.Model == e.Note);
-            Octaves.SelectMatching(o => o.Model == e.Octave);
+            FillNote(e);
         }
 
         private void ImportOutputsFromCurrentState()
@@ -110,6 +118,14 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels.Mappings
             foreach (var output in Outputs)
             {
                 output.IsSelected = output.Model.IsActive;
+            }
+        }
+
+        private void ResetOutputs()
+        {
+            foreach (var output in Outputs)
+            {
+                output.IsSelected = false;
             }
         }
     }

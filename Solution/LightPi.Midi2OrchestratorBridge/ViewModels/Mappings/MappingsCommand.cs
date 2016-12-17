@@ -12,6 +12,8 @@
 
         MoveDown,
 
-        Import
+        Import,
+
+        Reset
     }
 }
