@@ -7,6 +7,9 @@ namespace LightPi.Midi2OrchestratorBridge.Services
 {
     public class DialogService : IDialogService
     {
+        public event EventHandler DialogShown;
+        public event EventHandler DialogClosed;
+
         public DialogResult ShowDialog(string title, IDialogViewModel viewModel)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
@@ -18,9 +21,17 @@ namespace LightPi.Midi2OrchestratorBridge.Services
                 DataContext = viewModel
             };
 
-            window.ShowDialog();
-            viewModel.Close(window.Result);
-
+            try
+            {
+                DialogShown?.Invoke(this, EventArgs.Empty);
+                window.ShowDialog();
+                viewModel.Close(window.Result);
+            }
+            finally
+            {
+                DialogClosed?.Invoke(this, EventArgs.Empty);
+            }
+            
             return window.Result;
         }
     }

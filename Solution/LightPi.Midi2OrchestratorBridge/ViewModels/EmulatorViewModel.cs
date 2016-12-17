@@ -50,8 +50,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             private set { _powerConsumption = value; OnPropertyChanged(); }
         }
 
-        ////public EmulatorView View { get; set; }
-
         private void UpdateOutputState(object sender, EventArgs e)
         {
             var output = (OutputViewModel)sender;
@@ -74,8 +72,6 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
                 {
                     output.IsActive = e.State.GetBit(output.Output.Id);
                 }
-
-                ////View.Update();
 
                 PowerConsumption = Outputs.Where(o => o.IsActive).Sum(o => o.Output.Watts);
             }));

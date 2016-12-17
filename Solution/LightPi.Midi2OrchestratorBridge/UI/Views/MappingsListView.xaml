@@ -35,7 +35,7 @@
                                              UpdateSourceTrigger=PropertyChanged,
                                              NotifyOnTargetUpdated=True}"
                            FontFamily="Georgia"
-                           FontSize="26"
+                           FontSize="28"
                            FontWeight="Light">
                         <Label.Triggers>
                             <EventTrigger RoutedEvent="Binding.TargetUpdated">

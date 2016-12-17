@@ -14,6 +14,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
         private readonly IMidiService _midiService;
         private readonly IOrchestratorService _orchestratorService;
         private readonly ILogService _logService;
+        private bool _hasDialog;
 
         public MainWindowViewModel(
             IFactoryService factoryService, 
@@ -50,6 +51,9 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
 
             Initialize();
 
+            _dialogService.DialogShown += (s, e) => HasDialog = true;
+            _dialogService.DialogClosed += (s, e) => HasDialog = false;
+
             var version = Assembly.GetEntryAssembly().GetName().Version;
             Title = $"MIDI 2 Orchestrator Bridge v{version} - LightPi";
         }
@@ -61,6 +65,12 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
         public MappingsListViewModel Mappings { get; }
 
         public LogViewModel Log { get; }
+
+        public bool HasDialog
+        {
+            get { return _hasDialog; }
+            set { _hasDialog = value; OnPropertyChanged(); }
+        }
 
         private void ChangeSettings()
         {

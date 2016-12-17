@@ -15,8 +15,9 @@
         <GroupBox controls:GroupBoxExtensions.CanHideContent="True"
                   DockPanel.Dock="Bottom"
                   Header="STATISTICS">
-            <DockPanel>
+            <DockPanel Margin="5">
                 <Path Width="16"
+                      Height="16"
                       Data="{StaticResource PowerConsumptionImage}"
                       DockPanel.Dock="Left"
                       Fill="{StaticResource TextNormalBrush}"
@@ -32,6 +33,7 @@
                                           StringFormat={}{0:0000} W}" />
 
                 <Path Width="16"
+                      Height="16"
                       Margin="25,0,0,0"
                       Data="{StaticResource FramesPerSecondImage}"
                       DockPanel.Dock="Left"

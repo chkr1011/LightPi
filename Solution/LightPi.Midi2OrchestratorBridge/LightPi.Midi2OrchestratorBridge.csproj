@@ -90,7 +90,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="UI\Converter\MappingToOutputIdsConverter.cs" />
-    <Compile Include="UI\OutputSprite.cs" />
     <Compile Include="Models\DialogResult.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\FactoryService.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="Models\NoteEventReceivedEventArgs.cs" />
     <Compile Include="Services\OrchestratorService.cs" />
     <Compile Include="Services\SettingsService.cs" />
-    <Compile Include="UI\SpriteSurface.cs" />
     <Compile Include="UI\Converter\MappingToNoteConverter.cs" />
     <Compile Include="UI\Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
