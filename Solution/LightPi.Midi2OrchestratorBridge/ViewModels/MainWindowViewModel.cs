@@ -55,7 +55,7 @@ namespace LightPi.Midi2OrchestratorBridge.ViewModels
             _dialogService.DialogClosed += (s, e) => HasDialog = false;
 
             var version = Assembly.GetEntryAssembly().GetName().Version;
-            Title = $"MIDI 2 Orchestrator Bridge v{version} - LightPi";
+            Title = $"MIDI 2 Orchestrator Bridge v{version} - LightPi (c) Christian Kratky 2016";
         }
 
         public string Title { get; private set; }

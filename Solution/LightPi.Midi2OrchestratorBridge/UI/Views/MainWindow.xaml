@@ -24,28 +24,49 @@
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <StackPanel Margin="0,0,0,2"
-                            Background="{StaticResource BackgroundLightBrush}"
-                            DockPanel.Dock="Top"
-                            Orientation="Horizontal">
-                    <Button controls:ButtonExtensions.Image="{StaticResource SettingsImage}"
-                            controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
-                            Command="{Binding}"
-                            CommandParameter="{x:Static viewModels:ToolBarCommand.Settings}"
-                            Content="Settings" />
-                    <Button controls:ButtonExtensions.Image="{StaticResource OutputsImage}"
-                            controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
-                            Command="{Binding}"
-                            CommandParameter="{x:Static viewModels:ToolBarCommand.Outputs}"
-                            Content="Outputs" />
-                    <Button controls:ButtonExtensions.Image="{StaticResource ResetImage}"
-                            controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
-                            Command="{Binding Mappings}"
-                            CommandParameter="{x:Static viewModels:ToolBarCommand.Reset}"
-                            Content="Reset" />
-                </StackPanel>
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Margin="0,0,0,2"
+                        Background="{StaticResource BackgroundLightBrush}"
+                        DockPanel.Dock="Top"
+                        Orientation="Horizontal">
+                <Button controls:ButtonExtensions.Image="{StaticResource SettingsImage}"
+                        controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
+                        Command="{Binding}"
+                        CommandParameter="{x:Static viewModels:ToolBarCommand.Settings}"
+                        Content="Settings" />
+                <Button controls:ButtonExtensions.Image="{StaticResource OutputsImage}"
+                        controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
+                        Command="{Binding}"
+                        CommandParameter="{x:Static viewModels:ToolBarCommand.Outputs}"
+                        Content="Outputs" />
+                <Button controls:ButtonExtensions.Image="{StaticResource ResetImage}"
+                        controls:ButtonExtensions.ImageBrush="{StaticResource TextHighlightBrush}"
+                        Command="{Binding Mappings}"
+                        CommandParameter="{x:Static viewModels:ToolBarCommand.Reset}"
+                        Content="Reset" />
+            </StackPanel>
+
+            <GridSplitter Grid.Row="1"
+                          Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Background="{StaticResource BorderBrush}"
+                          ResizeBehavior="PreviousAndNext" />
+
+            <views:EmulatorView Grid.Row="1"
+                                Grid.Column="2"
+                                DataContext="{Binding Emulator}" />
+
+            <DockPanel Grid.Row="2" Grid.Column="0">
+
+
 
                 <GroupBox controls:GroupBoxExtensions.CanHideContent="True"
                           controls:GroupBoxExtensions.ShowContent="{Binding Log.IsEnabled,
@@ -58,14 +79,6 @@
                 <views:MappingsListView DataContext="{Binding Mappings}" />
 
             </DockPanel>
-
-            <GridSplitter Grid.Column="1"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          Background="{StaticResource BorderBrush}"
-                          ResizeBehavior="PreviousAndNext" />
-
-            <views:EmulatorView Grid.Column="2" DataContext="{Binding Emulator}" />
 
         </Grid>
 

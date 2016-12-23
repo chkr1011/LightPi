@@ -227,7 +227,7 @@
     <Resource Include="App.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Profiles\%28General%29.json">
+    <None Include="Profiles\00 - %28General%29.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
