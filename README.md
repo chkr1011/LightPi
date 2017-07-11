@@ -7,5 +7,4 @@ https://www.hackster.io/cyborg-titanium-14/light-pi-animated-christmas-lights-1c
 # Teaser
 The teaser shows you the purpose of this repository.
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/sFnldKaiExI/0.jpg)]
-(http://www.youtube.com/watch?v=sFnldKaiExI "Light Pi Teaser")
+[![Light Pi Teaser](http://img.youtube.com/vi/sFnldKaiExI/0.jpg)](http://www.youtube.com/watch?v=sFnldKaiExI "Light Pi Teaser")
