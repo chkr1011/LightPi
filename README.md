@@ -2,6 +2,7 @@
 This repository contains the code for the "Light Pi" project. 
 
 The documentationn and videos are available here:
+
 https://www.hackster.io/cyborg-titanium-14/light-pi-animated-christmas-lights-1c88b0
 
 # Teaser
